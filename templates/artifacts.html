@@ -1,0 +1,23 @@
+{{define "artifacts"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genshin</title>
+</head>
+<body>
+    {{range .Data}}
+        <h1>Name : {{.Name}}</h1>
+        <h2>Max rarity : {{.MaxRarity}}</h2>
+        {{if eq .OnePieceBonus ""}}
+            <h3>Two Pieces Bonus : {{.TwoPiecesBonus}}</h3>
+            <br>
+            <h3>Two Pieces Bonus : {{.FourPiecesBonus}}</h3>
+        {{else}}
+            <h3>One Piece Bonus : {{.OnePieceBonus}}</h3>
+        {{end}}
+    {{end}}
+</body>
+</html>
+{{end}}
