@@ -1,0 +1,37 @@
+{{define "ArtifactDetail"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/artifactDetail.css">
+    <title>Genshin</title>
+</head>
+<body>
+    <header class="header">
+        {{template "navbar"}}
+    </header>
+    <div class="container">
+        <h1>{{.Name}}</h1>
+        <h2>Max Rarity: {{.MaxRarity}}</h2>
+        {{if eq .OnePieceBonus ""}}
+            <h2>Two pieces bonus</h2>
+            <p>{{.TwoPiecesBonus}}</p>
+            <h2>Four Piece Bonus</h2>
+            <p>{{.FourPiecesBonus}}</p>
+        {{else}}
+            <h2>One piece bonus</h2>
+            <p>{{.OnePieceBonus}}</p>
+        {{end}}
+        <div class="container2">
+            <img src="{{.ImageURL}}" alt="{{.Name}}">
+            <img src="{{.ImageURL}}" alt="{{.Name}}">
+            <img src="{{.ImageURL}}" alt="{{.Name}}">
+            <img src="{{.ImageURL}}" alt="{{.Name}}">
+            <img src="{{.ImageURL}}" alt="{{.Name}}">
+        </div>
+    </div>
+</body>
+</html>
+{{end}}

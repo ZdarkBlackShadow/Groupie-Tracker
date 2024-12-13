@@ -17,9 +17,12 @@ func InitServer() {
 	}
 	//Initilalisation des routes
 	http.HandleFunc("/home", Home)
+	http.HandleFunc("/login", Login)
 	http.HandleFunc("/artifacts", Artifacts)
+	http.HandleFunc("/artifacts/details", ArtifactsDetails)
 	http.HandleFunc("/boss", Boss)
 	http.HandleFunc("/characters", Characters)
+	http.HandleFunc("/characters/details", CharactersDetails)
 	http.HandleFunc("/domains", Domains)
 	http.HandleFunc("/elements", Elements)
 	http.HandleFunc("/enemies", Enemies)
@@ -34,7 +37,7 @@ func InitServer() {
 		}
 	})
 	//Initialisation des assets
-	fileserver := http.FileServer(http.Dir("../assets"))
+	fileserver := http.FileServer(http.Dir("./assets"))
 	http.Handle("/static/", http.StripPrefix("/static/", fileserver))
 	//Initialisation du serveur
 	http.ListenAndServe("localhost:8000", nil)

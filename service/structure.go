@@ -8,6 +8,7 @@ type ArtifactDetails struct {
 	OnePieceBonus   string `json:"1-piece_bonus"`
 	TwoPiecesBonus  string `json:"2-piece_bonus"`
 	FourPiecesBonus string `json:"4-piece_bonus"`
+	ImageURL        string
 }
 
 //Structur for the boss
@@ -16,6 +17,7 @@ type BossStruct struct {
 	Description string     `json:"description"`
 	Drops       []Drop     `json:"drops"`
 	Artifacts   []Artifact `json:"artifacts"`
+	ImageURL    string
 }
 
 type Drop struct {

@@ -69,3 +69,7 @@ func GetAllCharactersDetails() []Characters {
 	}
 	return AllBossDetails
 }
+
+func FilterByName(Data []Characters) {
+
+}

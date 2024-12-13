@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"sort"
 	"time"
 )
 
@@ -54,6 +55,11 @@ func GetAllDataAboutOneArtifact(name string) ArtifactDetails {
 		if errDecode != nil {
 			fmt.Printf("erreur lors du decodage : %v\n", errDecode)
 		}
+		if decodeData.Name == "Glacier and Snowfield" {
+			decodeData.ImageURL = "/static/image/Exception/Glacier and Snowfield/flower.webp"
+		} else {
+			decodeData.ImageURL = urlApi + "/circlet-of-logos"
+		}
 		return decodeData
 	} else {
 		fmt.Printf("Erreur code : %v, erreur message : %v", res.StatusCode, res.Status)
@@ -68,4 +74,18 @@ func GetAllArtifactsDetails() []ArtifactDetails {
 		AllArtifactsDetails = append(AllArtifactsDetails, GetAllDataAboutOneArtifact(name))
 	}
 	return AllArtifactsDetails
+}
+
+func ArtifactsFilterByName(data []ArtifactDetails) []ArtifactDetails {
+	sort.Slice(data, func(i, j int) bool {
+		return data[i].Name < data[j].Name
+	})
+	return data
+}
+
+func ArtifactsFilterByRarity(data []ArtifactDetails) []ArtifactDetails {
+	sort.Slice(data, func(i, j int) bool {
+		return data[i].MaxRarity < data[j].MaxRarity
+	})
+	return data
 }

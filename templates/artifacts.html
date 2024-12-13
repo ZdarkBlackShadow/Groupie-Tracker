@@ -4,20 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/artifacts.css">
     <title>Genshin</title>
 </head>
 <body>
-    {{range .Data}}
-        <h1>Name : {{.Name}}</h1>
-        <h2>Max rarity : {{.MaxRarity}}</h2>
-        {{if eq .OnePieceBonus ""}}
-            <h3>Two Pieces Bonus : {{.TwoPiecesBonus}}</h3>
-            <br>
-            <h3>Two Pieces Bonus : {{.FourPiecesBonus}}</h3>
-        {{else}}
-            <h3>One Piece Bonus : {{.OnePieceBonus}}</h3>
-        {{end}}
-    {{end}}
+    <header class="header">
+        {{template "navbar"}}
+    </header>
+    <main class="artifacts-container">
+        {{range .Data}}
+        <a href="/artifacts/details?name={{.Name}}">
+            <div class="artifact-card">
+                <h1 class="artifact-name">Name: {{.Name}}</h1>
+                <h2 class="artifact-rarity">Max Rarity: {{.MaxRarity}}</h2>
+                <img src="{{.ImageURL}}" alt="{{.Name}}" class="artifact-image">
+            </div>
+            {{end}}
+        </a>
+    </main>
 </body>
 </html>
 {{end}}
