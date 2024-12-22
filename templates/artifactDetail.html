@@ -25,11 +25,9 @@
             <p>{{.OnePieceBonus}}</p>
         {{end}}
         <div class="container2">
-            <img src="{{.ImageURL}}" alt="{{.Name}}">
-            <img src="{{.ImageURL}}" alt="{{.Name}}">
-            <img src="{{.ImageURL}}" alt="{{.Name}}">
-            <img src="{{.ImageURL}}" alt="{{.Name}}">
-            <img src="{{.ImageURL}}" alt="{{.Name}}">
+            {{range .AllUrlImageAvailable}}
+                <img src="{{.}}" alt="">
+            {{end}}
         </div>
     </div>
 </body>

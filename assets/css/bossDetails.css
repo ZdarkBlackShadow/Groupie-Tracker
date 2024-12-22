@@ -1,0 +1,53 @@
+@font-face {
+    font-family: 'GenshinFont';
+    src: url('/static/ttf/zh-cn.ttf') format('truetype');
+}
+
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url('/static/image/background.webp');
+    background-size: cover;
+    background-attachment: fixed; /* Prevent background movement */
+    background-position: center; 
+    color: #E1E1E1;
+    font-family: 'GenshinFont', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.boss-list {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Create 5 columns */
+    gap: 20px;
+    padding: 20px;
+    margin: auto;
+    max-width: 1200px;/* Pour s'assurer que les cartes s'alignent correctement */
+}
+
+.boss-card {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    color: #fff;
+}
+
+
+.boss-card h1 {
+    color: #FFD700;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.boss-card img {
+    width: 35%; /* L'image occupe toute la largeur de la carte */
+    height: auto; /* Garde le ratio d'aspect */
+    border-radius: 8px; /* Coins arrondis pour l'image */
+    margin-bottom: 15px; /* Espace avec le texte */
+}

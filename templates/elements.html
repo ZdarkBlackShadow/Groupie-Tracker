@@ -4,26 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/elements.css">
     <title>>Genshin</title>
 </head>
 <body>
     <header class="header">
         {{template "navbar"}}
     </header>
-    {{range .Data}}
-        <h1>Name : {{.Name}}</h1>
-        <h2>Key : {{.Key}}</h2>
-        <h2>Reactions :</h2>
-        {{range .Reactions}}
-            <h3>Reactions's name : {{.Name}}</h3>
-            <h3>Element(s) : </h3>
-            {{range .Elements}}
-                <h4>{{.}}</h4>
-            {{end}}
-            <p>Description : {{.Description}}</p>
+    <div class="element-list">
+        {{range .Data}}
+            <a href="/elements/details?id={{.Id}}">
+                <div class="element-card">
+                    <h1>Name : {{.Name}}</h1>
+                    <img src="{{.ImageUrl}}">
+                </div>
+            </a>
         {{end}}
-    {{end}}
+    </div>
 </body>
 </html>
 {{end}}

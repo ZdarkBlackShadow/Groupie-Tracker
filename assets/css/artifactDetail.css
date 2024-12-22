@@ -51,7 +51,9 @@ p {
     align-items: center;
 }
 
-img{
+.container2 img{
     width: 155px;
     height: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 60px;
 }

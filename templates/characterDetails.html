@@ -1,0 +1,95 @@
+{{define "characterDetails"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/characterDetails.css">
+    <title>Document</title>
+</head>
+<body>
+    <header class="header">
+        {{template "navbar"}}
+    </header>
+    <div class="character-card">
+        <h1>Name : {{.Name}}</h1>
+        <img src="{{.ImageUrl}}">
+        <h2>Title : {{.Title}}</h2>
+        <h2>Vision : {{.Vision}}</h2>
+        <h3>Weapon : {{.Weapon}}</h3>
+        <h3>Gender : {{.Gender}}</h3>
+        <h3>Nation : {{.Nation}}</h3>
+        <h3>Affiliation : {{.Affiliation}}</h3>
+        <h3>Rarity : {{.Rarity}}</h3>
+        <h3>Release : {{.Release}}</h3>
+        <h3>Constellation : {{.Constellation}}</h3>
+        <h3>Birthday : {{.Birthday}}</h3>
+        <h3>Description : {{.Description}}</h3>
+        <h2>Skill talents : </h2>
+        {{range .SkillTalents}}
+            <h4>Name : {{.Name}}</h4>
+            <h4>Unlock : {{.Unlock}}</h4>
+            <h4>Description : {{.Description}}</h4>
+            <h3>Upgrades : </h3>
+            {{range .Upgrades}}
+                <h5>Name : {{.Name}}</h5>
+                <h5>Value : {{.Value}}</h5>
+            {{end}}
+            <h4>Type : {{.Type}}</h4>
+            <h3>Atribute scaling</h3>
+            {{range .AttributeScaling}}
+                <h5>Name : {{.Name}}</h5>
+                <h5>Value : {{.Value}}</h5>
+            {{end}}
+        {{end}}
+        <h2>Passive talents</h2>
+        {{range .PassiveTalents}}
+            <h4>Name : {{.Name}}</h4>
+            <h4>Unlock : {{.Unlock}}</h4>
+            <h4>Description : {{.Description}}</h4>
+            <h4>Level : {{.Level}}</h4>
+        {{end}}
+        <h2>Constellations : </h2>
+        {{range .Constellations}}
+            <h4>Name : {{.Name}}</h4>
+            <h4>Unlock : {{.Unlock}}</h4>
+            <h4>Description : {{.Description}}</h4>
+            <h4>Level : {{.Level}}</h4>
+        {{end}}
+        <h3>Vision Key : {{.VisionKey}}</h3>
+        <h3>Weapon Type : {{.WeaponType}}</h3>
+        <h2>Ascension Materials :</h2>
+        <h3>Ascensions materail for level 20</h3>
+        {{range .AscensionMaterials.Level20}}
+            <h4>Name : {{.Name}}</h4>
+            <h4>Value : {{.Value}}</h4>
+        {{end}}
+        <h3>Ascensions materail for level 40</h3>
+        {{range .AscensionMaterials.Level40}}
+            <h4>Name : {{.Name}}</h4>
+            <h4>Value : {{.Value}}</h4>
+        {{end}}
+        <h3>Ascensions materail for level 50</h3>
+        {{range .AscensionMaterials.Level50}}
+            <h4>Name : {{.Name}}</h4>
+            <h4>Value : {{.Value}}</h4>
+        {{end}}
+        <h3>Ascensions materail for level 60</h3>
+        {{range .AscensionMaterials.Level60}}
+            <h4>Name : {{.Name}}</h4>
+            <h4>Value : {{.Value}}</h4>
+        {{end}}
+        <h3>Ascensions materail for level 70</h3>
+        {{range .AscensionMaterials.Level70}}
+            <h4>Name : {{.Name}}</h4>
+            <h4>Value : {{.Value}}</h4>
+        {{end}}
+        <h3>Ascensions materail for level 80</h3>
+        {{range .AscensionMaterials.Level80}}
+            <h4>Name : {{.Name}}</h4>
+            <h4>Value : {{.Value}}</h4>
+        {{end}}
+    </div>
+</body>
+</html>
+{{end}}

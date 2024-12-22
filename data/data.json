@@ -1,0 +1,34 @@
+[
+  {
+    "Email": "adrien@lecomte.org",
+    "Password": "password",
+    "Collecttions": {
+      "Artifacts": null,
+      "Boss": null,
+      "Characters": null,
+      "Domains": null,
+      "Elements": null,
+      "Enemies": null,
+      "Weapons": null,
+      "Materials": {
+        "BossMaterials": null
+      }
+    }
+  },
+  {
+    "Email": "ZdarkBlackShadow@gmail.com",
+    "Password": "password",
+    "Collecttions": {
+      "Artifacts": null,
+      "Boss": null,
+      "Characters": null,
+      "Domains": null,
+      "Elements": null,
+      "Enemies": null,
+      "Weapons": null,
+      "Materials": {
+        "BossMaterials": null
+      }
+    }
+  }
+]

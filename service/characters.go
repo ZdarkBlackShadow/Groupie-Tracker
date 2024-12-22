@@ -27,6 +27,7 @@ func GetAllDetailsAboutOneCharacters(name string) Characters {
 		if errDecode != nil {
 			fmt.Printf("erreur lors du decodage : %v\n", errDecode)
 		}
+		decodeData.ImageUrl = urlApi + "/card"
 		return decodeData
 	} else {
 		fmt.Printf("Erreur code : %v, erreur message : %v", res.StatusCode, res.Status)

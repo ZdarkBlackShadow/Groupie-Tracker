@@ -5,22 +5,22 @@
 
 
 * {
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
     box-sizing: border-box;
 }
 
 body {
     background-image: url('/static/image/background.webp');
     background-size: cover;
-    background-repeat: no-repeat;
-    background-position: end; 
-    background-attachment: fixed;
+    background-attachment: fixed; /* Prevent background movement */
+    background-position: center; 
     color: #E1E1E1;
     font-family: 'GenshinFont', sans-serif;
     margin: 0;
     padding: 0;
 }
+
 
 .header{
     position: relative;
@@ -63,4 +63,36 @@ body {
 
 .navbar a:hover::before {
     width: 100%;
+}
+
+
+.domain-list {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Create 5 columns */
+    gap: 20px;
+    padding: 20px;
+    margin: auto;
+    max-width: 1200px;/* Pour s'assurer que les cartes s'alignent correctement */
+}
+
+.domain-card {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    color: #fff;
+}
+
+
+.domain-card h1 {
+    color: #FFD700;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.domain-card img {
+    width: 35%; /* L'image occupe toute la largeur de la carte */
+    height: auto; /* Garde le ratio d'aspect */
+    border-radius: 8px;
+    margin-bottom: 15px;
 }

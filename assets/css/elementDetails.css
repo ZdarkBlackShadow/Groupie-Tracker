@@ -3,24 +3,20 @@
     src: url('/static/ttf/zh-cn.ttf') format('truetype');
 }
 
-
 * {
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
     box-sizing: border-box;
 }
 
 body {
-    background-image: url('/static/image/background.webp');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: end; 
-    background-attachment: fixed;
+    background-color: black;
     color: #E1E1E1;
     font-family: 'GenshinFont', sans-serif;
     margin: 0;
     padding: 0;
 }
+
 
 .header{
     position: relative;
@@ -63,4 +59,53 @@ body {
 
 .navbar a:hover::before {
     width: 100%;
+}
+
+
+.element-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Create 5 columns */
+    gap: 20px;
+    padding: 20px;
+    margin: auto;
+    max-width: 1200px;/* Pour s'assurer que les cartes s'alignent correctement */
+}
+
+.element-card {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    color: #fff;
+}
+
+.element-card h1 {
+    color: #FFD700;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.element-card h2 {
+    color: #4acfff;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.element-card h3 {
+    color: #ff0033;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.element-card p, h4 {
+    color: #ffffff;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.element-card img {
+    width: 6%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
 }

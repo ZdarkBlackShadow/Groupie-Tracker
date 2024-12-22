@@ -1,0 +1,30 @@
+{{define "ElementDetails"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/elementDetails.css">
+    <title>>Genshin</title>
+</head>
+<body>
+    <header class="header">
+        {{template "navbar"}}
+    </header>
+    <div class="element-card">
+        <h1>{{.Name}}</h1>
+        <img src="{{.ImageUrl}}">
+        <h2>Key : {{.Key}}</h2>
+        <h2>Reactions :</h2>
+        {{range .Reactions}}
+            <h3>Reactions's name : {{.Name}}</h3>
+            <h3>Element(s) concerned</h3>
+            {{range .Elements}}
+                <h4>{{.}}</h4>
+            {{end}}
+            <p>Description : {{.Description}}</p>
+        {{end}}
+    </div>
+</body>
+</html>
+{{end}}

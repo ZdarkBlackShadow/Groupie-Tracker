@@ -18,14 +18,23 @@ func InitServer() {
 	//Initilalisation des routes
 	http.HandleFunc("/home", Home)
 	http.HandleFunc("/login", Login)
+	http.HandleFunc("/login/newregister", LoginNewRegister)
+	http.HandleFunc("/login/register", LoginRegister)
 	http.HandleFunc("/artifacts", Artifacts)
 	http.HandleFunc("/artifacts/details", ArtifactsDetails)
 	http.HandleFunc("/boss", Boss)
+	http.HandleFunc("/boss/details", BossDetails)
 	http.HandleFunc("/characters", Characters)
 	http.HandleFunc("/characters/details", CharactersDetails)
 	http.HandleFunc("/domains", Domains)
+	http.HandleFunc("/domains/details", DomainDetail)
 	http.HandleFunc("/elements", Elements)
+	http.HandleFunc("/elements/details", ElementDetails)
 	http.HandleFunc("/enemies", Enemies)
+	http.HandleFunc("/enemies/details", EnemiesDetails)
+	http.HandleFunc("/weapons", Weapons)
+	http.HandleFunc("/weapons/details", WeaponDetails)
+	http.HandleFunc("/food", Food)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case "/home":

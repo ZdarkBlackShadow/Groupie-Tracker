@@ -55,15 +55,20 @@ func GetAllDataAboutOneArtifact(name string) ArtifactDetails {
 		if errDecode != nil {
 			fmt.Printf("erreur lors du decodage : %v\n", errDecode)
 		}
-		if decodeData.Name == "Glacier and Snowfield" {
+		if name == "glacier-and-snowfield" {
 			decodeData.ImageURL = "/static/image/Exception/Glacier and Snowfield/flower.webp"
+			decodeData.AllUrlImageAvailable = []string{"/static/image/Exception/Glacier and Snowfield/flower.webp"}
 		} else {
-			decodeData.ImageURL = urlApi + "/circlet-of-logos"
+			AvailableImage := GetListOfAvailableImage(urlApi)
+			decodeData.ImageURL = AvailableImage[0]
+			decodeData.AllUrlImageAvailable = AvailableImage
 		}
+
 		return decodeData
 	} else {
 		fmt.Printf("Erreur code : %v, erreur message : %v", res.StatusCode, res.Status)
 	}
+
 	return ArtifactDetails{}
 }
 
@@ -71,7 +76,9 @@ func GetAllArtifactsDetails() []ArtifactDetails {
 	AllNames := GetAllNameOfArtifacts()
 	AllArtifactsDetails := []ArtifactDetails{}
 	for _, name := range AllNames {
-		AllArtifactsDetails = append(AllArtifactsDetails, GetAllDataAboutOneArtifact(name))
+		if name != "prayers-to-the-firmament" {
+			AllArtifactsDetails = append(AllArtifactsDetails, GetAllDataAboutOneArtifact(name))
+		}
 	}
 	return AllArtifactsDetails
 }

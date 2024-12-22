@@ -1,0 +1,25 @@
+{{define "weaponsDetails"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genshin</title>
+</head>
+<body>
+    <header>
+        {{template "navbar"}}
+    </header>
+    <h1>{{.Name}}</h1>
+    <img src="{{.ImageUrl}}">
+    <h2>Type : {{.Type}}</h2>
+    <h2>Rarity : {{.Rarity}}</h2>
+    <h2>Base Attack : {{.BaseAttack}}</h2>
+    <h2>Sub Stat : {{.SubStat}}</h2>
+    <h2>{{.PassiveName}} : </h2>
+    <p>{{.PassiveDescription}}</p>
+    <h2>Location : {{.Location}}</h2>
+    <h2>Ascension Materialb : {{.AscensionMaterial}}</h2>
+</body>
+</html>
+{{end}}

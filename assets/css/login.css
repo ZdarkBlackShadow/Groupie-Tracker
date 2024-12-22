@@ -1,10 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@font-face {
+    font-family: 'GenshinFont';
+    src: url('/static/ttf/zh-cn.ttf') format('truetype');
+}
+
 
 body {
+    background-image: url('/static/image/background.webp');
+    background-size: cover;
     height: 100vh;
     display: grid;
     place-content: center;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'GenshinFont', sans-serif;
 }
 
 * {
@@ -26,6 +33,7 @@ body {
     background-color: #fff;
     box-shadow: 25px 30px 55px #5557;
     overflow: hidden;
+    font-family: 'Poppins', sans-serif;
 }
 
 .form-container {
@@ -253,4 +261,47 @@ p{
     100% {
         width: 143.67px;
     }
+}
+
+.header{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 68px;
+    padding: 10px 40px;
+    background: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1;
+}
+
+.header img {
+    width: 64%;
+    border-radius: 8px;
+}
+
+.navbar a {
+    position: relative;
+    font-size: 18px;
+    color: white;
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 60px;
+}
+
+.navbar a::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: white;
+    transition: .3s;
+}
+
+.navbar a:hover::before {
+    width: 100%;
 }

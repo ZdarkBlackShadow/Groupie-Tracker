@@ -27,6 +27,7 @@ func GetAllDetailsAboutOneElements(name string) Element {
 		if errDecode != nil {
 			fmt.Printf("erreur lors du decodage : %v\n", errDecode)
 		}
+		decodeData.ImageUrl = urlApi + "/icon"
 		return decodeData
 	} else {
 		fmt.Printf("Erreur code : %v, erreur message : %v", res.StatusCode, res.Status)

@@ -1,0 +1,47 @@
+{{define "enemiesDetails"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genshin</title>
+</head>
+<body>
+    <header class="header">
+        {{template "navbar"}}
+    </header>
+    <h1>{{.Name}}</h1>
+    <img src="{{.ImageUrl}}" alt="">
+    <p>Description : {{.Description}}</p>
+    <h2>Region {{.Region}}</h2>
+    <h2>Type : {{.Type}}</h2>
+    <h2>Family : {{.Family}}</h2>
+    <h2>Faction : {{.Faction}}</h2>
+    <h2>Element(s) : </h2>
+    {{range .Elements}}
+        {{.}}
+    {{end}}
+    <h2>Drop(s) :</h2>
+    {{range .Drops}}
+        <h3>Name : {{.Name}}</h3>
+        <h3>Rarity : {{.Rarity}}</h3>
+        <h3>Minimum Level : {{.MinimumLevel}}</h3>
+    {{end}}
+    <h2>Artifacts :</h2>
+    {{range .Artifacts}}
+        <h3>Name : {{.Name}}</h3>
+        <h3>Set : {{.Set}}</h3>
+        <h3>Rarity : {{.Rarity}}</h3>
+    {{end}}
+    <h2>Descriptions of the enemies</h2>
+    {{range .Descriptions }}
+        <h3>Name : {{.Name}}</h3>
+        <p>Description : {{.Description}}</p>
+    {{end}}
+    <h2>Elemental Descriptions</h2>
+    {{range .ElementalDescriptions}}
+        <h3>Element : {{.Element}}</h3>
+        <p>Description : {{.Description}}</p>
+    {{end}}
+</body>
+{{end}}

@@ -1,0 +1,54 @@
+{{define "domainDetails"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genshin</title>
+    <link rel="stylesheet" href="/static/css/domainDetails.css">
+</head>
+<body>
+    <header class="header">
+        {{template "navbar"}}
+    </header>
+    <div class="domain-card">
+        <h1>Domain's name : {{.Name}}</h1>
+        <h2>Type : {{.Type}}</h2>
+        <h2>Description : {{.Description}}</h2>
+        <h2>Location : {{.Location}}</h2>
+        <h2>Nation : {{.Nation}}</h2>
+        <h2>Requirements : </h2>
+        {{range .Requirements}}
+            <h3>Level : {{.Level}}</h3>
+            <h3>Adventure rank required : {{.AdventureRank}}</h3>
+            <h3>Recommended Level : {{.RecommendedLevel}}</h3>
+            <h3>Ley Line Disorder</h3>
+            {{range .LeyLineDisorder}}
+                <h4>Value : {{.}}</h4>
+            {{end}}
+        {{end}}
+        <h2>Recommended Elements :</h2>
+        {{range .RecommendedElements}}
+            <h4>{{.}}</h4>
+        {{end}}
+        <h2>Rewards :</h2>
+        {{range .Rewards}}
+            <h4>Day : {{.Day}}</h4>
+            <h4>Rewards Details</h4>
+            {{range .Details}}
+                <h5>Level : {{.Level}}</h5>
+                <h5>Adventure Experience : {{.AdventureExperience}}</h5>
+                <h5>Companionship Experience : {{.CompanionshipExperience}}</h5>
+                <h5>Mora : {{.Mora}}</h5>
+                <h5>Drops :</h5>
+                {{range .Drops}}
+                    <h6>Name : {{.Name}}</h6>
+                    <h6>Minimum drops : {{.DropMin}}</h6>
+                    <h6>Maximum drops : {{.DropMax}}</h6>
+                {{end}}
+            {{end}}
+        {{end}}
+    </div>
+</body>
+</html>
+{{end}}

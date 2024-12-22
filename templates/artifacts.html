@@ -14,14 +14,14 @@
     </header>
     <main class="artifacts-container">
         {{range .Data}}
-        <a href="/artifacts/details?name={{.Name}}">
-            <div class="artifact-card">
-                <h1 class="artifact-name">Name: {{.Name}}</h1>
-                <h2 class="artifact-rarity">Max Rarity: {{.MaxRarity}}</h2>
-                <img src="{{.ImageURL}}" alt="{{.Name}}" class="artifact-image">
-            </div>
-            {{end}}
-        </a>
+            <a href="/artifacts/details?id={{.Id}}">
+                <div class="artifact-card">
+                    <h1 class="artifact-name">Name: {{.Name}}</h1>
+                    <h2 class="artifact-rarity">Max Rarity: {{.MaxRarity}}</h2>
+                    <img src="{{.ImageURL}}" alt="{{.Name}}" class="artifact-image">
+                </div>
+            </a>
+        {{end}}
     </main>
 </body>
 </html>

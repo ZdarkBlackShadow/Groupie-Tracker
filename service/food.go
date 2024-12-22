@@ -7,13 +7,8 @@ import (
 	"time"
 )
 
-func Service() {
-	fmt.Println("service")
-	//lien de l'API https://genshin.jmp.blue/
-}
-
-func GetListOfAvailableImage(Url string) []string {
-	urlApi := Url + "/list"
+func GetAllDetailsOfFood() map[string]FoodStruct {
+	urlApi := "https://genshin.jmp.blue/consumables/food"
 	httpClient := http.Client{
 		Timeout: time.Second * 5,
 	}
@@ -27,18 +22,14 @@ func GetListOfAvailableImage(Url string) []string {
 		fmt.Printf("Erreur lors de la requete client : %v\n", Errres)
 	}
 	if res.StatusCode == http.StatusOK {
-		var decodeData []string
+		var decodeData map[string]FoodStruct
 		errDecode := json.NewDecoder(res.Body).Decode(&decodeData)
 		if errDecode != nil {
 			fmt.Printf("erreur lors du decodage : %v\n", errDecode)
 		}
-		result := []string{}
-		for _, element := range decodeData {
-			result = append(result, Url+"/"+element)
-		}
-		return result
+		return decodeData
 	} else {
 		fmt.Printf("Erreur code : %v, erreur message : %v", res.StatusCode, res.Status)
 	}
-	return []string{}
+	return map[string]FoodStruct{}
 }

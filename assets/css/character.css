@@ -13,9 +13,8 @@
 body {
     background-image: url('/static/image/background.webp');
     background-size: cover;
-    background-repeat: no-repeat;
-    background-position: end; 
     background-attachment: fixed;
+    background-position: center; 
     color: #E1E1E1;
     font-family: 'GenshinFont', sans-serif;
     margin: 0;
@@ -63,4 +62,41 @@ body {
 
 .navbar a:hover::before {
     width: 100%;
+}
+
+.character-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 20px;
+    margin: auto;
+    max-width: 1200px;
+}
+
+.character-card {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.character-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+}
+
+.character-card h1 {
+    color: #FFD700;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.character-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
 }
