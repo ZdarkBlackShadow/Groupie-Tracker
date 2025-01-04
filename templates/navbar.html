@@ -1,7 +1,13 @@
 {{define "navbar"}}
     <a href="/home"><img src="/static/image/logo.webp"></a>
     <nav class="navbar">
-        <a href="/collections">Collections</a>
-        <a href="/login">Connexion</a>
+        <form class="search-bar" action="/result" method="GET">
+            <input type="text" name="query" placeholder="Search...">
+            <button type="submit">🔍</button>
+        </form>
+        <div class="nav-links">
+            <a href="/collections">Collections</a>
+            <a href="/login">Connexion</a>
+        </div>
     </nav>
 {{end}}

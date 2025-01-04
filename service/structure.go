@@ -497,3 +497,45 @@ type PotionsData struct {
 	ID      string            `json:"id"`
 	Potions map[string]Potion `json:"-"`
 }
+
+type Register struct {
+	Email        string
+	Password     string
+	Collecttions Collecttions
+}
+
+type Collecttions struct {
+	Artifacts  []ArtifactDetails
+	Boss       []BossStruct
+	Characters []Characters
+	Domains    []Domain
+	Elements   []Element
+	Enemies    []Enemies
+	Weapons    []Weapon
+	Materials  CollenctionsMaterials
+}
+
+type CollenctionsMaterials struct {
+	BossMaterials       []BossMaterial
+	CharacterAscensions []CharactersAscensionDataStructure
+	CharacterExperience []CharacterExperienceDataStruct
+	CommonAscensions    []CommonAscensionDetails
+	Ingredients         []Ingredient
+	LocalSpecialities   []Specialty
+	//une autre sructure avant
+	BossTalents          []Talent
+	WheaponAscensionSets []WeaponAscensionSet
+	WeaponsExperiences   []WeaponAscensionItem
+	Foods                []FoodStruct
+	Potions              []Potion
+}
+
+type AllData struct {
+	ALLArtifacts  []ArtifactDetails
+	AllBoss       []BossStruct
+	AllCharacters []Characters
+	AllDomain     []Domain
+	AllElement    []Element
+	AllEnnemies   []Enemies
+	AllWeapons    []Weapon
+}

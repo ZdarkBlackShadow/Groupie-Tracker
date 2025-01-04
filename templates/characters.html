@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/character.css">
     <title>Document</title>
 </head>
@@ -19,6 +20,15 @@
                     <img src="{{.ImageUrl}}">
                 </div>
             </a>
+        {{end}}
+    </div>
+    <div class="switch-Page">
+        {{if gt .CurrentPage 1}}
+        <a href="?page={{sub .CurrentPage 1}}">Previous</a>
+        {{end}}
+        <span>Page {{.CurrentPage}} of {{.TotalPages}}</span>
+        {{if lt .CurrentPage .TotalPages}}
+        <a href="?page={{add .CurrentPage 1}}">Next</a>
         {{end}}
     </div>
 </body>

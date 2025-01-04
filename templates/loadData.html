@@ -1,0 +1,30 @@
+{{define "data"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading</title>
+    <script>
+        function updateProgress() {
+            fetch('/progress')
+                .then(response => response.json())
+                .then(data => {
+                    const progressBar = document.getElementById('progress-bar');
+                    progressBar.value = data.progress;
+                    if (data.progress >= 100) {
+                        window.location.href = '/loaded';
+                    } else {
+                        setTimeout(updateProgress, 500);
+                    }
+                });
+        }
+        window.onload = updateProgress;
+    </script>
+</head>
+<body>
+    <h1>Loading...</h1>
+    <progress id="progress-bar" max="100" value="0"></progress>
+</body>
+</html>
+{{end}}

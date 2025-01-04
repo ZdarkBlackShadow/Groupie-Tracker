@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/characterDetails.css">
     <title>Document</title>
 </head>
@@ -11,85 +12,113 @@
     <header class="header">
         {{template "navbar"}}
     </header>
-    <div class="character-card">
+    <div class="container">
         <h1>Name : {{.Name}}</h1>
-        <img src="{{.ImageUrl}}">
-        <h2>Title : {{.Title}}</h2>
-        <h2>Vision : {{.Vision}}</h2>
-        <h3>Weapon : {{.Weapon}}</h3>
-        <h3>Gender : {{.Gender}}</h3>
-        <h3>Nation : {{.Nation}}</h3>
-        <h3>Affiliation : {{.Affiliation}}</h3>
-        <h3>Rarity : {{.Rarity}}</h3>
-        <h3>Release : {{.Release}}</h3>
-        <h3>Constellation : {{.Constellation}}</h3>
-        <h3>Birthday : {{.Birthday}}</h3>
-        <h3>Description : {{.Description}}</h3>
-        <h2>Skill talents : </h2>
-        {{range .SkillTalents}}
-            <h4>Name : {{.Name}}</h4>
-            <h4>Unlock : {{.Unlock}}</h4>
-            <h4>Description : {{.Description}}</h4>
-            <h3>Upgrades : </h3>
-            {{range .Upgrades}}
-                <h5>Name : {{.Name}}</h5>
-                <h5>Value : {{.Value}}</h5>
+        <div class="introduction">
+            <h1>Title : {{.Title}}</h1>
+            <h2>Vision : {{.Vision}}</h2>
+            <h3>Weapon : {{.Weapon}}</h3>
+            <h3>Gender : {{.Gender}}</h3>
+            <h3>Nation : {{.Nation}}</h3>
+            <h3>Affiliation : {{.Affiliation}}</h3>
+            <h3>Rarity : {{.Rarity}}</h3>
+            <h3>Release : {{.Release}}</h3>
+            <h3>Constellation : {{.Constellation}}</h3>
+            <h3>Birthday : {{.Birthday}}</h3>
+            <h3>Vision Key : {{.VisionKey}}</h3>
+            <h3>Weapon Type : {{.WeaponType}}</h3>
+            <p>{{.Description}}</p>
+        </div>
+        <div class="skill-talents">
+            <h2>Skill talents : </h2>
+            {{range .SkillTalents}}
+                <h4>Name : {{.Name}}</h4>
+                <h4>Unlock : {{.Unlock}}</h4>
+                <h4>Description : {{.Description}}</h4>
+                <h3>Upgrades : </h3>
+                {{range .Upgrades}}
+                    <h5>Name : {{.Name}}</h5>
+                    <h5>Value : {{.Value}}</h5>
+                {{end}}
+                <h4>Type : {{.Type}}</h4>
+                <h3>Atribute scaling</h3>
+                {{range .AttributeScaling}}
+                    <h5>Name : {{.Name}}</h5>
+                    <h5>Value : {{.Value}}</h5>
+                {{end}}
             {{end}}
-            <h4>Type : {{.Type}}</h4>
-            <h3>Atribute scaling</h3>
-            {{range .AttributeScaling}}
-                <h5>Name : {{.Name}}</h5>
-                <h5>Value : {{.Value}}</h5>
+        </div>
+        <div class="passive-talents">
+            <h2>Passive talents</h2>
+            {{range .PassiveTalents}}
+                <h4>Name : {{.Name}}</h4>
+                <h4>Unlock : {{.Unlock}}</h4>
+                <h4>Description : {{.Description}}</h4>
+                <h4>Level : {{.Level}}</h4>
             {{end}}
-        {{end}}
-        <h2>Passive talents</h2>
-        {{range .PassiveTalents}}
-            <h4>Name : {{.Name}}</h4>
-            <h4>Unlock : {{.Unlock}}</h4>
-            <h4>Description : {{.Description}}</h4>
-            <h4>Level : {{.Level}}</h4>
-        {{end}}
-        <h2>Constellations : </h2>
-        {{range .Constellations}}
-            <h4>Name : {{.Name}}</h4>
-            <h4>Unlock : {{.Unlock}}</h4>
-            <h4>Description : {{.Description}}</h4>
-            <h4>Level : {{.Level}}</h4>
-        {{end}}
-        <h3>Vision Key : {{.VisionKey}}</h3>
-        <h3>Weapon Type : {{.WeaponType}}</h3>
-        <h2>Ascension Materials :</h2>
-        <h3>Ascensions materail for level 20</h3>
-        {{range .AscensionMaterials.Level20}}
-            <h4>Name : {{.Name}}</h4>
-            <h4>Value : {{.Value}}</h4>
-        {{end}}
-        <h3>Ascensions materail for level 40</h3>
-        {{range .AscensionMaterials.Level40}}
-            <h4>Name : {{.Name}}</h4>
-            <h4>Value : {{.Value}}</h4>
-        {{end}}
-        <h3>Ascensions materail for level 50</h3>
-        {{range .AscensionMaterials.Level50}}
-            <h4>Name : {{.Name}}</h4>
-            <h4>Value : {{.Value}}</h4>
-        {{end}}
-        <h3>Ascensions materail for level 60</h3>
-        {{range .AscensionMaterials.Level60}}
-            <h4>Name : {{.Name}}</h4>
-            <h4>Value : {{.Value}}</h4>
-        {{end}}
-        <h3>Ascensions materail for level 70</h3>
-        {{range .AscensionMaterials.Level70}}
-            <h4>Name : {{.Name}}</h4>
-            <h4>Value : {{.Value}}</h4>
-        {{end}}
-        <h3>Ascensions materail for level 80</h3>
-        {{range .AscensionMaterials.Level80}}
-            <h4>Name : {{.Name}}</h4>
-            <h4>Value : {{.Value}}</h4>
-        {{end}}
+        </div>
+        <div class="constellations">
+            <h2>Constellations : </h2>
+            {{range .Constellations}}
+                <h4>Name : {{.Name}}</h4>
+                <h4>Unlock : {{.Unlock}}</h4>
+                <h4>Description : {{.Description}}</h4>
+                <h4>Level : {{.Level}}</h4>
+            {{end}}
+        </div>
+        <div class="ascension-materials">
+            <h2>Ascension Materials :</h2>
+            <select id="materials">
+                {{range .AscensionMaterials.Level20}}
+                <option value="1" data-Name="{{.Name}}" data-Value="{{.Value}}">Level 20</option>
+                {{end}}
+                {{range .AscensionMaterials.Level40}}
+                <option value="2" data-Name="{{.Name}}" data-Value="{{.Value}}">Level 40</option>
+                {{end}}
+                {{range .AscensionMaterials.Level50}}
+                <option value="3" data-Name="{{.Name}}" data-Value="{{.Value}}">Level 50</option>
+                {{end}}
+                {{range .AscensionMaterials.Level60}}
+                <option value="4" data-Name="{{.Name}}" data-Value="{{.Value}}">Level 60</option>
+                {{end}}
+                {{range .AscensionMaterials.Level70}}
+                <option value="5" data-Name="{{.Name}}" data-Value="{{.Value}}">Level 70</option>
+                {{end}}
+                {{range .AscensionMaterials.Level80}}
+                <option value="6" data-Name="{{.Name}}" data-Value="{{.Value}}">Level 80</option>
+                {{end}}
+            </select>
+            <div id="output-container">
+                <h4 id="output-heading"></h4>
+                <p id="output-paragraph"></p>
+            </div>
+        </div>
     </div>
+    <script>
+        // Get references to the dropdown, heading, and paragraph elements
+        const selectElement = document.getElementById("materials");
+        const outputHeading = document.getElementById("output-heading");
+        const outputParagraph = document.getElementById("output-paragraph");
+
+        // Add an event listener for when the selection changes
+        selectElement.addEventListener("change", function () {
+        // Get the selected option
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
+
+        // Retrieve the data attributes from the selected option
+        const name = selectedOption.getAttribute("data-Name");
+        const value = selectedOption.getAttribute("data-Value");
+
+        // Update the heading and paragraph with the selected data
+        if (name && value) {
+            outputHeading.textContent = `Name: ${name}`;
+            outputParagraph.textContent = `Value: ${value}`;
+        } else {
+            outputHeading.textContent = "";
+            outputParagraph.textContent = "Please select a valid option.";
+        }
+        });
+      </script>
 </body>
 </html>
 {{end}}

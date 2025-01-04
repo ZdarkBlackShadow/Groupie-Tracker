@@ -3,7 +3,6 @@
     src: url('/static/ttf/zh-cn.ttf') format('truetype');
 }
 
-
 * {
     padding: 0px;
     margin: 0px;
@@ -22,7 +21,7 @@ body {
     padding: 0;
 }
 
-.header{
+.header {
     position: relative;
     top: 0;
     left: 0;
@@ -36,11 +35,66 @@ body {
     z-index: 1;
 }
 
+/* Logo alignment to the left */
 .header img {
     width: 64%;
     border-radius: 8px;
+    max-width: 100px;
 }
 
+/* Center the search bar */
+.navbar {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    flex: 1;
+    margin: 20px;
+}
+
+.search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0; /* Prevents the search bar from shrinking */
+    margin: 20px;
+}
+
+.search-bar input {
+    font-size: 16px;
+    padding: 6px 12px;
+    border: 2px solid white;
+    border-radius: 4px;
+    background-color: transparent;
+    color: white;
+    outline: none;
+    width: 200px; /* Adjust width as needed */
+    transition: 0.3s;
+}
+
+.search-bar input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.search-bar button {
+    margin-left: 8px;
+    font-size: 16px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.search-bar button:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.search-bar input:focus {
+    border-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Right-side links */
 .navbar a {
     position: relative;
     font-size: 18px;
@@ -55,12 +109,22 @@ body {
     position: absolute;
     top: 100%;
     left: 0;
-    width: 100%;
+    width: 0;
     height: 2px;
     background: white;
-    transition: .3s;
+    transition: 0.3s;
 }
 
 .navbar a:hover::before {
     width: 100%;
+}
+
+/* Ensure links align to the right */
+.navbar a:first-child {
+    margin-left: auto;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: end;
 }

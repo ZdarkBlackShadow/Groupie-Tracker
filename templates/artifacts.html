@@ -12,7 +12,7 @@
     <header class="header">
         {{template "navbar"}}
     </header>
-    <main class="artifacts-container">
+    <div class="artifacts-container">
         {{range .Data}}
             <a href="/artifacts/details?id={{.Id}}">
                 <div class="artifact-card">
@@ -22,7 +22,16 @@
                 </div>
             </a>
         {{end}}
-    </main>
+    </div>
+    <div class="switch-Page">
+        {{if gt .CurrentPage 1}}
+        <a href="?page={{sub .CurrentPage 1}}">Previous</a>
+        {{end}}
+        <span>Page {{.CurrentPage}} of {{.TotalPages}}</span>
+        {{if lt .CurrentPage .TotalPages}}
+        <a href="?page={{add .CurrentPage 1}}">Next</a>
+        {{end}}
+    </div>
 </body>
 </html>
 {{end}}

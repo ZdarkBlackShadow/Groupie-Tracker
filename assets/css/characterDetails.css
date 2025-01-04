@@ -3,85 +3,76 @@
     src: url('/static/ttf/zh-cn.ttf') format('truetype');
 }
 
-
-* {
-    padding: 0px;
-    margin: 0px;
-    box-sizing: border-box;
-}
-
-body {
-    background-image: url('/static/image/background.webp');
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center; 
-    color: #E1E1E1;
-    font-family: 'GenshinFont', sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
-.header{
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 68px;
-    padding: 10px 40px;
-    background: transparent;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 1;
-}
-
-.header img {
-    width: 64%;
-    border-radius: 8px;
-}
-
-.navbar a {
-    position: relative;
-    font-size: 18px;
-    color: white;
-    font-weight: 500;
-    text-decoration: none;
-    margin-left: 60px;
-}
-
-.navbar a::before {
-    content: '';
+.container {
     position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: white;
-    transition: .3s;
-}
-
-.navbar a:hover::before {
-    width: 100%;
-}
-
-.character-card {
     background: rgba(0, 0, 0, 0.6);
     padding: 20px;
     border-radius: 10px;
     text-align: center;
     color: #fff;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+    width: 1300px;
+    top: 10%;
+    gap: 50px;
 }
 
-
-.character-card h1 {
-    color: #FFD700;
-    margin-bottom: 10px;
-    font-size: 18px;
+.introduction {
+    align-content: center;
+    background-color: rgba(184, 0, 205, 0.7);
+    border-radius: 30px;
+    max-width: 400px;
+    max-height: 1000px;
 }
 
-.character-card img {
-    width: 6%;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 15px;
+.introduction h1{
+    color: aquamarine;
+}
+
+.introduction h2, h3, p{
+    color: black;
+}
+
+.skill-talents {
+    align-content: center;
+    background-color: rgba(200, 200, 200, 0.7);
+    border-radius: 30px;
+    max-width: 400px;
+    max-height: 1000px;
+}
+
+.skill-talents h2{
+    color: blueviolet;
+}
+
+.skill-talents h3, h4 {
+    color: aliceblue;
+}
+
+.passive-talents {
+    background: rgba(100, 100, 100, 0.7);
+    border-radius: 30px;
+    max-width: 400px;
+    max-height: 1000px;
+    align-items: center;
+    color: hotpink;
+}
+
+.constellations {
+    background: rgba(248, 3, 3, 0.7);
+    border-radius: 30px;
+    max-width: 400px;
+    max-height: 1000px;
+    align-items: center;
+    color: rgb(12, 209, 75);
+}
+
+.ascension-materials {
+    background: rgba(232, 248, 3, 0.7);
+    border-radius: 30px;
+    max-width: 400px;
+    max-height: 1000px;
+    align-items: center;
+    color: rgb(209, 12, 114);
 }

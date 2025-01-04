@@ -14,12 +14,6 @@ body {
     font-family: 'GenshinFont', sans-serif;
 }
 
-* {
-    padding: 0px;
-    margin: 0px;
-    box-sizing: border-box;
-}
-
 :root {
     --linear-grad: linear-gradient(to right, #141E30, #243B55);
     --grad-clr1: #141E30;
@@ -261,47 +255,4 @@ p{
     100% {
         width: 143.67px;
     }
-}
-
-.header{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 68px;
-    padding: 10px 40px;
-    background: transparent;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 1;
-}
-
-.header img {
-    width: 64%;
-    border-radius: 8px;
-}
-
-.navbar a {
-    position: relative;
-    font-size: 18px;
-    color: white;
-    font-weight: 500;
-    text-decoration: none;
-    margin-left: 60px;
-}
-
-.navbar a::before {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: white;
-    transition: .3s;
-}
-
-.navbar a:hover::before {
-    width: 100%;
 }
