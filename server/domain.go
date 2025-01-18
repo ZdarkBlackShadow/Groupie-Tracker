@@ -7,12 +7,20 @@ import (
 	"main.go/service"
 )
 
+type DataDomains struct {
+	Data    []service.Domain
+	IsLogin bool
+}
+
+type DataDomainDetails struct {
+	Data    service.Domain
+	IsLogin bool
+}
+
 func Domains(w http.ResponseWriter, r *http.Request) {
-	type DataArtifacts struct {
-		Data []service.Domain
-	}
-	Data := DataArtifacts{
-		Data: service.GetAllDomainsDetails(),
+	Data := DataDomains{
+		Data:    API_Data.AllDomain,
+		IsLogin: IsLogin,
 	}
 	err1 := Templates.ExecuteTemplate(w, "domains", Data)
 	if err1 != nil {
@@ -26,7 +34,10 @@ func DomainDetail(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Missing 'id' parameter", http.StatusBadRequest)
 		return
 	}
-	Data := service.GetAllDetailsAboutOneDomains(Id)
+	Data := DataDomainDetails{
+		Data:    service.GetAllDetailsAboutOneDomains(Id),
+		IsLogin: IsLogin,
+	}
 	err := Templates.ExecuteTemplate(w, "domainDetails", Data)
 	if err != nil {
 		http.Error(w, "Error rendering template", http.StatusInternalServerError)

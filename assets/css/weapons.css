@@ -3,16 +3,16 @@
     src: url('/static/ttf/zh-cn.ttf') format('truetype');
 }
 
-.artifacts-container {
+.weapon-list {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* Create 5 columns */
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     padding: 20px;
     margin: auto;
     max-width: 1200px;
 }
 
-.artifact-card {
+.weapon-card {
     background: rgba(0, 0, 0, 0.6);
     padding: 20px;
     border-radius: 10px;
@@ -22,34 +22,29 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.artifact-card:hover {
+.weapon-card:hover {
     transform: scale(1.05);
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
 }
 
-.artifact-image {
-    width: 100%; /* L'image occupe toute la largeur de la carte */
-    height: auto; /* Garde le ratio d'aspect */
-    border-radius: 8px; /* Coins arrondis pour l'image */
-    margin-bottom: 15px; /* Espace avec le texte */
-}
-
-.artifact-name {
-    font-size: 20px;
-    font-weight: bold;
+.weapon-card h1 {
+    color: #FFD700;
     margin-bottom: 10px;
+    font-size: 18px;
 }
 
-.artifact-rarity, .artifact-bonus {
-    font-size: 16px;
-    margin-bottom: 8px;
+.weapon-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
 }
 
 .switch-Page {
     text-align: center;
     margin: 20px auto;
 }
-/* Pagination buttons */
+
 .switch-Page a {
     display: inline-block;
     padding: 10px 15px;
@@ -66,7 +61,7 @@
     color: #fff;
 }
 
-/* Disabled button styling */
+
 .switch-Page a[disabled] {
     pointer-events: none;
     color: #aaa;
@@ -74,7 +69,6 @@
     background-color: #f9f9f9;
 }
 
-/* Current page styling */
 .switch-Page span {
     display: inline-block;
     padding: 10px 15px;
@@ -84,6 +78,7 @@
     border-radius: 5px;
     font-weight: bold;
 }
+
 
 #filterMenu {
     display: none;

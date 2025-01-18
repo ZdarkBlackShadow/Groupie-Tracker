@@ -504,30 +504,17 @@ type Register struct {
 	Collecttions Collecttions
 }
 
+//Structure for the collections
 type Collecttions struct {
-	Artifacts  []ArtifactDetails
-	Boss       []BossStruct
-	Characters []Characters
-	Domains    []Domain
-	Elements   []Element
-	Enemies    []Enemies
-	Weapons    []Weapon
-	Materials  CollenctionsMaterials
+	Collections []CollectionsStruct
 }
 
-type CollenctionsMaterials struct {
-	BossMaterials       []BossMaterial
-	CharacterAscensions []CharactersAscensionDataStructure
-	CharacterExperience []CharacterExperienceDataStruct
-	CommonAscensions    []CommonAscensionDetails
-	Ingredients         []Ingredient
-	LocalSpecialities   []Specialty
-	//une autre sructure avant
-	BossTalents          []Talent
-	WheaponAscensionSets []WeaponAscensionSet
-	WeaponsExperiences   []WeaponAscensionItem
-	Foods                []FoodStruct
-	Potions              []Potion
+type CollectionsStruct struct {
+	Name               string
+	Image              string
+	Type               string
+	LinkToTheRessource string
+	DateAdded          string
 }
 
 type AllData struct {

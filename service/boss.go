@@ -21,6 +21,7 @@ func GetAllDetailsAboutOneBoss(name string) BossStruct {
 	if Errres != nil {
 		fmt.Printf("Erreur lors de la requete client : %v\n", Errres)
 	}
+	defer res.Body.Close()
 	if res.StatusCode == http.StatusOK {
 		var decodeData BossStruct
 		errDecode := json.NewDecoder(res.Body).Decode(&decodeData)

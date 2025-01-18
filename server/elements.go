@@ -7,12 +7,20 @@ import (
 	"main.go/service"
 )
 
+type DataElements struct {
+	Data    []service.Element
+	IsLogin bool
+}
+
+type DataElementDetails struct {
+	Data    service.Element
+	IsLogin bool
+}
+
 func Elements(w http.ResponseWriter, r *http.Request) {
-	type DataArtifacts struct {
-		Data []service.Element
-	}
-	Data := DataArtifacts{
-		Data: service.GetAllElementsDetails(),
+	Data := DataElements{
+		Data:    API_Data.AllElement,
+		IsLogin: IsLogin,
 	}
 	err1 := Templates.ExecuteTemplate(w, "elements", Data)
 	if err1 != nil {
@@ -26,7 +34,10 @@ func ElementDetails(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Missing 'id' parameter", http.StatusBadRequest)
 		return
 	}
-	Data := service.GetAllDetailsAboutOneElements(Id)
+	Data := DataElementDetails{
+		Data:    service.GetAllDetailsAboutOneElements(Id),
+		IsLogin: IsLogin,
+	}
 	err := Templates.ExecuteTemplate(w, "ElementDetails", Data)
 	if err != nil {
 		http.Error(w, "Error rendering template", http.StatusInternalServerError)

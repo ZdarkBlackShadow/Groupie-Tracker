@@ -1,6 +1,9 @@
 package server
 
 import (
+	"crypto/sha256"
+	"crypto/subtle"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -16,6 +19,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err1)
 	}
 }
+
 func LoginNewRegister(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		fmt.Println("Acess refused")
@@ -26,7 +30,7 @@ func LoginNewRegister(w http.ResponseWriter, r *http.Request) {
 		}
 		DataToEncode := service.Register{
 			Email:    Email,
-			Password: Password,
+			Password: hashPassword(Password),
 		}
 		filePath := "./data/data.json"
 		var data []service.Register
@@ -57,6 +61,8 @@ func LoginNewRegister(w http.ResponseWriter, r *http.Request) {
 			if err := ioutil.WriteFile(filePath, updatedJsonData, 0644); err != nil {
 				log.Fatalf("Erreur lors de l'écriture dans le fichier : %v", err)
 			}
+			IsLogin = true
+			InfoOfUserWhoAreConnected = DataToEncode
 			http.Redirect(w, r, "/home", http.StatusSeeOther)
 		}
 	}
@@ -83,7 +89,9 @@ func LoginRegister(w http.ResponseWriter, r *http.Request) {
 			if element.Email == Email {
 				FindEmail = true
 				if element.Password == Password {
-					fmt.Println("Connexion réussie")
+					InfoOfUserWhoAreConnected = element
+					IsLogin = true
+					http.Redirect(w, r, "/home", http.StatusSeeOther)
 				} else {
 					fmt.Println("wrong password")
 				}
@@ -92,6 +100,72 @@ func LoginRegister(w http.ResponseWriter, r *http.Request) {
 		}
 		if !FindEmail {
 			fmt.Println("Email not found")
+		}
+	}
+}
+
+func hashPassword(password string) string {
+	hasher := sha256.New()
+	hasher.Write([]byte(password))
+	return hex.EncodeToString(hasher.Sum(nil))
+}
+
+func checkPasswordHash(password, hash string) bool {
+	computedHash := hashPassword(password)
+	// Comparaison sécurisée pour éviter les attaques par timing
+	return subtle.ConstantTimeCompare([]byte(computedHash), []byte(hash)) == 1
+}
+
+func PasswordForgot(w http.ResponseWriter, r *http.Request) {
+	err := Templates.ExecuteTemplate(w, "passwordforgot", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func PasswordForgotData(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		fmt.Println("Acess refused")
+	} else {
+		Email, Password, RetypedPassword := r.FormValue("email"), r.FormValue("newpassword"), r.FormValue("newpassword2")
+		if Password != RetypedPassword {
+			http.Redirect(w, r, "/login/password-forgot", http.StatusSeeOther)
+		}
+		filePath := "./data/data.json"
+		var data []service.Register
+		fileContent, err := ioutil.ReadFile(filePath)
+		if err != nil {
+			log.Fatalf("Erreur lors de la lecture du fichier : %v", err)
+		}
+		if len(fileContent) > 0 {
+			if err := json.Unmarshal(fileContent, &data); err != nil {
+				log.Fatalf("Erreur lors du décodage JSON : %v", err)
+			}
+		}
+		FindEmail := false
+		for i, element := range data {
+			if element.Email == Email {
+				FindEmail = true
+				fmt.Println(element.Password)
+				data[i].Password = Password
+				fmt.Println(element.Password)
+				InfoOfUserWhoAreConnected = element
+				break
+			}
+		}
+		if !FindEmail {
+			fmt.Println("Email not found")
+		} else {
+			fmt.Println(data)
+			updatedJsonData, err := json.MarshalIndent(data, "", "  ")
+			if err != nil {
+				log.Fatalf("Erreur lors de l'encodage JSON : %v", err)
+			}
+			if err := ioutil.WriteFile(filePath, updatedJsonData, 0644); err != nil {
+				log.Fatalf("Erreur lors de l'écriture dans le fichier : %v", err)
+			}
+			IsLogin = true
+			http.Redirect(w, r, "/home", http.StatusSeeOther)
 		}
 	}
 }

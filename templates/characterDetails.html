@@ -6,32 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/characterDetails.css">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     <title>Document</title>
 </head>
 <body>
     <header class="header">
-        {{template "navbar"}}
+        {{if eq .IsLogin true}}
+            {{template "navbar2"}}
+        {{else}}
+            {{template "navbar1"}}
+        {{end}}
     </header>
     <div class="container">
-        <h1>Name : {{.Name}}</h1>
+        <h1>Name : {{.Data.Name}}</h1>
         <div class="introduction">
-            <h1>Title : {{.Title}}</h1>
-            <h2>Vision : {{.Vision}}</h2>
-            <h3>Weapon : {{.Weapon}}</h3>
-            <h3>Gender : {{.Gender}}</h3>
-            <h3>Nation : {{.Nation}}</h3>
-            <h3>Affiliation : {{.Affiliation}}</h3>
-            <h3>Rarity : {{.Rarity}}</h3>
-            <h3>Release : {{.Release}}</h3>
-            <h3>Constellation : {{.Constellation}}</h3>
-            <h3>Birthday : {{.Birthday}}</h3>
-            <h3>Vision Key : {{.VisionKey}}</h3>
-            <h3>Weapon Type : {{.WeaponType}}</h3>
-            <p>{{.Description}}</p>
+            <h1>Title : {{.Data.Title}}</h1>
+            <h2>Vision : {{.Data.Vision}}</h2>
+            <h3>Weapon : {{.Data.Weapon}}</h3>
+            <h3>Gender : {{.Data.Gender}}</h3>
+            <h3>Nation : {{.Data.Nation}}</h3>
+            <h3>Affiliation : {{.Data.Affiliation}}</h3>
+            <h3>Rarity : {{.Data.Rarity}}</h3>
+            <h3>Release : {{.Data.Release}}</h3>
+            <h3>Constellation : {{.Data.Constellation}}</h3>
+            <h3>Birthday : {{.Data.Birthday}}</h3>
+            <h3>Vision Key : {{.Data.VisionKey}}</h3>
+            <h3>Weapon Type : {{.Data.WeaponType}}</h3>
+            <p>{{.Data.Description}}</p>
         </div>
         <div class="skill-talents">
             <h2>Skill talents : </h2>
-            {{range .SkillTalents}}
+            {{range .Data.SkillTalents}}
                 <h4>Name : {{.Name}}</h4>
                 <h4>Unlock : {{.Unlock}}</h4>
                 <h4>Description : {{.Description}}</h4>
@@ -50,7 +55,7 @@
         </div>
         <div class="passive-talents">
             <h2>Passive talents</h2>
-            {{range .PassiveTalents}}
+            {{range .Data.PassiveTalents}}
                 <h4>Name : {{.Name}}</h4>
                 <h4>Unlock : {{.Unlock}}</h4>
                 <h4>Description : {{.Description}}</h4>
@@ -59,7 +64,7 @@
         </div>
         <div class="constellations">
             <h2>Constellations : </h2>
-            {{range .Constellations}}
+            {{range .Data.Constellations}}
                 <h4>Name : {{.Name}}</h4>
                 <h4>Unlock : {{.Unlock}}</h4>
                 <h4>Description : {{.Description}}</h4>
@@ -69,22 +74,22 @@
         <div class="ascension-materials">
             <h2>Ascension Materials :</h2>
             <select id="materials">
-                {{range .AscensionMaterials.Level20}}
+                {{range .Data.AscensionMaterials.Level20}}
                 <option value="1" data-Name="{{.Name}}" data-Value="{{.Value}}">Level 20</option>
                 {{end}}
-                {{range .AscensionMaterials.Level40}}
+                {{range .Data.AscensionMaterials.Level40}}
                 <option value="2" data-Name="{{.Name}}" data-Value="{{.Value}}">Level 40</option>
                 {{end}}
-                {{range .AscensionMaterials.Level50}}
+                {{range .Data.AscensionMaterials.Level50}}
                 <option value="3" data-Name="{{.Name}}" data-Value="{{.Value}}">Level 50</option>
                 {{end}}
-                {{range .AscensionMaterials.Level60}}
+                {{range .Data.AscensionMaterials.Level60}}
                 <option value="4" data-Name="{{.Name}}" data-Value="{{.Value}}">Level 60</option>
                 {{end}}
-                {{range .AscensionMaterials.Level70}}
+                {{range .Data.AscensionMaterials.Level70}}
                 <option value="5" data-Name="{{.Name}}" data-Value="{{.Value}}">Level 70</option>
                 {{end}}
-                {{range .AscensionMaterials.Level80}}
+                {{range .Data.AscensionMaterials.Level80}}
                 <option value="6" data-Name="{{.Name}}" data-Value="{{.Value}}">Level 80</option>
                 {{end}}
             </select>

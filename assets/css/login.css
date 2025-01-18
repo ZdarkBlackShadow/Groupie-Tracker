@@ -1,31 +1,46 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @font-face {
     font-family: 'GenshinFont';
     src: url('/static/ttf/zh-cn.ttf') format('truetype');
 }
 
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
 
 body {
-    background-image: url('/static/image/background.webp');
+    background-image: url('/static/image/backgroundlogin.jpg');
     background-size: cover;
+    background-repeat: no-repeat;
+    background-position: end; 
+    background-attachment: fixed;
     height: 100vh;
-    display: grid;
-    place-content: center;
+    display: flex;
+    justify-content: center;
     font-family: 'GenshinFont', sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 :root {
-    --linear-grad: linear-gradient(to right, #141E30, #243B55);
-    --grad-clr1: #141E30;
-    --grad-clr2: #243B55;
+    --linear-grad: linear-gradient(to right, rgba(128, 90, 167, 0.7), rgba(204, 133, 162, 0.7));
+    --grad-clr1: #804EA5;
+    --grad-clr2: #CC85A2;
+    --bg-container: rgba(30, 20, 60, 0.7);
+    --btn-hover-bg: #F0E6FF;
+    --btn-hover-text: #804EA5;
 }
 
 .container {
-    position: relative;
+    position: absolute;
+    top: 20%;
     width: 850px;
     height: 500px;
-    background-color: #fff;
-    box-shadow: 25px 30px 55px #5557;
+    background-color: var(--bg-container);
+    border-radius: 20px;
+    box-shadow: 25px 30px 55px rgba(85, 85, 119, 0.5);
     overflow: hidden;
     font-family: 'Poppins', sans-serif;
 }
@@ -56,10 +71,10 @@ form {
 }
 
 h1 {
-    color: var(--grad-clr1);
+    color: var(--btn-hover-bg);
 }
 
-.social-container{
+.social-container {
     margin: 20px 0px;
 }
 
@@ -75,7 +90,8 @@ h1 {
 }
 
 span {
-    font-size: 12px;
+    font-size: 25px;
+    color: #faeafe;
 }
 
 .infield {
@@ -84,15 +100,16 @@ span {
     width: 100%;
 }
 
-input{
-    width : 100%;
+input {
+    width: 100%;
     padding: 12px 15px;
     background-color: #f3f3f3;
+    border-radius: 20px;
     border: none;
     outline: none;
 }
 
-label{
+label {
     position: absolute;
     left: 50%;
     top: 100%;
@@ -100,15 +117,15 @@ label{
     width: 0%;
     height: 2px;
     background: var(--linear-grad);
-    transform: 0.3s;
+    transition: 0.3s;
 }
 
 input:focus ~ label {
     width: 100%;
 }
 
-a{
-    color: #333;
+a {
+    color: #fffdfd;
     font-size: 14px;
     text-decoration: none;
     margin: 15px 0px;
@@ -119,7 +136,7 @@ a.forgot {
     border-bottom: 2px solid #eee;
 }
 
-button{
+button {
     border-radius: 20px;
     border: 1px solid var(--grad-clr1);
     background: var(--grad-clr2);
@@ -137,13 +154,13 @@ button{
 }
 
 .form-container button:hover {
-    background: #fff;
-    color: var(--grad-clr1);
+    background: var(--btn-hover-bg);
+    color: var(--btn-hover-text);
 }
 
 .overlay-container {
     position: absolute;
-    top :0;
+    top: 0;
     left: 60%;
     width: 40%;
     height: 100%;
@@ -151,6 +168,7 @@ button{
     transition: transform 0.6s ease-in-out;
     z-index: 9;
 }
+
 #overlayBtn {
     cursor: pointer;
     position: absolute;
@@ -162,9 +180,10 @@ button{
     border: 1px solid #fff;
     border-radius: 20px;
     background: transparent;
+    margin-top: -6px;
 }
 
-.overlay{
+.overlay {
     position: relative;
     background: var(--linear-grad);
     color: #fff;
@@ -173,7 +192,8 @@ button{
     width: 250%;
     transition: transform 0.6s ease-in-out;
 }
-.overlay-panel{
+
+.overlay-panel {
     position: absolute;
     display: flex;
     align-items: center;
@@ -185,25 +205,30 @@ button{
     width: 340px;
     transition: 0.6s ease-in-out;
 }
+
 .overlay-left {
     right: 60%;
     transform: translateX(-12%);
 }
+
 .overlay-right {
     right: 0;
     transform: translateX(0%);
 }
+
 .overlay-panel h1 {
     color: #fff;
 }
-p{
+
+p {
     font-size: 14px;
     font-weight: 300;
     line-height: 20px;
     letter-spacing: 0.5px;
     margin: 25px 0px 35px;
 }
-.overlay-panel button{
+
+.overlay-panel button {
     border: none;
     background-color: transparent;
 }
@@ -211,27 +236,31 @@ p{
 .right-panel-active .overlay-container {
     transform: translateX(-150%);
 }
+
 .right-panel-active .overlay {
     transform: translateX(50%);
 }
+
 .right-panel-active .overlay-left {
     transform: translateX(25%);
 }
+
 .right-panel-active .overlay-right {
     transform: translateX(35%);
 }
 
-.right-panel-active .sign-in-container{
+.right-panel-active .sign-in-container {
     transform: translateX(20%);
     opacity: 0;
 }
 
-.right-panel-active .sign-up-container{
+.right-panel-active .sign-up-container {
     transform: translateX(66.7%);
     opacity: 1;
     z-index: 5;
     animation: show 0.6ms;
 }
+
 @keyframes show {
     0%, 50% {
         opacity: 0;
@@ -242,9 +271,12 @@ p{
         z-index: 5;
     }
 }
-.btnScaled{
+
+.btnScaled {
     animation: scaleBtn 0.6s;
+    margin-top: -6px;
 }
+
 @keyframes scaleBtn {
     0% {
         width: 143.67px;
@@ -256,3 +288,116 @@ p{
         width: 143.67px;
     }
 }
+
+/*Header for the login*/
+
+.header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 68px;
+    padding: 10px 40px;
+    background: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1;
+}
+
+/* Logo alignment to the left */
+.header img {
+    width: 64%;
+    border-radius: 8px;
+    max-width: 100px;
+}
+
+/* Center the search bar */
+.navbar {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    flex: 1;
+    margin: 20px;
+}
+
+.search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0; /* Prevents the search bar from shrinking */
+    margin: 20px;
+    flex-direction: row;
+}
+
+.search-bar input {
+    font-size: 16px;
+    padding: 6px 12px;
+    border: 2px solid white;
+    border-radius: 4px;
+    background-color: transparent;
+    color: white;
+    outline: none;
+    width: 200px; /* Adjust width as needed */
+    transition: 0.3s;
+}
+
+.search-bar input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.search-bar button {
+    margin-left: -35px;
+    margin-right: -85px;
+    font-size: 16px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.search-bar button:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.search-bar input:focus {
+    border-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Right-side links */
+.navbar a {
+    position: relative;
+    font-size: 18px;
+    color: white;
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 60px;
+}
+
+.navbar a::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: white;
+    transition: 0.3s;
+}
+
+.navbar a:hover::before {
+    width: 100%;
+}
+
+/* Ensure links align to the right */
+.navbar a:first-child {
+    margin-left: auto;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: end;
+}
+

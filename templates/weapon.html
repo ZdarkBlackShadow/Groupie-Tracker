@@ -5,18 +5,174 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/weapons.css">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     <title>Genshin</title>
 </head>
 <body>
     <header class="header">
-        {{template "navbar"}}
+        {{if eq .IsLogin true}}
+            {{template "navbar2"}}
+        {{else}}
+            {{template "navbar1"}}
+        {{end}}
     </header>
-    {{range .Data}}
-        <a href="/weapons/details?id={{.Id}}">
-            <h1>{{.Name}}</h1>
-            <img src="{{.ImageUrl}}">
-        </a>
-    {{end}}
+    <button id="openMenuButton">Ouvrir les Filtres</button>
+    <div id="overlay"></div>
+
+    <div id="filterMenu">
+        <form id="filterForm">
+            <h4>Rarity</h4>
+            <div class="filter-group">
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="3"> 3
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="4"> 4
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="5"> 5
+                </label>
+            </div>
+            <h4>Type</h4>
+            <div class="filter-group">
+                <label>
+                    <input type="checkbox" name="type_filter" value="Sword"> Sword
+                </label>
+                <label>
+                    <input type="checkbox" name="type_filter" value="Polearm"> Polearm
+                </label>
+                <label>
+                    <input type="checkbox" name="type_filter" value="Bow"> Bow
+                </label>
+                <label>
+                    <input type="checkbox" name="type_filter" value="Claymore"> Claymore
+                </label>
+                <label>
+                    <input type="checkbox" name="type_filter" value="Catalyst"> Catalyst
+                </label>
+            </div>
+            <h4>Base attack</h4>
+            <div class="filter-group">
+                <label>
+                    <input type="radio" name="attack_filter" value="highest"> the highest
+                </label>
+                <label>
+                    <input type="radio" name="attack_filter" value="weakest"> the weakest
+                </label>
+            </div>
+            <h4>Sort by</h4>
+            <div class="filter-group">
+                <label>
+                    <input type="radio" name="sort_filter" value="az"> A-Z
+                </label>
+                <label>
+                    <input type="radio" name="sort_filter" value="za"> Z-A
+                </label>
+            </div>
+
+            <div class="buttons">
+                <button type="button" id="applyFiltersButton">Appliquer</button>
+                <button type="button" id="resetFiltersButton">Réinitialiser</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const openMenuButton = document.getElementById('openMenuButton');
+        const filterMenu = document.getElementById('filterMenu');
+        const overlay = document.getElementById('overlay');
+        const applyFiltersButton = document.getElementById('applyFiltersButton');
+        const resetFiltersButton = document.getElementById('resetFiltersButton');
+
+        // Ouvrir le menu des filtres
+        openMenuButton.addEventListener('click', () => {
+            filterMenu.style.display = 'block';
+            overlay.style.display = 'block';
+        });
+
+        // Fermer le menu des filtres lorsqu'on clique en dehors
+        overlay.addEventListener('click', () => {
+            filterMenu.style.display = 'none';
+            overlay.style.display = 'none';
+        });
+
+        // Appliquer les filtres et mettre à jour l'URL
+        applyFiltersButton.addEventListener('click', () => {
+            const formData = new FormData(document.getElementById('filterForm'));
+            const rarityFilter = formData.getAll('rarity_filter');
+            const typeFilter = formData.getAll('type_filter');
+            const attackFilter = formData.get('attack_filter');
+            const sortFilter = formData.get('sort_filter');
+            const url = new URL(window.location);
+
+            // Supprimer les anciens filtres
+            url.searchParams.delete('rarity_filter');
+            url.searchParams.delete('type_filter');
+            url.searchParams.delete('attack_filter');
+            url.searchParams.delete('sort_filter');
+
+            // Ajouter les nouveaux filtres
+            rarityFilter.forEach(rarity_filter => {
+                url.searchParams.append('rarity_filter', rarity_filter)
+            });
+            typeFilter.forEach(type_filter => {
+                url.searchParams.append('type_filter', type_filter)
+            });
+            if (attackFilter) {
+                url.searchParams.append('attack_filter', attackFilter);
+            }
+            if (sortFilter) {
+                url.searchParams.append('sort_filter', sortFilter);
+            }
+
+            // Mettre à jour l'URL sans recharger la page
+            window.history.replaceState({}, '', url);
+
+            // Fermer le menu
+            filterMenu.style.display = 'none';
+            overlay.style.display = 'none';
+
+            window.location.reload();
+        });
+
+        // Réinitialiser les filtres
+        resetFiltersButton.addEventListener('click', () => {
+            const form = document.getElementById('filterForm');
+            form.reset();
+
+            const url = new URL(window.location);
+
+            // Supprimer tous les filtres de l'URL
+            url.searchParams.delete('filter');
+            url.searchParams.delete('sort_filter');
+            url.searchParams.delete('rarity_filter');
+
+            // Mettre à jour l'URL sans recharger la page
+            window.history.replaceState({}, '', url);
+
+            console.log('Filtres réinitialisés');
+        });
+    </script>
+    <div class="weapon-list">
+        {{range .Data}}
+            <a href="/weapons/details?id={{.Id}}">
+                <div class="weapon-card">
+                    <h1>{{.Name}}</h1>
+                    <img src="{{.ImageUrl}}">
+                </div>
+            </a>
+        {{end}}
+    </div>
+    <div class="switch-Page">
+        {{if gt .CurrentPage 1}}
+        <a href="?page={{sub .CurrentPage 1}}">Previous</a>
+        {{end}}
+        <span>Page {{.CurrentPage}} of {{.TotalPages}}</span>
+        {{if lt .CurrentPage .TotalPages}}
+        <a href="?page={{add .CurrentPage 1}}">Next</a>
+        {{end}}
+    </div>
 </body>
 </html>
 {{end}}

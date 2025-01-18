@@ -6,41 +6,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Genshin</title>
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
 </head>
 <body>
     <header class="header">
-        {{template "navbar"}}
+        {{if eq .IsLogin true}}
+            {{template "navbar2"}}
+        {{else}}
+            {{template "navbar1"}}
+        {{end}}
     </header>
-    <h1>{{.Name}}</h1>
-    <img src="{{.ImageUrl}}" alt="">
-    <p>Description : {{.Description}}</p>
-    <h2>Region {{.Region}}</h2>
-    <h2>Type : {{.Type}}</h2>
-    <h2>Family : {{.Family}}</h2>
-    <h2>Faction : {{.Faction}}</h2>
+    <h1>{{.Data.Name}}</h1>
+    <img src="{{.Data.ImageUrl}}" alt="">
+    <p>Description : {{.Data.Description}}</p>
+    <h2>Region {{.Data.Region}}</h2>
+    <h2>Type : {{.Data.Type}}</h2>
+    <h2>Family : {{.Data.Family}}</h2>
+    <h2>Faction : {{.Data.Faction}}</h2>
     <h2>Element(s) : </h2>
-    {{range .Elements}}
+    {{range .Data.Elements}}
         {{.}}
     {{end}}
     <h2>Drop(s) :</h2>
-    {{range .Drops}}
+    {{range .Data.Drops}}
         <h3>Name : {{.Name}}</h3>
         <h3>Rarity : {{.Rarity}}</h3>
         <h3>Minimum Level : {{.MinimumLevel}}</h3>
     {{end}}
     <h2>Artifacts :</h2>
-    {{range .Artifacts}}
+    {{range .Data.Artifacts}}
         <h3>Name : {{.Name}}</h3>
         <h3>Set : {{.Set}}</h3>
         <h3>Rarity : {{.Rarity}}</h3>
     {{end}}
     <h2>Descriptions of the enemies</h2>
-    {{range .Descriptions }}
+    {{range .Data.Descriptions }}
         <h3>Name : {{.Name}}</h3>
         <p>Description : {{.Description}}</p>
     {{end}}
     <h2>Elemental Descriptions</h2>
-    {{range .ElementalDescriptions}}
+    {{range .Data.ElementalDescriptions}}
         <h3>Element : {{.Element}}</h3>
         <p>Description : {{.Description}}</p>
     {{end}}

@@ -6,21 +6,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Genshin</title>
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/weaponDetails.css">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
 </head>
 <body>
-    <header>
-        {{template "navbar"}}
+    <header class="header">
+        {{if eq .IsLogin true}}
+            {{template "navbar2"}}
+        {{else}}
+            {{template "navbar1"}}
+        {{end}}
     </header>
-    <h1>{{.Name}}</h1>
-    <img src="{{.ImageUrl}}">
-    <h2>Type : {{.Type}}</h2>
-    <h2>Rarity : {{.Rarity}}</h2>
-    <h2>Base Attack : {{.BaseAttack}}</h2>
-    <h2>Sub Stat : {{.SubStat}}</h2>
-    <h2>{{.PassiveName}} : </h2>
-    <p>{{.PassiveDescription}}</p>
-    <h2>Location : {{.Location}}</h2>
-    <h2>Ascension Materialb : {{.AscensionMaterial}}</h2>
+    <h1 class="Name">{{.Data.Name}}</h1>
+    <div class="Content">
+        <div class="stats">
+            <h2>Type</h2>
+            <p>{{.Data.Type}}</p>
+            <h2>Rarity</h2>
+            <p>{{.Data.Rarity}}</p>
+            <h2>Base Attack</h2>
+            <p>{{.Data.BaseAttack}}</p>
+            <h2>Sub Stat</h2>
+            <p>{{.Data.SubStat}}</p>
+        </div>
+        <div class="image">
+            <img src="{{.Data.ImageUrl}}">
+        </div>
+        <div class="passive">
+            <h2>{{.Data.PassiveName}}</h2>
+            <p>{{.Data.PassiveDescription}}</p>
+            <h2>Location</h2>
+            <p>{{.Data.Location}}</p>
+            <h2>Ascension Material</h2>
+            <p>{{.Data.AscensionMaterial}}</p>
+        </div>
+    </div>
 </body>
 </html>
 {{end}}

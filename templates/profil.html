@@ -1,13 +1,13 @@
-{{define "domains"}}
+{{define "profil"}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="/static/css/domains.css">
+    <link rel="stylesheet" href="/static/css/profil.css">
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
-    <title>Genshin</title>
+    <title>Profil</title>
 </head>
 <body>
     <header class="header">
@@ -17,16 +17,11 @@
             {{template "navbar1"}}
         {{end}}
     </header>
-    <div class="domain-list">
-        {{range .Data}}
-            <a href="/domains/details?id={{.Id}}">
-                <div class="domain-card">
-                    <h1>Domain's name : {{.Name}}</h1>
-                    <img src="/static/image/Domain_Card.webp" alt="">
-                </div>
-            </a>
-        {{end}}
-    </div>
+    <div class="container">
+        <h2>Welcome</h2>
+        <p>You're connected.</p>
+        <a href="/logout">Logout</a>
+      </div>
 </body>
 </html>
 {{end}}

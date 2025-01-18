@@ -7,12 +7,20 @@ import (
 	"main.go/service"
 )
 
+type DataEnemies struct {
+	Data    []service.Enemies
+	IsLogin bool
+}
+
+type DataEnemieDetails struct {
+	Data    service.Enemies
+	IsLogin bool
+}
+
 func Enemies(w http.ResponseWriter, r *http.Request) {
-	type DataArtifacts struct {
-		Data []service.Enemies
-	}
-	Data := DataArtifacts{
-		Data: service.GetAllEnemiesDetails(),
+	Data := DataEnemies{
+		Data:    API_Data.AllEnnemies,
+		IsLogin: IsLogin,
 	}
 	err1 := Templates.ExecuteTemplate(w, "enemies", Data)
 	if err1 != nil {
@@ -25,7 +33,10 @@ func EnemiesDetails(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Missing 'id' parameter", http.StatusBadRequest)
 		return
 	}
-	Data := service.GetAllDetailsAboutOneEnemie(Id)
+	Data := DataEnemieDetails{
+		Data:    service.GetAllDetailsAboutOneEnemie(Id),
+		IsLogin: IsLogin,
+	}
 	err := Templates.ExecuteTemplate(w, "enemiesDetails", Data)
 	if err != nil {
 		http.Error(w, "Error rendering template", http.StatusInternalServerError)

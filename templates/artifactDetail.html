@@ -6,26 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/artifactDetail.css">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     <title>Genshin</title>
 </head>
 <body>
     <header class="header">
-        {{template "navbar"}}
+        {{if eq .IsLogin true}}
+            {{template "navbar2"}}
+        {{else}}
+            {{template "navbar1"}}
+        {{end}}
     </header>
     <div class="container">
-        <h1>{{.Name}}</h1>
-        <h2>Max Rarity: {{.MaxRarity}}</h2>
-        {{if eq .OnePieceBonus ""}}
+        <h1>{{.Data.Name}}</h1>
+        <h2>Max Rarity: {{.Data.MaxRarity}}</h2>
+        {{if eq .Data.OnePieceBonus ""}}
             <h2>Two pieces bonus</h2>
-            <p>{{.TwoPiecesBonus}}</p>
+            <p>{{.Data.TwoPiecesBonus}}</p>
             <h2>Four Piece Bonus</h2>
-            <p>{{.FourPiecesBonus}}</p>
+            <p>{{.Data.FourPiecesBonus}}</p>
         {{else}}
             <h2>One piece bonus</h2>
-            <p>{{.OnePieceBonus}}</p>
+            <p>{{.Data.OnePieceBonus}}</p>
         {{end}}
         <div class="container2">
-            {{range .AllUrlImageAvailable}}
+            {{range .Data.AllUrlImageAvailable}}
                 <img src="{{.}}" alt="">
             {{end}}
         </div>

@@ -6,25 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/bossDetails.css">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     <title>Document</title>
 </head>
 <body>
     <header class="header">
-        {{template "navbar"}}
+        {{if eq .IsLogin true}}
+            {{template "navbar2"}}
+        {{else}}
+            {{template "navbar1"}}
+        {{end}}
     </header>
         <div class="boss-card ">
-            <h1>Name : {{.Name}}</h1>
-            <img src="{{.ImageURL}}">
+            <h1>Name : {{.Data.Name}}</h1>
+            <img src="{{.Data.ImageURL}}">
             <h2>Description</h2>
-            <p>{{.Description}}</p>
+            <p>{{.Data.Description}}</p>
             <h2>Possible drops</h2>
-            {{range .Drops}}
+            {{range .Data.Drops}}
                 <h3>{{.Name}}</h3>
                 <h4>Rarity : {{.Rarity}}</h4>
                 <h4>Source : {{.Source}}</h4>
             {{end}}
             <h2>Possible Artifact(s)</h2>
-            {{range .Artifacts}}
+            {{range .Data.Artifacts}}
                 <h3>{{.Name}}</h3>
                 <h4>Maximum Rarity : {{.MaxRarity}}</h4>
             {{end}}

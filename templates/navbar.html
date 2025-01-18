@@ -1,13 +1,26 @@
-{{define "navbar"}}
+{{define "navbar1"}}
     <a href="/home"><img src="/static/image/logo.webp"></a>
     <nav class="navbar">
-        <form class="search-bar" action="/result" method="GET">
+        <form class="search-bar" action="/search" method="GET">
             <input type="text" name="query" placeholder="Search...">
             <button type="submit">🔍</button>
         </form>
         <div class="nav-links">
             <a href="/collections">Collections</a>
             <a href="/login">Connexion</a>
+        </div>
+    </nav>
+{{end}}
+{{define "navbar2"}}
+    <a href="/home"><img src="/static/image/logo.webp"></a>
+    <nav class="navbar">
+        <form class="search-bar" action="/search" method="GET">
+            <input type="text" name="query" placeholder="Search...">
+            <button type="submit">🔍</button>
+        </form>
+        <div class="nav-links">
+            <a href="/collections">Collections</a>
+            <a href="/profil">Profil</a>
         </div>
     </nav>
 {{end}}

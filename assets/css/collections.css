@@ -1,0 +1,32 @@
+@font-face {
+    font-family: 'GenshinFont';
+    src: url('/static/ttf/zh-cn.ttf') format('truetype');
+}
+
+body {
+    font-family: 'GenshinFont';
+    margin: 0;
+    padding: 0;
+}
+
+.scroll-container {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+}
+
+.scroll-item {
+    flex: 0 0 auto;
+    width: 150px;
+    height: 100px;
+    margin-right: 10px;
+    background-color: #4CAF50;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+}

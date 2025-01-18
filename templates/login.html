@@ -8,18 +8,22 @@
     <title>Gensin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
-    <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/login.css">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
 </head>
 <body>
     <header class="header">
-        {{template "navbar"}}
+        {{if eq .isLogin true}}
+            {{template "navbar2"}}
+        {{else}}
+            {{template "navbar1"}}
+        {{end}}
     </header>
     <script src="/static/js/main.js"></script>
     <div class="container" id="container">
         <div class="form-container sign-up-container">
             <form action="/login/newregister" method="post">
-                <span>or use your email for registration</span>
+                <span>Sign up</span>
                 <div class="infield">
                     <label for="NewRegisterEmail"></label>
                     <input type="email" placeholder="Your email" name="NewRegisterEmail" id="NewRegisterEmail" required/>
@@ -36,8 +40,8 @@
             </form>
         </div>
         <div class="form-container sign-in-container">
-            <form action="/login/register">
-                <span>or use your account</span>
+            <form action="/login/register" method="post">
+                <span>Login</span>
                 <div class="infield">
                     <label for="RegisterEmail"></label>
                     <input type="email" placeholder="Email" name="RegisterEmail" id="RegisterEmail"/>
@@ -46,7 +50,7 @@
                     <label for="RegisterPassword"></label>
                     <input type="password" placeholder="Password" name="RegisterPassword" id="RegisterPassword"/>
                 </div>
-                <a href="#" class="forgot">Forgot your password?</a>
+                <a href="/login/password-forgot" class="forgot">Forgot your password ?</a>
                 <button>Sign In</button>
             </form>
         </div>
@@ -54,7 +58,7 @@
             <div class="overlay">
                 <div class="overlay-panel overlay-left">
                     <h1>Welcome Back!</h1>
-                    <p>To keep connected with us please login with your personal info</p>
+                    <p>To keep connected with us please login with your email</p>
                     <button>Sign In</button>
                 </div>
                 <div class="overlay-panel overlay-right">

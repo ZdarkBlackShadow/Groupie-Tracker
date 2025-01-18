@@ -4,14 +4,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/character.css">
     <title>Document</title>
 </head>
 <body>
     <header class="header">
-        {{template "navbar"}}
+        {{if eq .IsLogin true}}
+            {{template "navbar2"}}
+        {{else}}
+            {{template "navbar1"}}
+        {{end}}
     </header>
+    <button id="openMenuButton">Ouvrir les Filtres</button>
+
+    <div id="overlay"></div>
+
+    <div id="filterMenu">
+        <form id="filterForm">
+            <h4>Gender</h4>
+            <div class="filter-group">
+                <label>
+                    <input type="checkbox" name="gender_filter" value="male"> Male
+                </label>
+                <label>
+                    <input type="checkbox" name="gender_filter" value="female"> Female
+                </label>
+            </div>
+
+            <h4>Nations</h4>
+            <div class="filter-group">
+                <label>
+                    <input type="checkbox" name="nations_filter" value="Mondstadt"> Mondstat
+                </label>
+                <label>
+                    <input type="checkbox" name="nations_filter" value="Fontaine"> Fontaine
+                </label>
+                <label>
+                    <input type="checkbox" name="nations_filter" value="Inazuma"> Inazuma
+                </label>
+                <label>
+                    <input type="checkbox" name="nations_filter" value="Liyue"> Liyue
+                </label>
+                <label>
+                    <input type="checkbox" name="nations_filter" value="Natlan"> Natlan
+                </label>
+                <label>
+                    <input type="checkbox" name="nations_filter" value="Sumeru"> Sumeru
+                </label>
+                <label>
+                    <input type="checkbox" name="nations_filter" value="Snezhnaya"> Snezhnaya
+                </label>
+            </div>
+
+            <h4>Rarity</h4>
+            <div class="filter-group">
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="5"> Rarity 5
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="4"> Rarity 4
+                </label>
+            </div>
+
+            <h4>Element</h4>
+            <div class="filter-group">
+                <label>
+                    <input type="checkbox" name="elements_filter" value="Geo"> Geo
+                </label>
+                <label>
+                    <input type="checkbox" name="elements_filter" value="Electro"> Electro
+                </label>
+                <label>
+                    <input type="checkbox" name="elements_filter" value="Hydro"> Hydro
+                </label>
+                <label>
+                    <input type="checkbox" name="elements_filter" value="Pyro"> Pyro
+                </label>
+                <label>
+                    <input type="checkbox" name="elements_filter" value="Dendro"> Dendro
+                </label>
+                <label>
+                    <input type="checkbox" name="elements_filter" value="Anemo"> Anemo
+                </label>
+                <label>
+                    <input type="checkbox" name="elements_filter" value="Cryo"> Cryo
+                </label>
+            </div>
+            <h4>Sort by</h4>
+            <div class="filter-group">
+                <label>
+                    <input type="radio" name="release_date_filter" value="az"> A-Z
+                </label>
+                <label>
+                    <input type="radio" name="release_date_filter" value="za"> Z-A
+                </label>
+                <label>
+                    <input type="radio" name="release_date_filter" value="recent"> Most recent release date
+                </label>
+                <label>
+                    <input type="radio" name="release_date_filter" value="oldest"> Most oldest release date
+                </label>
+            </div>
+
+            <div class="buttons">
+                <button type="button" id="applyFiltersButton">Appliquer</button>
+                <button type="button" id="resetFiltersButton">Réinitialiser</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const openMenuButton = document.getElementById('openMenuButton');
+        const filterMenu = document.getElementById('filterMenu');
+        const overlay = document.getElementById('overlay');
+        const applyFiltersButton = document.getElementById('applyFiltersButton');
+        const resetFiltersButton = document.getElementById('resetFiltersButton');
+
+        // Ouvrir le menu des filtres
+        openMenuButton.addEventListener('click', () => {
+            filterMenu.style.display = 'block';
+            overlay.style.display = 'block';
+        });
+
+        // Fermer le menu des filtres lorsqu'on clique en dehors
+        overlay.addEventListener('click', () => {
+            filterMenu.style.display = 'none';
+            overlay.style.display = 'none';
+        });
+
+        // Appliquer les filtres et mettre à jour l'URL
+        applyFiltersButton.addEventListener('click', () => {
+            const formData = new FormData(document.getElementById('filterForm'));
+            const genderFilter = formData.getAll('gender_filter');
+            const nationsFilter = formData.getAll('nations_filter');
+            const rarityFilter = formData.getAll('rarity_filter');
+            const elementsFilter = formData.getAll('elements_filter');
+            const releaseDateFilter = formData.get('release_date_filter');
+            const url = new URL(window.location);
+
+            // Supprimer les anciens filtres
+            url.searchParams.delete('gender_filter');
+            url.searchParams.delete('rarity_filter');
+            url.searchParams.delete('elements_filter');
+            url.searchParams.delete('release_date_filter');
+            url.searchParams.delete('nations_filter');
+
+            // Ajouter les nouveaux filtres
+            genderFilter.forEach(gender_filter => {
+                url.searchParams.append('gender_filter', gender_filter)
+            });
+            nationsFilter.forEach(nations_filter => {
+                url.searchParams.append('nations_filter', nations_filter)
+            });
+            rarityFilter.forEach(rarity_filter => {
+                url.searchParams.append('rarity_filter', rarity_filter)
+            });
+            elementsFilter.forEach(elements_filter => {
+                url.searchParams.append('elements_filter', elements_filter)
+            });
+            if (releaseDateFilter) {
+                url.searchParams.append('release_date_filter', releaseDateFilter);
+            }
+
+            // Mettre à jour l'URL sans recharger la page
+            window.history.replaceState({}, '', url);
+
+            // Fermer le menu
+            filterMenu.style.display = 'none';
+            overlay.style.display = 'none';
+
+            window.location.reload();
+        });
+
+        // Réinitialiser les filtres
+        resetFiltersButton.addEventListener('click', () => {
+            const form = document.getElementById('filterForm');
+            form.reset();
+
+            const url = new URL(window.location);
+
+            // Supprimer tous les filtres de l'URL
+            url.searchParams.delete('filter');
+            url.searchParams.delete('birthday_filter');
+            url.searchParams.delete('release_date_filter');
+
+            // Mettre à jour l'URL sans recharger la page
+            window.history.replaceState({}, '', url);
+
+            console.log('Filtres réinitialisés');
+        });
+    </script>
     <div class="character-list">
         {{range .Data}}
             <a href="/characters/details?id={{.Id}}">

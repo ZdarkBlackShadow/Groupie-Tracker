@@ -1,34 +1,53 @@
 [
   {
-    "Email": "adrien@lecomte.org",
-    "Password": "password",
+    "Email": "ZdarkBlackShadow@gmail.com",
+    "Password": "azerty",
     "Collecttions": {
-      "Artifacts": null,
-      "Boss": null,
-      "Characters": null,
-      "Domains": null,
-      "Elements": null,
-      "Enemies": null,
-      "Weapons": null,
-      "Materials": {
-        "BossMaterials": null
-      }
+      "Collections": [
+        {
+          "Name": "Berserker",
+          "Image": "https://genshin.jmp.blue/artifacts/berserker/circlet-of-logos",
+          "Type": "artifact",
+          "LinkToTheRessource": "/artifacts/details?id=berserker",
+          "DateAdded": "time.Date(2025, time.January, 18, 10, 30, 25, 141816800, time.Local)"
+        }
+      ]
     }
   },
   {
-    "Email": "ZdarkBlackShadow@gmail.com",
-    "Password": "password",
+    "Email": "adrien@lecomte.org",
+    "Password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
     "Collecttions": {
-      "Artifacts": null,
-      "Boss": null,
-      "Characters": null,
-      "Domains": null,
-      "Elements": null,
-      "Enemies": null,
-      "Weapons": null,
-      "Materials": {
-        "BossMaterials": null
-      }
+      "Collections": null
+    }
+  },
+  {
+    "Email": "test@gmail.com",
+    "Password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "Collecttions": {
+      "Collections": null
+    }
+  },
+  {
+    "Email": "lynette@gmail.com",
+    "Password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "Collecttions": {
+      "Collections": [
+        {
+          "Name": "Deepwood Memories",
+          "Image": "https://genshin.jmp.blue/artifacts/deepwood-memories/circlet-of-logos",
+          "Type": "artifact",
+          "LinkToTheRessource": "/artifacts/details?id=deepwood-memories",
+          "DateAdded": "time.Date(2025, time.January, 17, 18, 15, 53, 151717800, time.Local)"
+        },
+        {
+          "Name": "Crimson Witch of Flames",
+          "Image": "https://genshin.jmp.blue/artifacts/crimson-witch-of-flames/circlet-of-logos",
+          "Type": "artifact",
+          "LinkToTheRessource": "/artifacts/details?id=crimson-witch-of-flames",
+          "DateAdded": "time.Date(2025, time.January, 17, 18, 15, 55, 253986400, time.Local)"
+        }
+      ]
     }
   }
 ]

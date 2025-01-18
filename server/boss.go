@@ -7,12 +7,20 @@ import (
 	"main.go/service"
 )
 
+type DataBoss struct {
+	Data    []service.BossStruct
+	IsLogin bool
+}
+
+type DataBossDetails struct {
+	Data    service.BossStruct
+	IsLogin bool
+}
+
 func Boss(w http.ResponseWriter, r *http.Request) {
-	type DataArtifacts struct {
-		Data []service.BossStruct
-	}
-	Data := DataArtifacts{
-		Data: service.GetAllBossDetails(),
+	Data := DataBoss{
+		Data:    API_Data.AllBoss,
+		IsLogin: IsLogin,
 	}
 	err1 := Templates.ExecuteTemplate(w, "boss", Data)
 	if err1 != nil {
@@ -26,7 +34,10 @@ func BossDetails(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Missing 'id' parameter", http.StatusBadRequest)
 		return
 	}
-	Data := service.GetAllDetailsAboutOneBoss(Id)
+	Data := DataBossDetails{
+		Data:    service.GetAllDetailsAboutOneBoss(Id),
+		IsLogin: IsLogin,
+	}
 	err := Templates.ExecuteTemplate(w, "bossDetails", Data)
 	if err != nil {
 		http.Error(w, "Error rendering template", http.StatusInternalServerError)

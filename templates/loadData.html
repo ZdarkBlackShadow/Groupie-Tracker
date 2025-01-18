@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loading</title>
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/loading.css">
     <script>
         function updateProgress() {
             fetch('/progress')
@@ -13,7 +15,7 @@
                     const progressBar = document.getElementById('progress-bar');
                     progressBar.value = data.progress;
                     if (data.progress >= 100) {
-                        window.location.href = '/loaded';
+                        window.location.href = '/home';
                     } else {
                         setTimeout(updateProgress, 500);
                     }
@@ -23,8 +25,10 @@
     </script>
 </head>
 <body>
-    <h1>Loading...</h1>
-    <progress id="progress-bar" max="100" value="0"></progress>
-</body>
+    <h1 class="gradient-text">Loading...</h1>
+    <div class="progress-container">
+      <progress id="progress-bar" max="100" value="0"></progress>
+    </div>
+  </body>
 </html>
 {{end}}

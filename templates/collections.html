@@ -4,10 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/collections.css">
     <title>Collections</title>
 </head>
 <body>
-    {{template "navbar"}}
+    <header class="header">
+        {{if eq .IsLogin true}}
+            {{template "navbar2"}}
+        {{else}}
+            {{template "navbar1"}}
+        {{end}}
+    </header>
+    {{if eq .IsLogin true}}
+        {{range .Data.Collections}}
+        <div>
+            <a href="{{.LinkToTheRessource}}">
+                <h2>{{.Name}}</h2>
+                <img src="{{.Image}}" alt="{{.Name}}">
+                <p>{{.DateAdded}}</p>
+            </a>
+            <a href="/remove-from-the-collection?name={{.Name}}&type={{.Type}}">Remove From the collection</a>
+        </div>
+        {{end}}
+    {{else}}
+        <p>You're not connected</p>
+    {{end}}
 </body>
 </html>
 {{end}}

@@ -6,18 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/elementDetails.css">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     <title>>Genshin</title>
 </head>
 <body>
     <header class="header">
-        {{template "navbar"}}
+        {{if eq .IsLogin true}}
+            {{template "navbar2"}}
+        {{else}}
+            {{template "navbar1"}}
+        {{end}}
     </header>
     <div class="element-card">
-        <h1>{{.Name}}</h1>
-        <img src="{{.ImageUrl}}">
-        <h2>Key : {{.Key}}</h2>
+        <h1>{{.Data.Name}}</h1>
+        <img src="{{.Data.ImageUrl}}">
+        <h2>Key : {{.Data.Key}}</h2>
         <h2>Reactions :</h2>
-        {{range .Reactions}}
+        {{range .Data.Reactions}}
             <h3>Reactions's name : {{.Name}}</h3>
             <h3>Element(s) concerned</h3>
             {{range .Elements}}

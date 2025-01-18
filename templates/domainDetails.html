@@ -7,19 +7,24 @@
     <title>Genshin</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/domainDetails.css">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
 </head>
 <body>
     <header class="header">
-        {{template "navbar"}}
+        {{if eq .IsLogin true}}
+            {{template "navbar2"}}
+        {{else}}
+            {{template "navbar1"}}
+        {{end}}
     </header>
     <div class="domain-card">
-        <h1>Domain's name : {{.Name}}</h1>
-        <h2>Type : {{.Type}}</h2>
-        <h2>Description : {{.Description}}</h2>
-        <h2>Location : {{.Location}}</h2>
-        <h2>Nation : {{.Nation}}</h2>
+        <h1>Domain's name : {{.Data.Name}}</h1>
+        <h2>Type : {{.Data.Type}}</h2>
+        <h2>Description : {{.Data.Description}}</h2>
+        <h2>Location : {{.Data.Location}}</h2>
+        <h2>Nation : {{.Data.Nation}}</h2>
         <h2>Requirements : </h2>
-        {{range .Requirements}}
+        {{range .Data.Requirements}}
             <h3>Level : {{.Level}}</h3>
             <h3>Adventure rank required : {{.AdventureRank}}</h3>
             <h3>Recommended Level : {{.RecommendedLevel}}</h3>
@@ -29,11 +34,11 @@
             {{end}}
         {{end}}
         <h2>Recommended Elements :</h2>
-        {{range .RecommendedElements}}
+        {{range .Data.RecommendedElements}}
             <h4>{{.}}</h4>
         {{end}}
         <h2>Rewards :</h2>
-        {{range .Rewards}}
+        {{range .Data.Rewards}}
             <h4>Day : {{.Day}}</h4>
             <h4>Rewards Details</h4>
             {{range .Details}}

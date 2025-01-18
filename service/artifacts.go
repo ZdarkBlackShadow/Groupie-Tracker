@@ -71,7 +71,6 @@ func GetAllDataAboutOneArtifact(name string) ArtifactDetails {
 
 	return ArtifactDetails{}
 }
-
 func GetAllArtifactsDetails() []ArtifactDetails {
 	AllNames := GetAllNameOfArtifacts()
 	AllArtifactsDetails := []ArtifactDetails{}

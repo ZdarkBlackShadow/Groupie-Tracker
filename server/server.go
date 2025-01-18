@@ -1,7 +1,9 @@
 package server
 
 import (
+	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 	"sync"
 	"time"
@@ -9,34 +11,42 @@ import (
 	"main.go/service"
 )
 
-func add(x, y int) int {
-	return x + y
-}
-
-func sub(x, y int) int {
-	return x - y
-}
-
 var (
 	funcMap = template.FuncMap{
 		"add": add,
 		"sub": sub,
 	}
-	TimeWhenConnect time.Time
-	Mu              sync.Mutex
-	API_Data        service.AllData
+	TimeWhenConnect           time.Time     = time.Now()
+	TimeToReload              time.Duration = 1 * time.Hour
+	IsLoad                    bool          = false
+	Mu                        sync.Mutex
+	API_Data                  service.AllData
+	Progress                  int
+	Templates                 *template.Template
+	IsLogin                   bool = false
+	InfoOfUserWhoAreConnected service.Register
 )
 
-var Templates = template.Must(template.New("").Funcs(funcMap).ParseGlob("templates/*.html"))
-var IsLoad bool = false
+func add(x, y int) int { return x + y }
+func sub(x, y int) int { return x - y }
 
 func InitServer() {
+	var err error
+	Templates, err = template.New("").Funcs(funcMap).ParseGlob("templates/*.html")
+	if err != nil {
+		log.Fatalf("Error parsing templates: %v", err)
+	}
 	//Initilalisation des routes
 	http.HandleFunc("/home", Home)
 	http.HandleFunc("/login", Login)
 	http.HandleFunc("/login/newregister", LoginNewRegister)
 	http.HandleFunc("/login/register", LoginRegister)
+	http.HandleFunc("/login/password-forgot", PasswordForgot)
+	http.HandleFunc("/login/password-forgot/form", PasswordForgotData)
+	http.HandleFunc("/logout", Logout)
 	http.HandleFunc("/collections", Collections)
+	http.HandleFunc("/add-to-collection", handleAddToCollection)
+	http.HandleFunc("/remove-from-the-collection", RemoveCollections)
 	http.HandleFunc("/artifacts", Artifacts)
 	http.HandleFunc("/artifacts/details", ArtifactsDetails)
 	http.HandleFunc("/boss", Boss)
@@ -54,6 +64,8 @@ func InitServer() {
 	http.HandleFunc("/food", Food)
 	http.HandleFunc("/search", Search)
 	http.HandleFunc("/loading", Loading)
+	http.HandleFunc("/progress", ProgressF)
+	http.HandleFunc("/profil", Profil)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case "/home":
@@ -68,37 +80,55 @@ func InitServer() {
 	fileserver := http.FileServer(http.Dir("./assets"))
 	http.Handle("/static/", http.StripPrefix("/static/", fileserver))
 	//Initialisation du serveur
+	fmt.Println("http://localhost:8000/home")
 	http.ListenAndServe("localhost:8000", nil)
 }
 
-func TimeCheckerToReloadData() bool {
-	/*
-		Function who check if hour pass for reload the data,
-		return true if it's more than one hour and false else
-	*/
-	if !IsLoad {
-		API_Data = LoadAllData()
-		IsLoad = true
-		TimeWhenConnect = time.Now()
-	}
-	if time.Since(TimeWhenConnect) > time.Hour {
-		API_Data = LoadAllData()
-		TimeWhenConnect = time.Now()
-		return true
-	} else {
-		return false
-	}
-}
+func LoadAllData() {
+	//artifacts
+	artifacts := service.GetAllArtifactsDetails()
+	Mu.Lock()
+	API_Data.ALLArtifacts = artifacts
+	Progress = 20
+	Mu.Unlock()
+	//boss
+	bosses := service.GetAllBossDetails()
+	Mu.Lock()
+	API_Data.AllBoss = bosses
+	Progress = 40
+	Mu.Unlock()
+	//characters
+	characters := service.GetAllCharactersDetails()
+	Mu.Lock()
+	API_Data.AllCharacters = characters
+	Progress = 50
+	Mu.Unlock()
+	//Domain
+	domains := service.GetAllDomainsDetails()
+	Mu.Lock()
+	API_Data.AllDomain = domains
+	Progress = 60
+	Mu.Unlock()
+	//Elements
+	elements := service.GetAllElementsDetails()
+	Mu.Lock()
+	API_Data.AllElement = elements
+	Progress = 70
+	Mu.Unlock()
+	//Enemies
+	enemies := service.GetAllEnemiesDetails()
+	Mu.Lock()
+	API_Data.AllEnnemies = enemies
+	Progress = 80
+	Mu.Unlock()
+	//Weapons
+	weapons := service.GetAllWeaponsDetails()
+	Mu.Lock()
+	API_Data.AllWeapons = weapons
+	Progress = 90
+	Mu.Unlock()
 
-func LoadAllData() service.AllData {
-	result := service.AllData{
-		ALLArtifacts:  service.GetAllArtifactsDetails(),
-		AllBoss:       service.GetAllBossDetails(),
-		AllCharacters: service.GetAllCharactersDetails(),
-		AllDomain:     service.GetAllDomainsDetails(),
-		AllElement:    service.GetAllElementsDetails(),
-		AllEnnemies:   service.GetAllEnemiesDetails(),
-		AllWeapons:    service.GetAllWeaponsDetails(),
-	}
-	return result
+	Mu.Lock()
+	Progress = 100
+	Mu.Unlock()
 }
