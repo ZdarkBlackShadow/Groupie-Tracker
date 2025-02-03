@@ -5,11 +5,11 @@
     "Collecttions": {
       "Collections": [
         {
-          "Name": "Berserker",
-          "Image": "https://genshin.jmp.blue/artifacts/berserker/circlet-of-logos",
-          "Type": "artifact",
-          "LinkToTheRessource": "/artifacts/details?id=berserker",
-          "DateAdded": "time.Date(2025, time.January, 18, 10, 30, 25, 141816800, time.Local)"
+          "Name": "",
+          "Image": "",
+          "Type": "",
+          "LinkToTheRessource": "",
+          "DateAdded": ""
         }
       ]
     }

@@ -1,0 +1,28 @@
+{{define "potionsdetails"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Potion</title>
+</head>
+<body>
+    <header class="header">
+        {{if eq .IsLogin true}}
+            {{template "navbar2"}}
+        {{else}}
+            {{template "navbar1"}}
+        {{end}}
+    </header>
+    <h1>{{.Data.Name}}</h1>
+    <p>{{.Data.Effect}}</p>
+    <h1>{{.Data.Rarity}}</h1>
+    {{range .Data.Crafting}}
+        <h2>{{.Item}}</h2>
+        <span>{{.Quantity}}</span>
+    {{end}}
+    <img src="{{.Data.ImageUrl}}" alt="{{.Data.Name}}">
+</html>
+{{end}}

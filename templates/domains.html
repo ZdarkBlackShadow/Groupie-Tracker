@@ -19,12 +19,13 @@
     </header>
     <div class="domain-list">
         {{range .Data}}
-            <a href="/domains/details?id={{.Id}}">
-                <div class="domain-card">
+            <div class="domain-card">
+                <a href="/domains/details?id={{.Id}}">
                     <h1>Domain's name : {{.Name}}</h1>
                     <img src="/static/image/Domain_Card.webp" alt="">
-                </div>
-            </a>
+                </a>
+                <a href="/add-to-collection?type=domain&id={{.Id}}">Add to collections</a>
+            </div>
         {{end}}
     </div>
 </body>

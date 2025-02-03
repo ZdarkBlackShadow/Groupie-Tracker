@@ -12,11 +12,6 @@ import (
 	"main.go/service"
 )
 
-type ArtifactRequest struct {
-	Type string `json:"type"`
-	ID   string `json:"id"`
-}
-
 type DataCollectionsStruct struct {
 	Data    service.Collecttions
 	IsLogin bool
@@ -74,69 +69,130 @@ func GetCollectionOfTheActualUser() service.Register {
 }
 
 func handleAddToCollection(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
-		return
-	}
-
-	var req ArtifactRequest
-	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		http.Error(w, "Invalid request body", http.StatusBadRequest)
-		return
-	}
 	if IsLogin {
-		// Appeler la fonction avec l'ID reçu
-		AddToCollectionUser(req.Type, req.ID)
-
-		// Réponse au client
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(map[string]string{
-			"message": "Artifact added successfully",
-			"id":      req.ID,
-		})
-	} else {
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(map[string]string{
-			"message": "You're not connected",
-			"id":      "",
-		})
-	}
-}
-
-func AddToCollectionUser(Type string, id string) {
-	if Type == "artifact" {
-		artifact := service.GetAllDataAboutOneArtifact(id)
-		temp := service.CollectionsStruct{
-			Name:               artifact.Name,
-			Image:              artifact.ImageURL,
-			Type:               Type,
-			LinkToTheRessource: "/artifacts/details?id=" + artifact.Id,
-			DateAdded:          time.Now().Local().GoString(),
+		Type, id := r.URL.Query().Get("type"), r.URL.Query().Get("id")
+		var temp service.CollectionsStruct
+		var LinkToRedirect string
+		switch Type {
+		case "artifact":
+			artifact := service.GetAllDataAboutOneArtifact(id)
+			LinkToRedirect = "/artifacts"
+			temp = service.CollectionsStruct{
+				Name:               artifact.Name,
+				Image:              artifact.ImageURL,
+				Type:               Type,
+				LinkToTheRessource: "/artifacts/details?id=" + artifact.Id,
+				DateAdded:          time.Now().Local().GoString(),
+			}
+		case "character":
+			character := service.GetAllDetailsAboutOneCharacters(id)
+			LinkToRedirect = "/characters"
+			temp = service.CollectionsStruct{
+				Name:               character.Name,
+				Image:              character.ImageUrl,
+				Type:               Type,
+				LinkToTheRessource: "",
+				DateAdded:          time.Now().Local().GoString(),
+			}
+		case "domain":
+			domain := service.GetAllDetailsAboutOneDomains(id)
+			LinkToRedirect = "/domains"
+			temp = service.CollectionsStruct{
+				Name:               domain.Name,
+				Image:              domain.ImageUrl,
+				Type:               Type,
+				LinkToTheRessource: "",
+				DateAdded:          time.Now().Local().GoString(),
+			}
+		case "element":
+			element := service.GetAllDetailsAboutOneElements(id)
+			LinkToRedirect = "/elements"
+			temp = service.CollectionsStruct{
+				Name:               element.Name,
+				Image:              element.ImageUrl,
+				Type:               Type,
+				LinkToTheRessource: "",
+				DateAdded:          time.Now().Local().GoString(),
+			}
+		case "enemie":
+			enemie := service.GetAllDetailsAboutOneEnemie(id)
+			LinkToRedirect = "/enemies"
+			temp = service.CollectionsStruct{
+				Name:               enemie.Name,
+				Image:              enemie.ImageUrl,
+				Type:               Type,
+				LinkToTheRessource: "",
+				DateAdded:          time.Now().Local().GoString(),
+			}
+		case "weapon":
+			LinkToRedirect = "/weapons"
+			weapon := service.GetAllDataAboutOneWeapon(id)
+			temp = service.CollectionsStruct{
+				Name:               weapon.Name,
+				Image:              weapon.ImageUrl,
+				Type:               Type,
+				LinkToTheRessource: "",
+				DateAdded:          time.Now().Local().GoString(),
+			}
+		case "boss":
+			LinkToRedirect = "/boss"
+			boss := service.GetAllDetailsAboutOneBoss(id)
+			temp = service.CollectionsStruct{
+				Name:               boss.Name,
+				Image:              boss.ImageURL,
+				Type:               Type,
+				LinkToTheRessource: "",
+				DateAdded:          time.Now().Local().GoString(),
+			}
+		case "food":
+			LinkToRedirect = "/food"
+			food := service.GetAllDetailsOfFood()
+			temp = service.CollectionsStruct{
+				Name:               food[id].Name,
+				Image:              "",
+				Type:               Type,
+				LinkToTheRessource: "",
+				DateAdded:          time.Now().Local().GoString(),
+			}
+		case "potion":
+			LinkToRedirect = "/potions"
+			potion := service.GetDetailsAboutOnePotion(id, service.GetAllPotions())
+			temp = service.CollectionsStruct{
+				Name:               potion.Name,
+				Image:              potion.ImageUrl,
+				Type:               Type,
+				LinkToTheRessource: "",
+				DateAdded:          time.Now().Local().GoString(),
+			}
+		default:
+			fmt.Println("Error with the type")
 		}
 		InfoOfUserWhoAreConnected.Collecttions.Collections = append(InfoOfUserWhoAreConnected.Collecttions.Collections, temp)
-	}
-	var data []service.Register
-	filecontent, err := ioutil.ReadFile("./data/data.json")
-	if err != nil {
-		log.Fatalf("Erreur lors de la lecture du fichier : %v", err)
-	}
-	if err := json.Unmarshal(filecontent, &data); err != nil {
-		log.Fatalf("Erreur lors du décodage JSON : %v", err)
-	}
-	for i, element := range data {
-		if element.Email == InfoOfUserWhoAreConnected.Email && element.Password == InfoOfUserWhoAreConnected.Password {
-			data[i].Collecttions = InfoOfUserWhoAreConnected.Collecttions
-			break
+		var data []service.Register
+		filecontent, err := ioutil.ReadFile("./data/data.json")
+		if err != nil {
+			log.Fatalf("Erreur lors de la lecture du fichier : %v", err)
 		}
-	}
-	updatedJsonData, err := json.MarshalIndent(data, "", "  ")
-	if err != nil {
-		log.Fatalf("Erreur lors de l'encodage JSON : %v", err)
-	}
-	if err := ioutil.WriteFile("./data/data.json", updatedJsonData, 0644); err != nil {
-		log.Fatalf("Erreur lors de l'écriture dans le fichier : %v", err)
+		if err := json.Unmarshal(filecontent, &data); err != nil {
+			log.Fatalf("Erreur lors du décodage JSON : %v", err)
+		}
+		for i, element := range data {
+			if element.Email == InfoOfUserWhoAreConnected.Email && element.Password == InfoOfUserWhoAreConnected.Password {
+				data[i].Collecttions = InfoOfUserWhoAreConnected.Collecttions
+				break
+			}
+		}
+		updatedJsonData, err := json.MarshalIndent(data, "", "  ")
+		if err != nil {
+			log.Fatalf("Erreur lors de l'encodage JSON : %v", err)
+		}
+		if err := ioutil.WriteFile("./data/data.json", updatedJsonData, 0644); err != nil {
+			log.Fatalf("Erreur lors de l'écriture dans le fichier : %v", err)
+		}
+		http.Redirect(w, r, LinkToRedirect, http.StatusSeeOther)
+	} else {
+		fmt.Println("You're not connected")
+		http.Redirect(w, r, "/artifacts", http.StatusSeeOther)
 	}
 }
 

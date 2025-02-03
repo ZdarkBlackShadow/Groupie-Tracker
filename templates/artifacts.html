@@ -18,7 +18,7 @@
         {{end}}
     </header>
 
-    <button id="openMenuButton">Ouvrir les Filtres</button>
+    <button id="openMenuButton" class="OpenFilter">Ouvrir les Filtres</button>
     <div id="overlay"></div>
 
     <div id="filterMenu">
@@ -77,26 +77,17 @@
             const rarityFilter = formData.getAll('rarity_filter');
             const sortFilter = formData.get('sort_filter');
             const url = new URL(window.location);
-
-            // Supprimer les anciens filtres
             url.searchParams.delete('rarity_filter');
             url.searchParams.delete('sort_filter');
-
-            // Ajouter les nouveaux filtres
             rarityFilter.forEach(rarity_filter => {
                 url.searchParams.append('rarity_filter', rarity_filter)
             });
             if (sortFilter) {
                 url.searchParams.append('sort_filter', sortFilter);
             }
-
-            // Mettre à jour l'URL sans recharger la page
             window.history.replaceState({}, '', url);
-
-            // Fermer le menu
             filterMenu.style.display = 'none';
             overlay.style.display = 'none';
-
             window.location.reload();
         });
 
@@ -118,52 +109,18 @@
             console.log('Filtres réinitialisés');
         });
     </script>
-
     <div class="artifacts-container">
         {{range .Data}}
-                <div class="artifact-card">
-                    <a href="/artifacts/details?id={{.Id}}">
-                        <h1 class="artifact-name">Name: {{.Name}}</h1>
-                        <h2 class="artifact-rarity">Max Rarity: {{.MaxRarity}}</h2>
-                        <img src="{{.ImageURL}}" alt="{{.Name}}" class="artifact-image">
-                    </a>
-                    <button class="action-button" onclick="addToCollection('{{.Id}}')">Add to Collection</button>
-                </div>
+            <div class="artifact-card">
+                <a href="/artifacts/details?id={{.Id}}">
+                    <h1 class="artifact-name">Name: {{.Name}}</h1>
+                    <h2 class="artifact-rarity">Max Rarity: {{.MaxRarity}}</h2>
+                    <img src="{{.ImageURL}}" alt="{{.Name}}" class="artifact-image">
+                </a>
+                <a href="/add-to-collection?type=artifact&id={{.Id}}">Add to Collection</a>
+            </div>
         {{end}}
     </div>
-    <script>
-        function addToCollection(artifactId) {
-            fetch('/add-to-collection', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ 
-                    type: "artifact",
-                    id: artifactId 
-                })
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else if (response.status === 201) {
-                    throw new Error('Failed to add artifact to collection');
-                } else if (response.status === 511) {
-                    throw new Error('Failed to add artifact to collection');
-                } else {
-                    throw new Error('Failed to add artifact to collection');
-                }
-            })
-            .then(data => {
-                console.log('Artifact added to collection:', data);
-                alert(data.message);
-            })
-            .catch(error => {
-                console.error('Error adding artifact to collection:', error);
-                alert('Error adding artifact with ID: ' + artifactId);
-            });
-        }
-    </script>
     <div class="switch-Page">
         {{if gt .CurrentPage 1}}
         <a href="?page={{sub .CurrentPage 1}}">Previous</a>

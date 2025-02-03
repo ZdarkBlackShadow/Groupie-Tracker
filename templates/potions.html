@@ -1,0 +1,27 @@
+{{define "potions"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Potions</title>
+</head>
+<body>
+    <header class="header">
+        {{if eq .IsLogin true}}
+            {{template "navbar2"}}
+        {{else}}
+            {{template "navbar1"}}
+        {{end}}
+    </header>
+    {{range .Data}}
+        <h1>{{.Name}}</h1>
+        <img src="{{.ImageUrl}}" alt="{{.Name}}">
+        <a href="/potions/details?id={{.Id}}">Details</a>
+        <a href="/add-to-collection?type=potion&id={{.Id}}">Add to collections</a>
+    {{end}}
+</body>
+</html>
+{{end}}

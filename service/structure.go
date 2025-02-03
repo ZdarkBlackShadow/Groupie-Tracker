@@ -491,11 +491,8 @@ type Potion struct {
 	Effect   string         `json:"effect"`
 	Rarity   int            `json:"rarity"`
 	Crafting []CraftingItem `json:"crafting"`
-}
-
-type PotionsData struct {
-	ID      string            `json:"id"`
-	Potions map[string]Potion `json:"-"`
+	ImageUrl string
+	Id       string
 }
 
 type Register struct {
@@ -525,4 +522,6 @@ type AllData struct {
 	AllElement    []Element
 	AllEnnemies   []Enemies
 	AllWeapons    []Weapon
+	AllPotions    []Potion
+	AllFood       map[string]FoodStruct
 }

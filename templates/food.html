@@ -6,50 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dishes</title>
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
-    <style>
-        body { font-family: Arial, sans-serif; }
-        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f4f4f4; }
-        .recipe { margin-top: 10px; }
-    </style>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
-    <h1>List of Dishes</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Rarity</th>
-                <th>Type</th>
-                <th>Effect</th>
-                <th>Recipe</th>
-                <th>Description</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{range .}}
-            <tr>
-                <td>{{.Name}}</td>
-                <td>{{.Rarity}}</td>
-                <td>{{.Type}}</td>
-                <td>{{.Effect}}</td>
-                <td>
-                    {{if .HasRecipe}}
-                    <ul>
-                        {{range .Recipe}}
-                        <li>{{.Quantity}} x {{.Item}}</li>
-                        {{end}}
-                    </ul>
-                    {{else}}
-                    <em>No recipe available</em>
+    <header class="header">
+        {{if eq .IsLogin true}}
+            {{template "navbar2"}}
+        {{else}}
+            {{template "navbar1"}}
+        {{end}}
+    </header>
+        {{range .Data}}
+        <tr>
+            <h1>{{.Name}}</h1>
+            <h1>{{.Rarity}}</h1>
+            <h1>{{.Type}}</h1>
+            <h1>{{.Effect}}</h1>
+            <h1>
+                {{if .HasRecipe}}
+                <ul>
+                    {{range .Recipe}}
+                    <li>{{.Quantity}} x {{.Item}}</li>
                     {{end}}
-                </td>
-                <td>{{.Description}}</td>
-            </tr>
-            {{end}}
-        </tbody>
-    </table>
+                </ul>
+                {{else}}
+                <em>No recipe available</em>
+                {{end}}
+            </h1>
+            <h1>{{.Description}}</h1>
+        </tr>
+        {{end}}
 </body>
 </html>
 {{end}}

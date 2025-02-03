@@ -156,12 +156,13 @@
     </script>
     <div class="weapon-list">
         {{range .Data}}
-            <a href="/weapons/details?id={{.Id}}">
                 <div class="weapon-card">
-                    <h1>{{.Name}}</h1>
-                    <img src="{{.ImageUrl}}">
+                    <a href="/weapons/details?id={{.Id}}">
+                        <h1>{{.Name}}</h1>
+                        <img src="{{.ImageUrl}}">
+                    </a>
+                    <a href="/add-to-collection?type=weapon&id={{.Id}}">Add to collections</a>
                 </div>
-            </a>
         {{end}}
     </div>
     <div class="switch-Page">

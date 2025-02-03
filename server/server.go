@@ -62,6 +62,8 @@ func InitServer() {
 	http.HandleFunc("/weapons", Weapons)
 	http.HandleFunc("/weapons/details", WeaponDetails)
 	http.HandleFunc("/food", Food)
+	http.HandleFunc("/potions", Potions)
+	http.HandleFunc("/potions/details", PotionsDetails)
 	http.HandleFunc("/search", Search)
 	http.HandleFunc("/loading", Loading)
 	http.HandleFunc("/progress", ProgressF)
@@ -85,11 +87,23 @@ func InitServer() {
 }
 
 func LoadAllData() {
+	//food
+	food := service.GetAllDetailsOfFood()
+	Mu.Lock()
+	API_Data.AllFood = food
+	Progress = 10
+	Mu.Unlock()
 	//artifacts
 	artifacts := service.GetAllArtifactsDetails()
 	Mu.Lock()
 	API_Data.ALLArtifacts = artifacts
 	Progress = 20
+	Mu.Unlock()
+	//potions
+	potions := service.GetAllPotions()
+	Mu.Lock()
+	API_Data.AllPotions = potions
+	Progress = 30
 	Mu.Unlock()
 	//boss
 	bosses := service.GetAllBossDetails()

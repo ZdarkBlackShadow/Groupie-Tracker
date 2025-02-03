@@ -19,12 +19,15 @@
     </header>
     <div class="boss-list">
         {{range .Data}}
-            <a href="/boss/details?id={{.Id}}">
-                <div class="boss-card ">
-                    <h1>Name : {{.Name}}</h1>
-                    <img src="{{.ImageURL}}">
+            <div class="boss-card ">
+                <a href="/boss/details?id={{.Id}}">
+                <h1>Name : {{.Name}}</h1>
+                <img src="{{.ImageURL}}">
+                </a>
+                <div>
+                    <a href="/add-to-collection?type=boss&id={{.Id}}">Add to collections</a>
                 </div>
-            </a>
+            </div>
         {{end}}
     </div>
 </body>
