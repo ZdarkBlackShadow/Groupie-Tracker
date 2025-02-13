@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/elementDetails.css">
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
-    <title>>Genshin</title>
+    <title>{{.Data.Name}} - Genshin Impact</title>
 </head>
 <body>
     <header class="header">
@@ -17,20 +17,36 @@
             {{template "navbar1"}}
         {{end}}
     </header>
-    <div class="element-card">
-        <h1>{{.Data.Name}}</h1>
-        <img src="{{.Data.ImageUrl}}">
-        <h2>Key : {{.Data.Key}}</h2>
-        <h2>Reactions :</h2>
-        {{range .Data.Reactions}}
-            <h3>Reactions's name : {{.Name}}</h3>
-            <h3>Element(s) concerned</h3>
-            {{range .Elements}}
-                <h4>{{.}}</h4>
-            {{end}}
-            <p>Description : {{.Description}}</p>
-        {{end}}
-    </div>
+
+    <main class="element-details">
+        <div class="element-card" data-element="{{.Data.Name}}">
+            <div class="element-header">
+                <h1 class="element-title element-{{.Data.Name}}">{{.Data.Name}}</h1>
+                <div class="element-icon element-{{.Data.Name}}">
+                    <img src="{{.Data.ImageUrl}}" alt="{{.Data.Name}} icon">
+                </div>
+            </div>
+
+            <div class="reactions-section">
+                <h2 class="reactions-title">Elemental Reactions</h2>
+                {{range .Data.Reactions}}
+                    <div class="reaction-card">
+                        <h3 class="reaction-name element-{{$.Data.Name}}">
+                            {{.Name}}
+                        </h3>
+                        <div class="elements-concerned">
+                            {{range .Elements}}
+                                <span class="element-tag element-{{.}}">
+                                    {{.}}
+                                </span>
+                            {{end}}
+                        </div>
+                        <p class="reaction-description">{{.Description}}</p>
+                    </div>
+                {{end}}
+            </div>
+        </div>
+    </main>
 </body>
 </html>
 {{end}}

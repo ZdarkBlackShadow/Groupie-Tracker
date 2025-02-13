@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/artifacts.css">
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
-    <title>Genshin</title>
+    <title>Genshin Impact - Artifacts</title>
 </head>
 <body>
     <header class="header">
@@ -18,7 +18,9 @@
         {{end}}
     </header>
 
-    <button id="openMenuButton" class="OpenFilter">Ouvrir les Filtres</button>
+    <h1 class="page-title">Artifacts</h1>
+    
+    <button id="openMenuButton">Filter Artifacts</button>
     <div id="overlay"></div>
 
     <div id="filterMenu">
@@ -46,78 +48,24 @@
             </div>
 
             <div class="buttons">
-                <button type="button" id="applyFiltersButton">Appliquer</button>
                 <button type="button" id="resetFiltersButton">Réinitialiser</button>
+                <button type="button" id="applyFiltersButton">Appliquer</button>
             </div>
         </form>
     </div>
 
-    <script>
-        const openMenuButton = document.getElementById('openMenuButton');
-        const filterMenu = document.getElementById('filterMenu');
-        const overlay = document.getElementById('overlay');
-        const applyFiltersButton = document.getElementById('applyFiltersButton');
-        const resetFiltersButton = document.getElementById('resetFiltersButton');
-
-        // Ouvrir le menu des filtres
-        openMenuButton.addEventListener('click', () => {
-            filterMenu.style.display = 'block';
-            overlay.style.display = 'block';
-        });
-
-        // Fermer le menu des filtres lorsqu'on clique en dehors
-        overlay.addEventListener('click', () => {
-            filterMenu.style.display = 'none';
-            overlay.style.display = 'none';
-        });
-
-        // Appliquer les filtres et mettre à jour l'URL
-        applyFiltersButton.addEventListener('click', () => {
-            const formData = new FormData(document.getElementById('filterForm'));
-            const rarityFilter = formData.getAll('rarity_filter');
-            const sortFilter = formData.get('sort_filter');
-            const url = new URL(window.location);
-            url.searchParams.delete('rarity_filter');
-            url.searchParams.delete('sort_filter');
-            rarityFilter.forEach(rarity_filter => {
-                url.searchParams.append('rarity_filter', rarity_filter)
-            });
-            if (sortFilter) {
-                url.searchParams.append('sort_filter', sortFilter);
-            }
-            window.history.replaceState({}, '', url);
-            filterMenu.style.display = 'none';
-            overlay.style.display = 'none';
-            window.location.reload();
-        });
-
-        // Réinitialiser les filtres
-        resetFiltersButton.addEventListener('click', () => {
-            const form = document.getElementById('filterForm');
-            form.reset();
-
-            const url = new URL(window.location);
-
-            // Supprimer tous les filtres de l'URL
-            url.searchParams.delete('filter');
-            url.searchParams.delete('sort_filter');
-            url.searchParams.delete('rarity_filter');
-
-            // Mettre à jour l'URL sans recharger la page
-            window.history.replaceState({}, '', url);
-
-            console.log('Filtres réinitialisés');
-        });
-    </script>
+    <script src="/static/js/artifacts.js"></script>
     <div class="artifacts-container">
         {{range .Data}}
             <div class="artifact-card">
                 <a href="/artifacts/details?id={{.Id}}">
-                    <h1 class="artifact-name">Name: {{.Name}}</h1>
-                    <h2 class="artifact-rarity">Max Rarity: {{.MaxRarity}}</h2>
+                    <h1 class="artifact-name">{{.Name}}</h1>
+                    <h2 class="artifact-rarity">{{.MaxRarity}}</h2>
                     <img src="{{.ImageURL}}" alt="{{.Name}}" class="artifact-image">
                 </a>
-                <a href="/add-to-collection?type=artifact&id={{.Id}}">Add to Collection</a>
+                <div class="add-collection">
+                    <a href="/add-to-collection?type=artifact&id={{.Id}}">Add to Collection</a>
+                </div>
             </div>
         {{end}}
     </div>

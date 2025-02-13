@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/boss.css">
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
-    <title>Document</title>
+    <title>Genshin Impact - World Bosses</title>
 </head>
 <body>
     <header class="header">
@@ -17,15 +17,22 @@
             {{template "navbar1"}}
         {{end}}
     </header>
+
+    <h1 class="page-title">World Bosses</h1>
+
     <div class="boss-list">
         {{range .Data}}
-            <div class="boss-card ">
+            <div class="boss-card">
                 <a href="/boss/details?id={{.Id}}">
-                <h1>Name : {{.Name}}</h1>
-                <img src="{{.ImageURL}}">
+                    <div class="boss-image-container">
+                        <img src="{{.ImageURL}}" alt="{{.Name}}">
+                    </div>
+                    <div class="boss-info">
+                        <h2 class="boss-name">{{.Name}}</h2>
+                    </div>
                 </a>
-                <div>
-                    <a href="/add-to-collection?type=boss&id={{.Id}}">Add to collections</a>
+                <div class="add-collection">
+                    <a href="/add-to-collection?type=boss&id={{.Id}}">Add to Collection</a>
                 </div>
             </div>
         {{end}}

@@ -93,7 +93,7 @@ func Artifacts(w http.ResponseWriter, r *http.Request) {
 	if err != nil || page < 1 {
 		page = 1
 	}
-	pagedData, totalPages := PaginateArtifacts(allArtifacts, page, 15)
+	pagedData, totalPages := PaginateArtifacts(allArtifacts, page, 16)
 	Data := DataArtifacts{
 		Data:        pagedData,
 		TotalPages:  totalPages,

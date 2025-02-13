@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/characterDetails.css">
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
-    <title>Document</title>
+    <title>{{.Data.Name}} - Character Details</title>
 </head>
 <body>
     <header class="header">
@@ -17,113 +17,156 @@
             {{template "navbar1"}}
         {{end}}
     </header>
-    <div class="container">
-        <h1>Name : {{.Data.Name}}</h1>
-        <div class="introduction">
-            <h1>Title : {{.Data.Title}}</h1>
-            <h2>Vision : {{.Data.Vision}}</h2>
-            <h3>Weapon : {{.Data.Weapon}}</h3>
-            <h3>Gender : {{.Data.Gender}}</h3>
-            <h3>Nation : {{.Data.Nation}}</h3>
-            <h3>Affiliation : {{.Data.Affiliation}}</h3>
-            <h3>Rarity : {{.Data.Rarity}}</h3>
-            <h3>Release : {{.Data.Release}}</h3>
-            <h3>Constellation : {{.Data.Constellation}}</h3>
-            <h3>Birthday : {{.Data.Birthday}}</h3>
-            <h3>Vision Key : {{.Data.VisionKey}}</h3>
-            <h3>Weapon Type : {{.Data.WeaponType}}</h3>
-            <p>{{.Data.Description}}</p>
-        </div>
-        <div class="skill-talents">
-            <h2>Skill talents : </h2>
-            {{range .Data.SkillTalents}}
-                <h4>Name : {{.Name}}</h4>
-                <h4>Unlock : {{.Unlock}}</h4>
-                <h4>Description : {{.Description}}</h4>
-                <h3>Upgrades : </h3>
-                {{range .Upgrades}}
-                    <h5>Name : {{.Name}}</h5>
-                    <h5>Value : {{.Value}}</h5>
-                {{end}}
-                <h4>Type : {{.Type}}</h4>
-                <h3>Atribute scaling</h3>
-                {{range .AttributeScaling}}
-                    <h5>Name : {{.Name}}</h5>
-                    <h5>Value : {{.Value}}</h5>
-                {{end}}
-            {{end}}
-        </div>
-        <div class="passive-talents">
-            <h2>Passive talents</h2>
-            {{range .Data.PassiveTalents}}
-                <h4>Name : {{.Name}}</h4>
-                <h4>Unlock : {{.Unlock}}</h4>
-                <h4>Description : {{.Description}}</h4>
-                <h4>Level : {{.Level}}</h4>
-            {{end}}
-        </div>
-        <div class="constellations">
-            <h2>Constellations : </h2>
-            {{range .Data.Constellations}}
-                <h4>Name : {{.Name}}</h4>
-                <h4>Unlock : {{.Unlock}}</h4>
-                <h4>Description : {{.Description}}</h4>
-                <h4>Level : {{.Level}}</h4>
-            {{end}}
-        </div>
-        <div class="ascension-materials">
-            <h2>Ascension Materials :</h2>
-            <select id="materials">
-                {{range .Data.AscensionMaterials.Level20}}
-                <option value="1" data-Name="{{.Name}}" data-Value="{{.Value}}">Level 20</option>
-                {{end}}
-                {{range .Data.AscensionMaterials.Level40}}
-                <option value="2" data-Name="{{.Name}}" data-Value="{{.Value}}">Level 40</option>
-                {{end}}
-                {{range .Data.AscensionMaterials.Level50}}
-                <option value="3" data-Name="{{.Name}}" data-Value="{{.Value}}">Level 50</option>
-                {{end}}
-                {{range .Data.AscensionMaterials.Level60}}
-                <option value="4" data-Name="{{.Name}}" data-Value="{{.Value}}">Level 60</option>
-                {{end}}
-                {{range .Data.AscensionMaterials.Level70}}
-                <option value="5" data-Name="{{.Name}}" data-Value="{{.Value}}">Level 70</option>
-                {{end}}
-                {{range .Data.AscensionMaterials.Level80}}
-                <option value="6" data-Name="{{.Name}}" data-Value="{{.Value}}">Level 80</option>
-                {{end}}
-            </select>
-            <div id="output-container">
-                <h4 id="output-heading"></h4>
-                <p id="output-paragraph"></p>
-            </div>
-        </div>
-    </div>
-    <script>
-        // Get references to the dropdown, heading, and paragraph elements
-        const selectElement = document.getElementById("materials");
-        const outputHeading = document.getElementById("output-heading");
-        const outputParagraph = document.getElementById("output-paragraph");
 
-        // Add an event listener for when the selection changes
-        selectElement.addEventListener("change", function () {
-        // Get the selected option
-        const selectedOption = selectElement.options[selectElement.selectedIndex];
+    <main class="character-page" data-vision="{{.Data.Vision}}">
+        <div class="character-header">
+            <h1 class="character-title">{{.Data.Name}}</h1>
+            <div class="character-subtitle">{{.Data.Title}}</div>
+        </div>
 
-        // Retrieve the data attributes from the selected option
-        const name = selectedOption.getAttribute("data-Name");
-        const value = selectedOption.getAttribute("data-Value");
+        <div class="character-grid">
+            <section class="card basic-info" data-vision="{{.Data.Vision}}">
+                <div class="card-header">
+                    <h2>Basic Information</h2>
+                </div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="label">Vision</span>
+                        <span class="value vision-{{.Data.Vision}}">{{.Data.Vision}}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Weapon</span>
+                        <span class="value">{{.Data.Weapon}}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Nation</span>
+                        <span class="value">{{.Data.Nation}}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Rarity</span>
+                        <span class="value stars-{{.Data.Rarity}}">{{.Data.Rarity}} ★</span>
+                    </div>
+                </div>
+                <p class="character-description">{{.Data.Description}}</p>
+            </section>
 
-        // Update the heading and paragraph with the selected data
-        if (name && value) {
-            outputHeading.textContent = `Name: ${name}`;
-            outputParagraph.textContent = `Value: ${value}`;
-        } else {
-            outputHeading.textContent = "";
-            outputParagraph.textContent = "Please select a valid option.";
-        }
-        });
-      </script>
+            <section class="card talents" data-vision="{{.Data.Vision}}">
+                <div class="card-header">
+                    <h2>Combat Talents</h2>
+                </div>
+                <div class="talents-grid">
+                    {{range .Data.SkillTalents}}
+                    <div class="talent-item">
+                        <h3>{{.Name}}</h3>
+                        <div class="talent-type">{{.Type}}</div>
+                        <p>{{.Description}}</p>
+                    </div>
+                    {{end}}
+                </div>
+            </section>
+
+            <section class="card constellations" data-vision="{{.Data.Vision}}">
+                <div class="card-header">
+                    <h2>Constellations</h2>
+                </div>
+                <div class="constellation-grid">
+                    {{range .Data.Constellations}}
+                    <div class="constellation-item">
+                        <h3>{{.Name}}</h3>
+                        <div class="constellation-level">C{{.Level}}</div>
+                        <p>{{.Description}}</p>
+                    </div>
+                    {{end}}
+                </div>
+            </section>
+
+            <section class="card ascension" data-vision="{{.Data.Vision}}">
+                <div class="card-header">
+                    <h2>Ascension Materials</h2>
+                </div>
+                <div class="ascension-content">
+                    <div class="ascension-tabs">
+                        <button class="tab-button" data-level="level_20">Level 20</button>
+                        <button class="tab-button" data-level="level_40">Level 40</button>
+                        <button class="tab-button" data-level="level_50">Level 50</button>
+                        <button class="tab-button" data-level="level_60">Level 60</button>
+                        <button class="tab-button" data-level="level_70">Level 70</button>
+                        <button class="tab-button" data-level="level_80">Level 80</button>
+                    </div>
+                    
+                    <div class="materials-grid">
+                        <div class="materials-list" data-level="level_20">
+                            {{range .Data.AscensionMaterials.Level20}}
+                            <div class="material-item">
+                                <div class="material-info">
+                                    <span class="material-name">{{.Name}}</span>
+                                    <span class="material-amount">×{{.Value}}</span>
+                                </div>
+                            </div>
+                            {{end}}
+                        </div>
+
+                        <div class="materials-list" data-level="level_40">
+                            {{range .Data.AscensionMaterials.Level40}}
+                            <div class="material-item">
+                                <div class="material-info">
+                                    <span class="material-name">{{.Name}}</span>
+                                    <span class="material-amount">×{{.Value}}</span>
+                                </div>
+                            </div>
+                            {{end}}
+                        </div>
+
+                        <div class="materials-list" data-level="level_50">
+                            {{range .Data.AscensionMaterials.Level50}}
+                            <div class="material-item">
+                                <div class="material-info">
+                                    <span class="material-name">{{.Name}}</span>
+                                    <span class="material-amount">×{{.Value}}</span>
+                                </div>
+                            </div>
+                            {{end}}
+                        </div>
+
+                        <div class="materials-list" data-level="level_60">
+                            {{range .Data.AscensionMaterials.Level60}}
+                            <div class="material-item">
+                                <div class="material-info">
+                                    <span class="material-name">{{.Name}}</span>
+                                    <span class="material-amount">×{{.Value}}</span>
+                                </div>
+                            </div>
+                            {{end}}
+                        </div>
+
+                        <div class="materials-list" data-level="level_70">
+                            {{range .Data.AscensionMaterials.Level70}}
+                            <div class="material-item">
+                                <div class="material-info">
+                                    <span class="material-name">{{.Name}}</span>
+                                    <span class="material-amount">×{{.Value}}</span>
+                                </div>
+                            </div>
+                            {{end}}
+                        </div>
+
+                        <div class="materials-list" data-level="level_80">
+                            {{range .Data.AscensionMaterials.Level80}}
+                            <div class="material-item">
+                                <div class="material-info">
+                                    <span class="material-name">{{.Name}}</span>
+                                    <span class="material-amount">×{{.Value}}</span>
+                                </div>
+                            </div>
+                            {{end}}
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="/static/js/characterDetails.js"></script>
 </body>
 </html>
 {{end}}

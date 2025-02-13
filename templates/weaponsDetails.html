@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Genshin</title>
+    <title>{{.Data.Name}} - Genshin Impact Weapon</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/weaponDetails.css">
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
@@ -17,30 +17,54 @@
             {{template "navbar1"}}
         {{end}}
     </header>
-    <h1 class="Name">{{.Data.Name}}</h1>
-    <div class="Content">
-        <div class="stats">
-            <h2>Type</h2>
-            <p>{{.Data.Type}}</p>
-            <h2>Rarity</h2>
-            <p>{{.Data.Rarity}}</p>
-            <h2>Base Attack</h2>
-            <p>{{.Data.BaseAttack}}</p>
-            <h2>Sub Stat</h2>
-            <p>{{.Data.SubStat}}</p>
+
+    <main class="weapon-details">
+        <h1 class="weapon-title">{{.Data.Name}}</h1>
+        
+        <div class="content-grid">
+            <div class="stats-card">
+                <div class="stat-item">
+                    <h2 class="stat-label">Type</h2>
+                    <p class="stat-value">{{.Data.Type}}</p>
+                </div>
+                <div class="stat-item">
+                    <h2 class="stat-label">Rarity</h2>
+                    <p class="stat-value">
+                        {{if eq .Data.Rarity 5}}⭐⭐⭐⭐⭐{{end}}
+                        {{if eq .Data.Rarity 4}}⭐⭐⭐⭐{{end}}
+                        {{if eq .Data.Rarity 3}}⭐⭐⭐{{end}}
+                    </p>
+                </div>
+                <div class="stat-item">
+                    <h2 class="stat-label">Base Attack</h2>
+                    <p class="stat-value">{{.Data.BaseAttack}}</p>
+                </div>
+                <div class="stat-item">
+                    <h2 class="stat-label">Sub Stat</h2>
+                    <p class="stat-value">{{.Data.SubStat}}</p>
+                </div>
+            </div>
+
+            <div class="image-card">
+                <img src="{{.Data.ImageUrl}}" alt="{{.Data.Name}}" class="weapon-image">
+            </div>
+
+            <div class="passive-card">
+                <div class="passive-section">
+                    <h2 class="passive-title">{{.Data.PassiveName}}</h2>
+                    <p class="passive-text">{{.Data.PassiveDescription}}</p>
+                </div>
+                <div class="passive-section">
+                    <h2 class="passive-title">Location</h2>
+                    <p class="passive-text">{{.Data.Location}}</p>
+                </div>
+                <div class="passive-section">
+                    <h2 class="passive-title">Ascension Material</h2>
+                    <p class="passive-text">{{.Data.AscensionMaterial}}</p>
+                </div>
+            </div>
         </div>
-        <div class="image">
-            <img src="{{.Data.ImageUrl}}">
-        </div>
-        <div class="passive">
-            <h2>{{.Data.PassiveName}}</h2>
-            <p>{{.Data.PassiveDescription}}</p>
-            <h2>Location</h2>
-            <p>{{.Data.Location}}</p>
-            <h2>Ascension Material</h2>
-            <p>{{.Data.AscensionMaterial}}</p>
-        </div>
-    </div>
+    </main>
 </body>
 </html>
 {{end}}

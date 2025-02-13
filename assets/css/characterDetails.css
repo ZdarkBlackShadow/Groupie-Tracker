@@ -3,76 +3,352 @@
     src: url('/static/ttf/zh-cn.ttf') format('truetype');
 }
 
-.container {
-    position: absolute;
-    background: rgba(0, 0, 0, 0.6);
-    padding: 20px;
-    border-radius: 10px;
+:root {
+    /* Vision colors - Version plus claire */
+    --pyro-color: rgb(255, 107, 94);
+    --hydro-color: rgb(73, 170, 243);
+    --anemo-color: rgb(106, 205, 110);
+    --electro-color: rgb(186, 89, 206);
+    --dendro-color: rgb(169, 215, 94);
+    --cryo-color: rgb(83, 189, 244);
+    --geo-color: rgb(255, 172, 50);
+    
+    /* Base colors */
+    --card-bg: rgba(40, 44, 52, 0.95);
+    --text-light: #ffffff;
+    --text-muted: #d0d0d0;
+    --text-bright: #f8f8f8;
+    --border-radius: 12px;
+    --transition: all 0.3s ease;
+}
+
+/* Vision-specific styling */
+[data-vision="Pyro"] { --vision-color: var(--pyro-color); }
+[data-vision="Hydro"] { --vision-color: var(--hydro-color); }
+[data-vision="Anemo"] { --vision-color: var(--anemo-color); }
+[data-vision="Electro"] { --vision-color: var(--electro-color); }
+[data-vision="Dendro"] { --vision-color: var(--dendro-color); }
+[data-vision="Cryo"] { --vision-color: var(--cryo-color); }
+[data-vision="Geo"] { --vision-color: var(--geo-color); }
+
+body {
+    font-family: 'GenshinFont', sans-serif;
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.character-page {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.character-header {
     text-align: center;
-    color: #fff;
+    margin-bottom: 3rem;
+    position: relative;
+    padding: 2rem;
+    background: linear-gradient(135deg, var(--card-bg), rgba(var(--vision-color), 0.2));
+    border-radius: var(--border-radius);
+    border: 2px solid var(--vision-color);
+    backdrop-filter: blur(10px);
+}
+
+.character-title {
+    font-size: 3.5rem;
+    color: var(--text-bright);
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5),
+                 0 0 10px var(--vision-color);
+}
+
+.character-subtitle {
+    font-size: 1.8rem;
+    color: var(--text-bright);
+    opacity: 1;
+}
+
+.character-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    justify-items: center;
-    width: 1300px;
-    top: 10%;
-    gap: 50px;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
 }
 
-.introduction {
-    align-content: center;
-    background-color: rgba(184, 0, 205, 0.7);
-    border-radius: 30px;
-    max-width: 400px;
-    max-height: 1000px;
+.card {
+    background: linear-gradient(
+        135deg,
+        var(--card-bg),
+        rgba(60, 64, 72, 0.95)
+    );
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    transition: var(--transition);
+    border: 1px solid rgba(var(--vision-color), 0.3);
+    backdrop-filter: blur(5px);
 }
 
-.introduction h1{
-    color: aquamarine;
+.card:hover {
+    box-shadow: 0 8px 16px rgba(var(--vision-color), 0.3),
+                0 0 20px rgba(var(--vision-color), 0.2);
 }
 
-.introduction h2, h3, p{
-    color: black;
+.card-header {
+    background: linear-gradient(135deg, var(--vision-color), transparent);
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
 }
 
-.skill-talents {
-    align-content: center;
-    background-color: rgba(200, 200, 200, 0.7);
-    border-radius: 30px;
-    max-width: 400px;
-    max-height: 1000px;
+.card-header h2 {
+    color: var(--text-bright);
+    margin: 0;
+    font-size: 1.8rem;
+    position: relative;
+    z-index: 1;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-.skill-talents h2{
-    color: blueviolet;
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    padding: 1.5rem;
 }
 
-.skill-talents h3, h4 {
-    color: aliceblue;
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
-.passive-talents {
-    background: rgba(100, 100, 100, 0.7);
-    border-radius: 30px;
-    max-width: 400px;
-    max-height: 1000px;
+.label {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.value {
+    color: var(--text-bright);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.character-description {
+    padding: 1.5rem;
+    color: var(--text-light);
+    line-height: 1.6;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Talents section */
+.talents-grid {
+    padding: 1.5rem;
+    display: grid;
+    gap: 2rem;
+}
+
+.talent-item {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(var(--vision-color), 0.3);
+}
+
+.talent-item h3 {
+    color: var(--text-bright);
+    margin: 0 0 1rem 0;
+    text-shadow: 0 0 8px var(--vision-color);
+}
+
+.talent-type {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    background: rgba(var(--vision-color), 0.3);
+    border-radius: 4px;
+    color: var(--text-bright);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+/* Constellations section */
+.constellation-item {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.constellation-item:last-child {
+    border-bottom: none;
+}
+
+.constellation-item h3 {
+    color: var(--text-bright);
+    margin: 0 0 0.5rem 0;
+    text-shadow: 0 0 8px var(--vision-color);
+}
+
+.constellation-item p {
+    color: var(--text-light);
+}
+
+/* Ascension materials section */
+.ascension-content {
+    padding: 1.5rem;
+}
+
+.ascension-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.tab-button {
+    padding: 0.8rem 1.5rem;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--border-radius);
+    color: var(--text-bright);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.tab-button:hover,
+.tab-button.active {
+    background: var(--vision-color);
+    color: var(--text-bright);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.materials-display {
+    padding: var(--spacing);
+}
+
+/* Vision colors */
+.vision-Pyro { color: var(--pyro-color); }
+.vision-Hydro { color: var(--hydro-color); }
+.vision-Anemo { color: var(--anemo-color); }
+.vision-Electro { color: var(--electro-color); }
+.vision-Dendro { color: var(--dendro-color); }
+.vision-Cryo { color: var(--cryo-color); }
+.vision-Geo { color: var(--geo-color); }
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .character-page {
+        padding: 0 1rem;
+    }
+
+    .character-title {
+        font-size: 2.5rem;
+    }
+
+    .character-subtitle {
+        font-size: 1.4rem;
+    }
+
+    .character-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Ascension Materials Styling */
+.ascension-content {
+    padding: var(--spacing);
+}
+
+.ascension-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.tab-button {
+    padding: 0.5rem 1rem;
+    background: var(--background-color);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab-button:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.tab-button.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+.materials-grid {
+    display: grid;
+    gap: 1rem;
+}
+
+.materials-list {
+    display: none;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.materials-list.active {
+    display: grid;
+}
+
+.material-item {
+    background: var(--background-color);
+    padding: 0.8rem;
+    border-radius: var(--border-radius);
+    display: flex;
     align-items: center;
-    color: hotpink;
+    gap: 1rem;
 }
 
-.constellations {
-    background: rgba(248, 3, 3, 0.7);
-    border-radius: 30px;
-    max-width: 400px;
-    max-height: 1000px;
-    align-items: center;
-    color: rgb(12, 209, 75);
+.material-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
-.ascension-materials {
-    background: rgba(232, 248, 3, 0.7);
-    border-radius: 30px;
-    max-width: 400px;
-    max-height: 1000px;
-    align-items: center;
-    color: rgb(209, 12, 114);
+.material-name {
+    color: var(--text-bright);
+    font-weight: 500;
+}
+
+.material-amount {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.mora {
+    background: linear-gradient(45deg, #f1c40f20, #f39c1220);
+    border: 1px solid #f1c40f;
+}
+
+@media (max-width: 768px) {
+    .materials-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .ascension-tabs {
+        justify-content: center;
+    }
 }

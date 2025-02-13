@@ -2,33 +2,118 @@
     font-family: 'GenshinFont';
     src: url('/static/ttf/zh-cn.ttf') format('truetype');
 }
-.boss-list {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr); /* Create 5 columns */
-    gap: 20px;
-    padding: 20px;
-    margin: auto;
-    max-width: 1200px;/* Pour s'assurer que les cartes s'alignent correctement */
+
+body {
+    font-family: 'GenshinFont', sans-serif;
+    background-image: url("/static/image/elementbackground.jpeg");
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.boss-details {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
 }
 
 .boss-card {
-    background: rgba(0, 0, 0, 0.6);
-    padding: 20px;
-    border-radius: 10px;
+    background: rgba(20, 20, 20, 0.95);
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+}
+
+.boss-header {
     text-align: center;
-    color: #fff;
+    margin-bottom: 3rem;
 }
 
-
-.boss-card h1 {
+.boss-title {
     color: #FFD700;
-    margin-bottom: 10px;
-    font-size: 18px;
+    font-size: 3rem;
+    margin: 0 0 2rem;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
 }
 
-.boss-card img {
-    width: 35%; /* L'image occupe toute la largeur de la carte */
-    height: auto; /* Garde le ratio d'aspect */
-    border-radius: 8px; /* Coins arrondis pour l'image */
-    margin-bottom: 15px; /* Espace avec le texte */
+.boss-image {
+    width: 300px;
+    height: 300px;
+    margin: 0 auto 2rem;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+}
+
+.boss-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.boss-image:hover img {
+    transform: scale(1.1);
+}
+
+.section-title {
+    color: #FFD700;
+    font-size: 2rem;
+    margin: 2.5rem 0 1.5rem;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+}
+
+.description {
+    color: #ffffff;
+    line-height: 1.6;
+    font-size: 1.1rem;
+    text-align: justify;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    margin-bottom: 2rem;
+}
+
+.drops-grid, .artifacts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.drop-item, .artifact-item {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 1.5rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.drop-item:hover, .artifact-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.1);
+    border-color: rgba(255, 215, 0, 0.4);
+}
+
+.item-name {
+    color: #FFD700;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+
+.item-info {
+    color: #ffffff;
+    margin: 0.5rem 0;
+    font-size: 1rem;
+}
+
+.rarity {
+    color: #4acfff;
+}
+
+.source {
+    color: #98ff98;
 }

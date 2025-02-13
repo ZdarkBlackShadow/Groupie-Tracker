@@ -3,39 +3,121 @@
     src: url('/static/ttf/zh-cn.ttf') format('truetype');
 }
 
+body {
+    font-family: 'GenshinFont', sans-serif;
+    background-image: url("/static/image/elementbackground.jpeg");
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
 .boss-list {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* Create 5 columns */
-    gap: 20px;
-    padding: 20px;
-    margin: auto;
-    max-width: 1200px;/* Pour s'assurer que les cartes s'alignent correctement */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 1400px;
 }
 
 .boss-card {
-    background: rgba(0, 0, 0, 0.6);
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    color: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: rgba(20, 20, 20, 0.9);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    height: 100%; /* Assure une hauteur égale pour toutes les cartes */
+    display: flex;
+    flex-direction: column;
 }
 
 .boss-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 215, 0, 0.5);
 }
 
-.boss-card h1 {
-    color: #FFD700;
-    margin-bottom: 10px;
-    font-size: 18px;
+.boss-card a {
+    text-decoration: none;
+    color: inherit;
+    flex: 1; /* Permet à la partie cliquable de prendre tout l'espace disponible */
+    display: flex;
+    flex-direction: column;
+}
+
+.boss-image-container {
+    position: relative;
+    width: 100%;
+    padding-top: 100%; /* Ratio 1:1 pour une image carrée */
+    overflow: hidden;
+    flex: 1; /* Permet à l'image de prendre l'espace disponible */
 }
 
 .boss-card img {
-    width: 100%; /* L'image occupe toute la largeur de la carte */
-    height: auto; /* Garde le ratio d'aspect */
-    border-radius: 8px; /* Coins arrondis pour l'image */
-    margin-bottom: 15px; /* Espace avec le texte */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Couvre tout l'espace disponible */
+    object-position: center; /* Centre l'image */
+    transition: transform 0.5s ease;
+}
+
+.boss-card:hover img {
+    transform: scale(1.1);
+}
+
+.boss-info {
+    padding: 1.5rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7));
+    min-height: 100px; /* Hauteur minimale pour le conteneur d'info */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.boss-name {
+    color: #FFD700;
+    font-size: 1.5rem;
+    margin: 0 0 1rem 0;
+    text-align: center;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.add-collection {
+    text-align: center;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.add-collection a {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background: rgba(255, 215, 0, 0.2);
+    color: #FFD700;
+    border: 1px solid #FFD700;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.add-collection a:hover {
+    background: rgba(255, 215, 0, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.2);
+}
+
+/* Titre de la page */
+.page-title {
+    text-align: center;
+    color: #FFD700;
+    font-size: 2.5rem;
+    margin: 2rem 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }

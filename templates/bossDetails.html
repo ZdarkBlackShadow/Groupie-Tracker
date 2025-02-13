@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/bossDetails.css">
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
-    <title>Document</title>
+    <title>{{.Data.Name}} - Genshin Impact Boss</title>
 </head>
 <body>
     <header class="header">
@@ -17,23 +17,47 @@
             {{template "navbar1"}}
         {{end}}
     </header>
-        <div class="boss-card ">
-            <h1>Name : {{.Data.Name}}</h1>
-            <img src="{{.Data.ImageURL}}">
-            <h2>Description</h2>
-            <p>{{.Data.Description}}</p>
-            <h2>Possible drops</h2>
-            {{range .Data.Drops}}
-                <h3>{{.Name}}</h3>
-                <h4>Rarity : {{.Rarity}}</h4>
-                <h4>Source : {{.Source}}</h4>
-            {{end}}
-            <h2>Possible Artifact(s)</h2>
-            {{range .Data.Artifacts}}
-                <h3>{{.Name}}</h3>
-                <h4>Maximum Rarity : {{.MaxRarity}}</h4>
-            {{end}}
+
+    <main class="boss-details">
+        <div class="boss-card">
+            <div class="boss-header">
+                <h1 class="boss-title">{{.Data.Name}}</h1>
+                <div class="boss-image">
+                    <img src="{{.Data.ImageURL}}" alt="{{.Data.Name}}">
+                </div>
+            </div>
+
+            <section class="description-section">
+                <h2 class="section-title">Description</h2>
+                <p class="description">{{.Data.Description}}</p>
+            </section>
+
+            <section class="drops-section">
+                <h2 class="section-title">Possible Drops</h2>
+                <div class="drops-grid">
+                    {{range .Data.Drops}}
+                        <div class="drop-item">
+                            <h3 class="item-name">{{.Name}}</h3>
+                            <p class="item-info rarity">Rarity: {{.Rarity}}</p>
+                            <p class="item-info source">Source: {{.Source}}</p>
+                        </div>
+                    {{end}}
+                </div>
+            </section>
+
+            <section class="artifacts-section">
+                <h2 class="section-title">Possible Artifacts</h2>
+                <div class="artifacts-grid">
+                    {{range .Data.Artifacts}}
+                        <div class="artifact-item">
+                            <h3 class="item-name">{{.Name}}</h3>
+                            <p class="item-info rarity">Maximum Rarity: {{.MaxRarity}}</p>
+                        </div>
+                    {{end}}
+                </div>
+            </section>
         </div>
+    </main>
 </body>
 </html>
 {{end}}

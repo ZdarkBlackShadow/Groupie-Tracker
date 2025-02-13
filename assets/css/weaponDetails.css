@@ -4,96 +4,134 @@
 }
 
 body {
-    background-image: url('/static/image/backgroundWeapon.webp');
     font-family: 'GenshinFont', sans-serif;
+    background-image: url('/static/image/backgroundWeapon.webp');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
 }
 
+.weapon-details {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 2rem;
+}
 
-.Name {
-    font-size: 2.5rem;
-    color: #FFFFFF;
+.weapon-title {
+    font-size: 3rem;
+    color: #FFD700;
     text-align: center;
-    margin-top: 1rem;
+    margin: 2rem 0;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
 }
 
-.Content {
-    position: absolute;
-    top: 30%;
-    background: transparent;
+.content-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Garde 3 colonnes */
-    justify-items: center;
-    width: 100%; /* Ajuste la largeur au conteneur parent */
-    max-width: 100vw;
-    height: auto; /* S'ajuste à la hauteur du contenu */
-    padding: 20px; /* Ajoute un peu d'espacement */
-    box-sizing: border-box; /* Inclut padding dans les dimensions */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 1rem;
 }
 
-/* Media Queries pour écrans plus petits */
+.stats-card, .image-card, .passive-card {
+    background: rgba(20, 20, 20, 0.9);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.stats-card:hover, .image-card:hover, .passive-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 215, 0, 0.5);
+}
+
+.stats-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-label {
+    color: #FFD700;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+}
+
+.stat-value {
+    color: #ffffff;
+    font-size: 1.1rem;
+}
+
+.image-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background: linear-gradient(145deg, rgba(20, 20, 20, 0.9), rgba(40, 40, 40, 0.9));
+}
+
+.weapon-image {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: contain;
+    transition: transform 0.5s ease;
+}
+
+.weapon-image:hover {
+    transform: scale(1.1);
+}
+
+.passive-card {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.passive-section {
+    text-align: center;
+}
+
+.passive-title {
+    color: #FFD700;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+}
+
+.passive-text {
+    color: #ffffff;
+    line-height: 1.6;
+    font-size: 1.1rem;
+}
+
 @media (max-width: 1200px) {
-    .Content {
-        grid-template-columns: repeat(2, 1fr); /* Passe à 2 colonnes */
+    .content-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .passive-card {
+        grid-column: span 2;
     }
 }
 
 @media (max-width: 768px) {
-    .Content {
-        grid-template-columns: 1fr; /* Une seule colonne */
-        padding: 10px; /* Réduit le padding */
+    .content-grid {
+        grid-template-columns: 1fr;
     }
-}
-
-.stats {
-    background-color: rgba(184, 0, 205, 0.7);
-    border-radius: 30px;
-    width: 300px;
-    height: 300px;
-    margin-top: 1rem;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    padding: 20px;
-}
-
-.stats h2 {
-    color: #DDA0DD;
-}
-
-.stats p {
-    color: #FF69B4;
-}
-
-.image {
-    background-color: rgba(200, 200, 200, 0.7);
-    border-radius: 30px;
-    width: 300px;
-    height: 300px;
-    margin-top: 1rem;
-    padding: 20px;
-}
-
-.image img {
-    width: 250px;
-    height: 250px;
-}
-
-.passive {
-    background: rgba(100, 100, 100, 0.7);
-    border-radius: 30px;
-    max-width: 400px;
-    max-height: 1000px;
-    margin-top: 1rem;
-    color: hotpink;
-    text-align: center;
-    padding: 20px;
-}
-
-.passive h2 {
-    color: #FF69B4;
-}
-
-.passive p {
-    color: #B0C4DE;
+    .passive-card {
+        grid-column: span 1;
+    }
+    .weapon-title {
+        font-size: 2.5rem;
+    }
 }

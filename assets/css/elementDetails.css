@@ -3,6 +3,22 @@
     src: url('/static/ttf/zh-cn.ttf') format('truetype');
 }
 
+body {
+    font-family: 'GenshinFont', sans-serif;
+    background-image: url("/static/image/elementbackground.jpeg");
+}
+
+:root {
+    /* Couleurs des éléments */
+    --pyro-color: rgb(255, 107, 94);
+    --hydro-color: rgb(73, 170, 243);
+    --anemo-color: rgb(106, 205, 110);
+    --electro-color: rgb(186, 89, 206);
+    --dendro-color: rgb(169, 215, 94);
+    --cryo-color: rgb(83, 189, 244);
+    --geo-color: rgb(255, 172, 50);
+}
+
 .element-list {
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* Create 5 columns */
@@ -13,11 +29,12 @@
 }
 
 .element-card {
-    background: rgba(0, 0, 0, 0.6);
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    color: #fff;
+    background: rgba(20, 20, 20, 0.9);
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
 }
 
 .element-card h1 {
@@ -29,7 +46,7 @@
 .element-card h2 {
     color: #4acfff;
     margin-bottom: 10px;
-    font-size: 18px;
+    font-size: 22px;
 }
 
 .element-card h3 {
@@ -49,4 +66,179 @@
     height: auto;
     border-radius: 8px;
     margin-bottom: 15px;
+}
+
+.element-details {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+
+/* Styles spécifiques aux éléments */
+.element-card[data-element="Pyro"] {
+    border: 2px solid var(--pyro-color);
+}
+
+.element-card[data-element="Hydro"] {
+    border: 2px solid var(--hydro-color);
+}
+
+.element-card[data-element="Anemo"] {
+    border: 2px solid var(--anemo-color);
+}
+
+.element-card[data-element="Electro"] {
+    border: 2px solid var(--electro-color);
+}
+
+.element-card[data-element="Dendro"] {
+    border: 2px solid var(--dendro-color);
+}
+
+.element-card[data-element="Cryo"] {
+    border: 2px solid var(--cryo-color);
+}
+
+.element-card[data-element="Geo"] {
+    border: 2px solid var(--geo-color);
+}
+
+.element-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.element-header h1 {
+    font-size: 3rem;
+    margin: 0;
+    color: #ffffff;
+    text-shadow: 0 0 10px currentColor;
+}
+
+.element-icon {
+    width: 120px;
+    height: 120px;
+    margin: 2rem auto;
+    filter: drop-shadow(0 0 15px currentColor);
+}
+
+.element-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.reactions-section {
+    margin-top: 3rem;
+}
+
+.reactions-title {
+    font-size: 2.5rem;
+    color: #ffffff;
+    margin-bottom: 2.5rem;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    font-weight: 600;
+}
+
+.reaction-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.reaction-name {
+    font-size: 1.5rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+}
+
+.elements-concerned {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+}
+
+.element-tag {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 1rem;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.reaction-description {
+    color: #d0d0d0;
+    line-height: 1.6;
+    font-size: 1.1rem;
+}
+
+/* Ajouter ces classes pour les couleurs des éléments */
+.element-Pyro {
+    color: var(--pyro-color) !important;
+}
+
+.element-Hydro {
+    color: var(--hydro-color) !important;
+}
+
+.element-Anemo {
+    color: var(--anemo-color) !important;
+}
+
+.element-Electro {
+    color: var(--electro-color) !important;
+}
+
+.element-Dendro {
+    color: var(--dendro-color) !important;
+}
+
+.element-Cryo {
+    color: var(--cryo-color) !important;
+}
+
+.element-Geo {
+    color: var(--geo-color) !important;
+}
+
+/* Pour les tags d'éléments */
+.element-tag.element-Pyro {
+    background: rgba(255, 107, 94, 0.3);
+    border: 1px solid var(--pyro-color);
+}
+
+.element-tag.element-Hydro {
+    background: rgba(73, 170, 243, 0.3);
+    border: 1px solid var(--hydro-color);
+}
+
+.element-tag.element-Anemo {
+    background: rgba(106, 205, 110, 0.3);
+    border: 1px solid var(--anemo-color);
+}
+
+.element-tag.element-Electro {
+    background: rgba(186, 89, 206, 0.3);
+    border: 1px solid var(--electro-color);
+}
+
+.element-tag.element-Dendro {
+    background: rgba(169, 215, 94, 0.3);
+    border: 1px solid var(--dendro-color);
+}
+
+.element-tag.element-Cryo {
+    background: rgba(83, 189, 244, 0.3);
+    border: 1px solid var(--cryo-color);
+}
+
+.element-tag.element-Geo {
+    background: rgba(255, 172, 50, 0.3);
+    border: 1px solid var(--geo-color);
 }
