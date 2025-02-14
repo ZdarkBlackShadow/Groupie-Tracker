@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/searchResult.css">
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
-    <title>Result</title>
+    <title>Genshin Impact - Search Results</title>
 </head>
 <body>
     <header class="header">
@@ -16,10 +17,25 @@
             {{template "navbar1"}}
         {{end}}
     </header>
-    {{range .Data}}
-    <h1>{{.Name}}</h1>
-    <a href="{{.Link}}">Lien to the ressource</a>
-    <br>
+
+    <h1 class="page-title">Search Results</h1>
+
+    {{if len .Data}}
+        <div class="search-results">
+            {{range .Data}}
+                <div class="result-card">
+                    <h2 class="result-name">{{.Name}}</h2>
+                    <div class="result-link">
+                        <a href="{{.Link}}">View Details</a>
+                    </div>
+                </div>
+            {{end}}
+        </div>
+    {{else}}
+        <div class="no-results">
+            <h2 class="no-results-message">No Results Found</h2>
+            <p class="no-results-description">Try searching with different keywords</p>
+        </div>
     {{end}}
 </body>
 </html>

@@ -5,21 +5,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gensin</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
+    <title>Gensin Login</title>
     <link rel="stylesheet" href="/static/css/login.css">
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
 </head>
 <body>
     <header class="header">
-        {{if eq .isLogin true}}
+        {{if eq .IsLogin true}}
             {{template "navbar2"}}
         {{else}}
             {{template "navbar1"}}
         {{end}}
     </header>
-    <script src="/static/js/main.js"></script>
     <div class="container" id="container">
         <div class="form-container sign-up-container">
             <form action="/login/newregister" method="post">
@@ -36,6 +33,9 @@
                     <label for="NewRegisterRetypePassword"></label>
                     <input type="password" placeholder="Re-enter the password" name="NewRegisterRetypePassword" id="NewRegisterRetypePassword" required/>
                 </div>
+                {{if eq .IsWrongRegister true}}
+                    <span class="wrong-password">Password is not the same or email is already exists</span>
+                {{end}}
                 <button type="submit">Sign Up</button>
             </form>
         </div>
@@ -50,6 +50,9 @@
                     <label for="RegisterPassword"></label>
                     <input type="password" placeholder="Your password" name="RegisterPassword" id="RegisterPassword" required/>
                 </div>
+                {{if eq .IsWrongLogin true}}
+                    <span class="wrong-password">Wrong email or password</span>
+                {{end}}
                 <a href="/login/password-forgot" class="forgot">Forgot your password ?</a>
                 <button>Sign In</button>
             </form>
@@ -70,19 +73,7 @@
             <button id="overlayBtn"></button>
         </div>
     </div>
-    <script>
-        const container = document.getElementById("container");
-        const overlayBtn = document.getElementById("overlayBtn");
-
-        overlayBtn.addEventListener('click', () => {
-            container.classList.toggle('right-panel-active');
-
-            overlayBtn.classList.remove('btnScaled');
-            window.requestAnimationFrame(() => {
-                overlayBtn.classList.add('btnScaled');
-            });
-        });
-    </script>
+    <script src="/static/js/login.js"></script>
 </body>
 </html>
 {{end}}

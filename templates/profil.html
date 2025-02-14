@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/profil.css">
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
-    <title>Profil</title>
+    <title>Genshin Impact - Profile</title>
 </head>
 <body>
     <header class="header">
@@ -17,11 +17,35 @@
             {{template "navbar1"}}
         {{end}}
     </header>
-    <div class="container">
-        <h2>Welcome</h2>
-        <p>You're connected.</p>
-        <a href="/logout">Logout</a>
-      </div>
+
+    {{if eq .IsLogin true}}
+        <div class="profile-container">
+            <div class="profile-card">
+                <h1 class="profile-title">Welcome, Traveler!</h1>
+                <p class="profile-status">You're currently connected</p>
+                <a href="/logout" class="logout-button">Logout</a>
+                <div class="profile-stats">
+                    <div class="stat-block">
+                        <div class="stat-title">Collection Items</div>
+                        <div class="stat-value">Collections</div>
+                    </div>
+                    
+                    <div class="stat-block">
+                        <div class="stat-title">Account Status</div>
+                        <div class="stat-value">Active</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{else}}
+        <div class="profile-container">
+            <div class="profile-card">
+                <h1 class="profile-title">Not Connected</h1>
+                <p class="profile-status">Please log in to view your profile</p>
+                <a href="/login" class="logout-button">Login</a>
+            </div>
+        </div>
+    {{end}}
 </body>
 </html>
 {{end}}

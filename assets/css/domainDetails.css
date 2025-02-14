@@ -3,24 +3,173 @@
     src: url('/static/ttf/zh-cn.ttf') format('truetype');
 }
 
+body {
+    font-family: 'GenshinFont', sans-serif;
+    background-image: url('/static/image/background.webp');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.domain-details {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+
 .domain-card {
-    background: rgba(0, 0, 0, 0.6);
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    color: #fff;
+    background: rgba(20, 20, 20, 0.95);
+    border-radius: 20px;
+    padding: 3rem;
+    margin-top: 5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    color: #ffffff;
 }
 
-
-.domain-card h1 {
+.domain-title {
     color: #FFD700;
-    margin-bottom: 10px;
-    font-size: 18px;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
 }
 
-.domain-card img {
-    width: 35%;
-    height: auto;
+.info-section {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.info-title {
+    color: #FFD700;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+}
+
+.info-content {
+    color: #ffffff;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.requirements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.requirement-card {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 1.5rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.elements-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.element-tag {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 1rem;
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.element-tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Specific element styles */
+.element-tag.Pyro {
+    background: rgba(255, 107, 94, 0.3);
+    border: 1px solid rgb(255, 107, 94);
+}
+
+.element-tag.Hydro {
+    background: rgba(73, 170, 243, 0.3);
+    border: 1px solid rgb(73, 170, 243);
+}
+
+.element-tag.Anemo {
+    background: rgba(106, 205, 110, 0.3);
+    border: 1px solid rgb(106, 205, 110);
+}
+
+.element-tag.Electro {
+    background: rgba(186, 89, 206, 0.3);
+    border: 1px solid rgb(186, 89, 206);
+}
+
+.element-tag.Dendro {
+    background: rgba(169, 215, 94, 0.3);
+    border: 1px solid rgb(169, 215, 94);
+}
+
+.element-tag.Cryo {
+    background: rgba(83, 189, 244, 0.3);
+    border: 1px solid rgb(83, 189, 244);
+}
+
+.element-tag.Geo {
+    background: rgba(255, 172, 50, 0.3);
+    border: 1px solid rgb(255, 172, 50);
+}
+
+.rewards-section {
+    margin-top: 2rem;
+}
+
+.reward-day {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.reward-details {
+    margin-top: 1rem;
+    padding-left: 1.5rem;
+}
+
+.drops-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.drop-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
     border-radius: 8px;
-    margin-bottom: 15px;
+    text-align: center;
+}
+
+.ley-line-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.ley-line-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.8rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
 }

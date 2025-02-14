@@ -1,0 +1,70 @@
+{{define "foodDetails"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Data.Name}} - Genshin Impact Food</title>
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/foodDetails.css">
+</head>
+<body>
+    <header class="header">
+        {{if eq .IsLogin true}}
+            {{template "navbar2"}}
+        {{else}}
+            {{template "navbar1"}}
+        {{end}}
+    </header>
+
+    <main class="food-details">
+        <div class="food-card">
+            <h1 class="food-title">{{.Data.Name}}</h1>
+            
+            <div class="food-content">
+                <div class="food-image-section">
+                    <img src="{{.Data.ImageUrl}}" alt="{{.Data.Name}}" class="food-image">
+                    <div class="food-type">{{.Data.Type}}</div>
+                    <div class="food-rarity">
+                        {{if eq .Data.Rarity 5}}⭐⭐⭐⭐⭐{{end}}
+                        {{if eq .Data.Rarity 4}}⭐⭐⭐⭐{{end}}
+                        {{if eq .Data.Rarity 3}}⭐⭐⭐{{end}}
+                        {{if eq .Data.Rarity 2}}⭐⭐{{end}}
+                        {{if eq .Data.Rarity 1}}⭐{{end}}
+                    </div>
+                </div>
+
+                <div class="food-info-section">
+                    <div class="info-block">
+                        <h2 class="info-title">Effect</h2>
+                        <p class="info-text">{{.Data.Effect}}</p>
+                    </div>
+
+                    <div class="info-block">
+                        <h2 class="info-title">Description</h2>
+                        <p class="info-text">{{.Data.Description}}</p>
+                    </div>
+
+                    <div class="info-block">
+                        <h2 class="info-title">Recipe</h2>
+                        {{if .Data.HasRecipe}}
+                            <div class="recipe-grid">
+                                {{range .Data.Recipe}}
+                                    <div class="recipe-item">
+                                        <div class="recipe-name">{{.Item}}</div>
+                                        <div class="recipe-quantity">Quantity: {{.Quantity}}</div>
+                                    </div>
+                                {{end}}
+                            </div>
+                        {{else}}
+                            <p class="info-text"><em>No recipe available</em></p>
+                        {{end}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+{{end}}

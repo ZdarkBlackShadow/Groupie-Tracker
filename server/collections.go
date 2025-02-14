@@ -91,7 +91,7 @@ func handleAddToCollection(w http.ResponseWriter, r *http.Request) {
 				Name:               character.Name,
 				Image:              character.ImageUrl,
 				Type:               Type,
-				LinkToTheRessource: "",
+				LinkToTheRessource: "/characters/details?id=" + id,
 				DateAdded:          time.Now().Local().GoString(),
 			}
 		case "domain":
@@ -99,9 +99,9 @@ func handleAddToCollection(w http.ResponseWriter, r *http.Request) {
 			LinkToRedirect = "/domains"
 			temp = service.CollectionsStruct{
 				Name:               domain.Name,
-				Image:              domain.ImageUrl,
+				Image:              "/static/image/Domain_Card.webp",
 				Type:               Type,
-				LinkToTheRessource: "",
+				LinkToTheRessource: "/domains/details?id=" + id,
 				DateAdded:          time.Now().Local().GoString(),
 			}
 		case "element":
@@ -111,7 +111,7 @@ func handleAddToCollection(w http.ResponseWriter, r *http.Request) {
 				Name:               element.Name,
 				Image:              element.ImageUrl,
 				Type:               Type,
-				LinkToTheRessource: "",
+				LinkToTheRessource: "/elements/details?id=" + id,
 				DateAdded:          time.Now().Local().GoString(),
 			}
 		case "enemie":
@@ -121,7 +121,7 @@ func handleAddToCollection(w http.ResponseWriter, r *http.Request) {
 				Name:               enemie.Name,
 				Image:              enemie.ImageUrl,
 				Type:               Type,
-				LinkToTheRessource: "",
+				LinkToTheRessource: "/enemies/details?id=" + id,
 				DateAdded:          time.Now().Local().GoString(),
 			}
 		case "weapon":
@@ -131,7 +131,7 @@ func handleAddToCollection(w http.ResponseWriter, r *http.Request) {
 				Name:               weapon.Name,
 				Image:              weapon.ImageUrl,
 				Type:               Type,
-				LinkToTheRessource: "",
+				LinkToTheRessource: "/weapons/details?id=" + id,
 				DateAdded:          time.Now().Local().GoString(),
 			}
 		case "boss":
@@ -141,17 +141,17 @@ func handleAddToCollection(w http.ResponseWriter, r *http.Request) {
 				Name:               boss.Name,
 				Image:              boss.ImageURL,
 				Type:               Type,
-				LinkToTheRessource: "",
+				LinkToTheRessource: "/boss/details?id=" + id,
 				DateAdded:          time.Now().Local().GoString(),
 			}
 		case "food":
-			LinkToRedirect = "/food"
-			food := service.GetAllDetailsOfFood()
+			LinkToRedirect = "/foods"
+			food := service.GetDetailsOfFood(id, API_Data.AllFood)
 			temp = service.CollectionsStruct{
-				Name:               food[id].Name,
-				Image:              "",
+				Name:               food.Name,
+				Image:              food.ImageUrl,
 				Type:               Type,
-				LinkToTheRessource: "",
+				LinkToTheRessource: "/foods/details?id=" + id,
 				DateAdded:          time.Now().Local().GoString(),
 			}
 		case "potion":
@@ -161,7 +161,7 @@ func handleAddToCollection(w http.ResponseWriter, r *http.Request) {
 				Name:               potion.Name,
 				Image:              potion.ImageUrl,
 				Type:               Type,
-				LinkToTheRessource: "",
+				LinkToTheRessource: "/potions/details?id=" + id,
 				DateAdded:          time.Now().Local().GoString(),
 			}
 		default:

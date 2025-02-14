@@ -4,17 +4,11 @@
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'GenshinFont';
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    height: 100vh;
     background-image: url("/static/image/backgroundloading.png");
-    background-size: cover;
-    color: #f8f9fa;
 }
 
 h1 {
@@ -26,11 +20,11 @@ h1 {
 .gradient-text {
     font-size: 3rem;
     font-weight: bold;
-    background: linear-gradient(to right, #5fa7ff, #ff3838); /* Dégradé bleu -> rouge */
-    -webkit-background-clip: text; /* Applique le dégradé uniquement au texte (Webkit) */
-    background-clip: text; /* Version standard pour compatibilité */
-    -webkit-text-fill-color: transparent; /* Rend le fond du texte transparent */
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Optionnel : ajoute une ombre subtile */
+    background: linear-gradient(to right, #5fa7ff, #ff3838);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
   
 

@@ -61,13 +61,25 @@ func InitServer() {
 	http.HandleFunc("/enemies/details", EnemiesDetails)
 	http.HandleFunc("/weapons", Weapons)
 	http.HandleFunc("/weapons/details", WeaponDetails)
-	http.HandleFunc("/food", Food)
+	http.HandleFunc("/foods", Food)
+	http.HandleFunc("/foods/details", FoodDetail)
 	http.HandleFunc("/potions", Potions)
 	http.HandleFunc("/potions/details", PotionsDetails)
 	http.HandleFunc("/search", Search)
 	http.HandleFunc("/loading", Loading)
 	http.HandleFunc("/progress", ProgressF)
 	http.HandleFunc("/profil", Profil)
+	http.HandleFunc("/400", ErrorCode400)
+	http.HandleFunc("/401", ErrorCode401)
+	http.HandleFunc("/403", ErrorCode403)
+	http.HandleFunc("/404", ErrorCode404)
+	http.HandleFunc("/405", ErrorCode405)
+	http.HandleFunc("/408", ErrorCode408)
+	http.HandleFunc("/429", ErrorCode429)
+	http.HandleFunc("/500", ErrorCode500)
+	http.HandleFunc("/502", ErrorCode502)
+	http.HandleFunc("/503", ErrorCode503)
+	http.HandleFunc("/504", ErrorCode504)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case "/home":
@@ -88,7 +100,7 @@ func InitServer() {
 
 func LoadAllData() {
 	//food
-	food := service.GetAllDetailsOfFood()
+	food := service.TransformFoodToSlice(service.GetAllDetailsOfFood())
 	Mu.Lock()
 	API_Data.AllFood = food
 	Progress = 10

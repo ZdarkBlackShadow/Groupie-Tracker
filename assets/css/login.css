@@ -9,6 +9,14 @@
     box-sizing: border-box;
 }
 
+:root {
+    --linear-grad: linear-gradient(to right, rgba(128, 90, 167, 0.7), rgba(204, 133, 162, 0.7));
+    --grad-clr1: #804EA5;
+    --grad-clr2: #CC85A2;
+    --bg-container: rgba(30, 20, 60, 0.7);
+    --btn-hover-bg: #F0E6FF;
+    --btn-hover-text: #804EA5;
+}
 
 body {
     background-image: url('/static/image/backgroundlogin.jpg');
@@ -22,15 +30,6 @@ body {
     font-family: 'GenshinFont', sans-serif;
     margin: 0;
     padding: 0;
-}
-
-:root {
-    --linear-grad: linear-gradient(to right, rgba(128, 90, 167, 0.7), rgba(204, 133, 162, 0.7));
-    --grad-clr1: #804EA5;
-    --grad-clr2: #CC85A2;
-    --bg-container: rgba(30, 20, 60, 0.7);
-    --btn-hover-bg: #F0E6FF;
-    --btn-hover-text: #804EA5;
 }
 
 .container {
@@ -401,3 +400,9 @@ p {
     justify-content: end;
 }
 
+.wrong-password {
+    margin-top: 15px;
+    font-size: 16px;
+    color: red;
+    text-align: center;
+}

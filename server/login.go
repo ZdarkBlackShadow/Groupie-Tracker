@@ -2,7 +2,6 @@ package server
 
 import (
 	"crypto/sha256"
-	"crypto/subtle"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
@@ -13,8 +12,22 @@ import (
 	"main.go/service"
 )
 
+type LoginData struct {
+	IsLogin         bool
+	IsWrongLogin    bool
+	IsWrongRegister bool
+}
+
+var IsWrongLogin bool = false
+var IsWrongRegister bool = false
+
 func Login(w http.ResponseWriter, r *http.Request) {
-	err1 := Templates.ExecuteTemplate(w, "login", nil)
+	Data := LoginData{
+		IsLogin:         IsLogin,
+		IsWrongLogin:    IsWrongLogin,
+		IsWrongRegister: IsWrongRegister,
+	}
+	err1 := Templates.ExecuteTemplate(w, "login", Data)
 	if err1 != nil {
 		log.Fatal(err1)
 	}
@@ -26,10 +39,11 @@ func LoginNewRegister(w http.ResponseWriter, r *http.Request) {
 	} else {
 		Email, Password, RetypedPassword := r.FormValue("NewRegisterEmail"), r.FormValue("NewRegisterPassword"), r.FormValue("NewRegisterRetypePassword")
 		if Password != RetypedPassword {
-			fmt.Println("Password is not the same")
+			IsWrongRegister = true
+			http.Redirect(w, r, "/login", http.StatusSeeOther)
 		}
 		DataToEncode := service.Register{
-			Email:    Email,
+			Email:    hashPassword(Email),
 			Password: hashPassword(Password),
 		}
 		filePath := "./data/data.json"
@@ -45,12 +59,13 @@ func LoginNewRegister(w http.ResponseWriter, r *http.Request) {
 		}
 		AlreadyRegistered := false
 		for _, element := range data {
-			if element.Email == Email {
+			if element.Email == hashPassword(Email) {
 				AlreadyRegistered = true
 				break
 			}
 		}
 		if AlreadyRegistered {
+			IsWrongRegister = true
 			http.Redirect(w, r, "/login", http.StatusSeeOther)
 		} else {
 			data = append(data, DataToEncode)
@@ -62,6 +77,8 @@ func LoginNewRegister(w http.ResponseWriter, r *http.Request) {
 				log.Fatalf("Erreur lors de l'écriture dans le fichier : %v", err)
 			}
 			IsLogin = true
+			IsWrongRegister = false
+			IsWrongLogin = false
 			InfoOfUserWhoAreConnected = DataToEncode
 			http.Redirect(w, r, "/home", http.StatusSeeOther)
 		}
@@ -86,20 +103,24 @@ func LoginRegister(w http.ResponseWriter, r *http.Request) {
 		}
 		FindEmail := false
 		for _, element := range data {
-			if element.Email == Email {
+			if element.Email == hashPassword(Email) {
 				FindEmail = true
-				if element.Password == Password {
+				if element.Password == hashPassword(Password) {
 					InfoOfUserWhoAreConnected = element
 					IsLogin = true
+					IsWrongLogin = false
+					IsWrongRegister = false
 					http.Redirect(w, r, "/home", http.StatusSeeOther)
 				} else {
-					fmt.Println("wrong password")
+					IsWrongLogin = true
+					http.Redirect(w, r, "/login", http.StatusSeeOther)
 				}
 				break
 			}
 		}
 		if !FindEmail {
-			fmt.Println("Email not found")
+			IsWrongLogin = true
+			http.Redirect(w, r, "/login", http.StatusSeeOther)
 		}
 	}
 }
@@ -108,12 +129,6 @@ func hashPassword(password string) string {
 	hasher := sha256.New()
 	hasher.Write([]byte(password))
 	return hex.EncodeToString(hasher.Sum(nil))
-}
-
-func checkPasswordHash(password, hash string) bool {
-	computedHash := hashPassword(password)
-	// Comparaison sécurisée pour éviter les attaques par timing
-	return subtle.ConstantTimeCompare([]byte(computedHash), []byte(hash)) == 1
 }
 
 func PasswordForgot(w http.ResponseWriter, r *http.Request) {

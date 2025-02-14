@@ -33,3 +33,23 @@ func GetAllDetailsOfFood() map[string]FoodStruct {
 	}
 	return map[string]FoodStruct{}
 }
+
+func GetDetailsOfFood(id string,  AllFood []FoodStruct) FoodStruct {
+	for _, value := range AllFood {
+		if value.Id == id {
+			return value
+		}
+	}
+	return FoodStruct{}
+}
+
+func TransformFoodToSlice(AllFood map[string]FoodStruct) []FoodStruct {
+	var sliceFood []FoodStruct
+	for name, value := range AllFood {
+		ToAppend := value
+		ToAppend.ImageUrl = "https://genshin.jmp.blue/consumables/food/" + name
+		ToAppend.Id = name
+		sliceFood = append(sliceFood, ToAppend)
+	}
+	return sliceFood
+}

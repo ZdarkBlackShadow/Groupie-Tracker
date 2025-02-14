@@ -1,51 +1,15 @@
 [
   {
-    "Email": "ZdarkBlackShadow@gmail.com",
-    "Password": "azerty",
-    "Collecttions": {
-      "Collections": [
-        {
-          "Name": "",
-          "Image": "",
-          "Type": "",
-          "LinkToTheRessource": "",
-          "DateAdded": ""
-        }
-      ]
-    }
-  },
-  {
-    "Email": "adrien@lecomte.org",
-    "Password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
-    "Collecttions": {
-      "Collections": null
-    }
-  },
-  {
-    "Email": "test@gmail.com",
-    "Password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
-    "Collecttions": {
-      "Collections": null
-    }
-  },
-  {
-    "Email": "lynette@gmail.com",
+    "Email": "87924606b4131a8aceeeae8868531fbb9712aaa07a5d3a756b26ce0f5d6ca674",
     "Password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
     "Collecttions": {
       "Collections": [
         {
-          "Name": "Deepwood Memories",
-          "Image": "https://genshin.jmp.blue/artifacts/deepwood-memories/circlet-of-logos",
-          "Type": "artifact",
-          "LinkToTheRessource": "/artifacts/details?id=deepwood-memories",
-          "DateAdded": "time.Date(2025, time.January, 17, 18, 15, 53, 151717800, time.Local)"
-        },
-        {
-          "Name": "Crimson Witch of Flames",
-          "Image": "https://genshin.jmp.blue/artifacts/crimson-witch-of-flames/circlet-of-logos",
-          "Type": "artifact",
-          "LinkToTheRessource": "/artifacts/details?id=crimson-witch-of-flames",
-          "DateAdded": "time.Date(2025, time.January, 17, 18, 15, 55, 253986400, time.Local)"
+          "Name": "Arlecchino",
+          "Image": "https://genshin.jmp.blue/characters/arlecchino/card",
+          "Type": "character",
+          "LinkToTheRessource": "/characters/details?id=arlecchino",
+          "DateAdded": "time.Date(2025, time.February, 14, 17, 55, 5, 855529700, time.Local)"
         }
       ]
     }

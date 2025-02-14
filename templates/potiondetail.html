@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/static/css/style.css">
-    <title>Potion</title>
+    <link rel="stylesheet" href="/static/css/potionDetails.css">
+    <title>{{.Data.Name}} - Genshin Impact Potion</title>
 </head>
 <body>
     <header class="header">
@@ -16,13 +17,40 @@
             {{template "navbar1"}}
         {{end}}
     </header>
-    <h1>{{.Data.Name}}</h1>
-    <p>{{.Data.Effect}}</p>
-    <h1>{{.Data.Rarity}}</h1>
-    {{range .Data.Crafting}}
-        <h2>{{.Item}}</h2>
-        <span>{{.Quantity}}</span>
-    {{end}}
-    <img src="{{.Data.ImageUrl}}" alt="{{.Data.Name}}">
+
+    <main class="potion-details">
+        <div class="potion-card">
+            <h1 class="potion-title">{{.Data.Name}}</h1>
+            
+            <div class="potion-content">
+                <div class="potion-image-section">
+                    <img src="{{.Data.ImageUrl}}" alt="{{.Data.Name}}" class="potion-image">
+                    <div class="potion-rarity">
+                        ⭐⭐⭐
+                    </div>
+                </div>
+
+                <div class="potion-info-section">
+                    <div class="info-block">
+                        <h2 class="info-title">Effect</h2>
+                        <p class="effect-text">{{.Data.Effect}}</p>
+                    </div>
+
+                    <div class="info-block">
+                        <h2 class="info-title">Crafting Materials</h2>
+                        <div class="crafting-grid">
+                            {{range .Data.Crafting}}
+                                <div class="crafting-item">
+                                    <span class="item-name">{{.Item}}</span>
+                                    <span class="item-quantity">Quantity: {{.Quantity}}</span>
+                                </div>
+                            {{end}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
 </html>
 {{end}}

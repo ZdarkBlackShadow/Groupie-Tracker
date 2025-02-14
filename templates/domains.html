@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/domains.css">
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
-    <title>Genshin</title>
+    <title>Genshin Impact - Domains</title>
 </head>
 <body>
     <header class="header">
@@ -17,14 +17,19 @@
             {{template "navbar1"}}
         {{end}}
     </header>
+
+    <h1 class="page-title">Domains</h1>
+
     <div class="domain-list">
         {{range .Data}}
             <div class="domain-card">
                 <a href="/domains/details?id={{.Id}}">
-                    <h1>Domain's name : {{.Name}}</h1>
-                    <img src="/static/image/Domain_Card.webp" alt="">
+                    <h2 class="domain-name">{{.Name}}</h2>
+                    <img src="/static/image/Domain_Card.webp" alt="{{.Name}}" class="domain-image">
                 </a>
-                <a href="/add-to-collection?type=domain&id={{.Id}}">Add to collections</a>
+                <div class="add-collection">
+                    <a href="/add-to-collection?type=domain&id={{.Id}}">Add to Collection</a>
+                </div>
             </div>
         {{end}}
     </div>

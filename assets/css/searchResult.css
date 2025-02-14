@@ -1,3 +1,19 @@
+@font-face {
+    font-family: 'GenshinFont';
+    src: url('/static/ttf/zh-cn.ttf') format('truetype');
+}
+
+body {
+    font-family: 'GenshinFont', sans-serif;
+    background-image: url('/static/image/background.webp');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
 .page-title {
     text-align: center;
     color: #FFD700;
@@ -6,7 +22,7 @@
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.domain-list {
+.search-results {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
@@ -15,7 +31,7 @@
     max-width: 1400px;
 }
 
-.domain-card {
+.result-card {
     background: rgba(20, 20, 20, 0.9);
     border-radius: 15px;
     overflow: hidden;
@@ -26,50 +42,29 @@
     flex-direction: column;
 }
 
-.domain-card:hover {
+.result-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
     border-color: rgba(255, 215, 0, 0.5);
 }
 
-.domain-card > a:first-child {
-    text-decoration: none;
-    color: inherit;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 1.5rem;
-}
-
-.domain-name {
+.result-name {
     color: #FFD700;
     font-size: 1.5rem;
-    margin: 0 0 1rem 0;
     text-align: center;
+    padding: 1.5rem;
+    margin: 0;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.domain-image {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-    border-radius: 10px;
-    margin-bottom: 1rem;
-}
-
-.domain-card:hover .domain-image {
-    transform: scale(1.1);
-}
-
-.add-collection {
+.result-link {
     text-align: center;
     padding: 1rem;
     background: rgba(0, 0, 0, 0.8);
     margin-top: auto;
 }
 
-.add-collection a {
+.result-link a {
     display: inline-block;
     padding: 0.8rem 1.5rem;
     background: rgba(255, 215, 0, 0.2);
@@ -77,12 +72,35 @@
     border: 1px solid #FFD700;
     border-radius: 25px;
     font-size: 0.9rem;
-    transition: all 0.3s ease;
     text-decoration: none;
+    transition: all 0.3s ease;
 }
 
-.add-collection a:hover {
+.result-link a:hover {
     background: rgba(255, 215, 0, 0.3);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(255, 215, 0, 0.2);
+}
+
+.no-results {
+    text-align: center;
+    padding: 3rem;
+    background: rgba(20, 20, 20, 0.9);
+    border-radius: 15px;
+    margin: 2rem auto;
+    max-width: 600px;
+}
+
+.no-results-message {
+    color: #FFD700;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.no-results-description {
+    color: #ffffff;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    opacity: 0.8;
 }

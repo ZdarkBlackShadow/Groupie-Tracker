@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dishes</title>
+    <title>Genshin Impact - Food</title>
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/food.css">
 </head>
 <body>
     <header class="header">
@@ -16,26 +17,34 @@
             {{template "navbar1"}}
         {{end}}
     </header>
+
+    <h1 class="page-title">Food</h1>
+
+    <div class="food-container">
         {{range .Data}}
-        <tr>
-            <h1>{{.Name}}</h1>
-            <h1>{{.Rarity}}</h1>
-            <h1>{{.Type}}</h1>
-            <h1>{{.Effect}}</h1>
-            <h1>
-                {{if .HasRecipe}}
-                <ul>
-                    {{range .Recipe}}
-                    <li>{{.Quantity}} x {{.Item}}</li>
-                    {{end}}
-                </ul>
-                {{else}}
-                <em>No recipe available</em>
-                {{end}}
-            </h1>
-            <h1>{{.Description}}</h1>
-        </tr>
+            <div class="food-card">
+                <div class="food-info">
+                    <h2 class="food-name">{{.Name}}</h2>
+                    <div class="food-type">{{.Type}}</div>
+                    <div class="food-rarity">
+                        {{if eq .Rarity 5}}⭐⭐⭐⭐⭐{{end}}
+                        {{if eq .Rarity 4}}⭐⭐⭐⭐{{end}}
+                        {{if eq .Rarity 3}}⭐⭐⭐{{end}}
+                        {{if eq .Rarity 2}}⭐⭐{{end}}
+                        {{if eq .Rarity 1}}⭐{{end}}
+                    </div>
+                </div>
+                <a href="/foods/details?id={{.Id}}" class="food-link">
+                    <div class="food-image-container">
+                        <img src="{{.ImageUrl}}" alt="{{.Name}}" class="food-image">
+                    </div>
+                </a>
+                <div class="add-collection">
+                    <a href="add-to-collection?type=food&id={{.Id}}">Add to Collection</a>
+                </div>
+            </div>
         {{end}}
+    </div>
 </body>
 </html>
 {{end}}

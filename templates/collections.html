@@ -7,7 +7,7 @@
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/collections.css">
-    <title>Collections</title>
+    <title>Genshin Impact - Collections</title>
 </head>
 <body>
     <header class="header">
@@ -17,19 +17,41 @@
             {{template "navbar1"}}
         {{end}}
     </header>
+
+    <h1 class="page-title">My Collections</h1>
+
     {{if eq .IsLogin true}}
-        {{range .Data.Collections}}
-        <div>
-            <a href="{{.LinkToTheRessource}}">
-                <h2>{{.Name}}</h2>
-                <img src="{{.Image}}" alt="{{.Name}}">
-                <p>{{.DateAdded}}</p>
-            </a>
-            <a href="/remove-from-the-collection?name={{.Name}}&type={{.Type}}">Remove From the collection</a>
-        </div>
+        {{if len .Data.Collections}}
+            <div class="collections-container">
+                {{range .Data.Collections}}
+                    <div class="collection-card">
+                        <div class="collection-info">
+                            <h2 class="collection-name">{{.Name}}</h2>
+                            <p class="collection-date">Added on {{.DateAdded}}</p>
+                        </div>
+                        <a href="{{.LinkToTheRessource}}" class="collection-link">
+                            <div class="collection-image-container">
+                                <img src="{{.Image}}" alt="{{.Name}}" class="collection-image">
+                            </div>
+                        </a>
+                        <div class="remove-button">
+                            <a href="/remove-from-the-collection?name={{.Name}}&type={{.Type}}">Remove from Collection</a>
+                        </div>
+                    </div>
+                {{end}}
+            </div>
+        {{else}}
+            <div class="empty-collection">
+                <h2 class="empty-message">Your Collection is Empty</h2>
+                <p class="empty-description">Start exploring and add items to your collection!</p>
+            </div>
         {{end}}
     {{else}}
-        <p>You're not connected</p>
+        <div class="not-connected">
+            <h2 class="empty-message">You're not connected</h2>
+            <p class="empty-description">Please log in to view and manage your collections</p>
+            <a href="/login" class="login-link">Login or Create Account</a>
+        </div>
     {{end}}
 </body>
 </html>

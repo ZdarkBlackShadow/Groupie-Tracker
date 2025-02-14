@@ -471,6 +471,8 @@ type FoodStruct struct {
 	HasRecipe   bool     `json:"hasRecipe"`
 	Description string   `json:"description"`
 	Recipe      []Recipe `json:"recipe"`
+	ImageUrl    string
+	Id          string
 }
 
 type Recipe struct {
@@ -523,5 +525,5 @@ type AllData struct {
 	AllEnnemies   []Enemies
 	AllWeapons    []Weapon
 	AllPotions    []Potion
-	AllFood       map[string]FoodStruct
+	AllFood       []FoodStruct
 }

@@ -1,0 +1,154 @@
+@font-face {
+    font-family: 'GenshinFont';
+    src: url('/static/ttf/zh-cn.ttf') format('truetype');
+}
+
+body {
+    font-family: 'GenshinFont', sans-serif;
+    background-image: url('/static/image/background.webp');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.enemy-details {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+
+.enemy-card {
+    background: rgba(20, 20, 20, 0.95);
+    border-radius: 20px;
+    padding: 3rem;
+    margin-top: 5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    color: #ffffff;
+}
+
+.enemy-title {
+    color: #FFD700;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.enemy-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    align-items: start;
+}
+
+.enemy-image-section {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    grid-column: 1 / -1;
+    margin-bottom: 2rem;
+}
+
+.enemy-image {
+    width: 300px;
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+}
+
+.enemy-info-section {
+    grid-column: 1 / -1;
+}
+
+.info-block {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2rem;
+    border-radius: 15px;
+    height: 100%;
+}
+
+.info-title {
+    color: #FFD700;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+}
+
+.info-text {
+    color: #ffffff;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.elements-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.element-tag {
+    background: rgba(255, 215, 0, 0.2);
+    color: #FFD700;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 1rem;
+    border: 1px solid #FFD700;
+}
+
+.drops-grid, .artifacts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.drop-item, .artifact-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.descriptions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.description-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 10px;
+}
+
+.description-title {
+    color: #FFD700;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.info-grid > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+@media (max-width: 1024px) {
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}

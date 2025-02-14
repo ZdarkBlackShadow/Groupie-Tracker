@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Genshin</title>
+    <title>{{.Data.Name}} - Genshin Impact Enemy</title>
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/enemiesDetails.css">
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
 </head>
 <body>
@@ -16,38 +17,98 @@
             {{template "navbar1"}}
         {{end}}
     </header>
-    <h1>{{.Data.Name}}</h1>
-    <img src="{{.Data.ImageUrl}}" alt="">
-    <p>Description : {{.Data.Description}}</p>
-    <h2>Region {{.Data.Region}}</h2>
-    <h2>Type : {{.Data.Type}}</h2>
-    <h2>Family : {{.Data.Family}}</h2>
-    <h2>Faction : {{.Data.Faction}}</h2>
-    <h2>Element(s) : </h2>
-    {{range .Data.Elements}}
-        {{.}}
-    {{end}}
-    <h2>Drop(s) :</h2>
-    {{range .Data.Drops}}
-        <h3>Name : {{.Name}}</h3>
-        <h3>Rarity : {{.Rarity}}</h3>
-        <h3>Minimum Level : {{.MinimumLevel}}</h3>
-    {{end}}
-    <h2>Artifacts :</h2>
-    {{range .Data.Artifacts}}
-        <h3>Name : {{.Name}}</h3>
-        <h3>Set : {{.Set}}</h3>
-        <h3>Rarity : {{.Rarity}}</h3>
-    {{end}}
-    <h2>Descriptions of the enemies</h2>
-    {{range .Data.Descriptions }}
-        <h3>Name : {{.Name}}</h3>
-        <p>Description : {{.Description}}</p>
-    {{end}}
-    <h2>Elemental Descriptions</h2>
-    {{range .Data.ElementalDescriptions}}
-        <h3>Element : {{.Element}}</h3>
-        <p>Description : {{.Description}}</p>
-    {{end}}
+
+    <main class="enemy-details">
+        <div class="enemy-card">
+            <h1 class="enemy-title">{{.Data.Name}}</h1>
+            
+            <div class="enemy-content">
+                <div class="enemy-image-section">
+                    <img src="{{.Data.ImageUrl}}" alt="{{.Data.Name}}" class="enemy-image">
+                </div>
+
+                <div class="enemy-info-section">
+                    <div class="info-grid">
+                        <div>
+                            <div class="info-block">
+                                <h2 class="info-title">Information</h2>
+                                <p class="info-text"><strong>Type:</strong> {{.Data.Type}}</p>
+                                <p class="info-text"><strong>Family:</strong> {{.Data.Family}}</p>
+                                <p class="info-text"><strong>Faction:</strong> {{.Data.Faction}}</p>
+                                <p class="info-text"><strong>Region:</strong> {{.Data.Region}}</p>
+                            </div>
+
+                            <div class="info-block">
+                                <h2 class="info-title">Elements</h2>
+                                <div class="elements-list">
+                                    {{range .Data.Elements}}
+                                        <span class="element-tag">{{.}}</span>
+                                    {{end}}
+                                </div>
+                            </div>
+
+                            <div class="info-block">
+                                <h2 class="info-title">Drops</h2>
+                                <div class="drops-grid">
+                                    {{range .Data.Drops}}
+                                        <div class="drop-item">
+                                            <h3 class="description-title">{{.Name}}</h3>
+                                            <p class="info-text">Rarity: {{.Rarity}}</p>
+                                            <p class="info-text">Min Level: {{.MinimumLevel}}</p>
+                                        </div>
+                                    {{end}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="info-block">
+                                <h2 class="info-title">Description</h2>
+                                <p class="info-text">{{.Data.Description}}</p>
+                            </div>
+
+                            <div class="info-block">
+                                <h2 class="info-title">Artifacts</h2>
+                                <div class="artifacts-grid">
+                                    {{range .Data.Artifacts}}
+                                        <div class="artifact-item">
+                                            <h3 class="description-title">{{.Name}}</h3>
+                                            <p class="info-text">Set: {{.Set}}</p>
+                                            <p class="info-text">Rarity: {{.Rarity}}</p>
+                                        </div>
+                                    {{end}}
+                                </div>
+                            </div>
+
+                            <div class="info-block">
+                                <h2 class="info-title">Enemy Descriptions</h2>
+                                <div class="descriptions-list">
+                                    {{range .Data.Descriptions}}
+                                        <div class="description-item">
+                                            <h3 class="description-title">{{.Name}}</h3>
+                                            <p class="info-text">{{.Description}}</p>
+                                        </div>
+                                    {{end}}
+                                </div>
+                            </div>
+
+                            <div class="info-block">
+                                <h2 class="info-title">Elemental Descriptions</h2>
+                                <div class="descriptions-list">
+                                    {{range .Data.ElementalDescriptions}}
+                                        <div class="description-item">
+                                            <h3 class="description-title">{{.Element}}</h3>
+                                            <p class="info-text">{{.Description}}</p>
+                                        </div>
+                                    {{end}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
+</html>
 {{end}}

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Genshin</title>
+    <title>{{.Data.Name}} - Genshin Impact Domain</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/domainDetails.css">
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
@@ -17,44 +17,92 @@
             {{template "navbar1"}}
         {{end}}
     </header>
-    <div class="domain-card">
-        <h1>Domain's name : {{.Data.Name}}</h1>
-        <h2>Type : {{.Data.Type}}</h2>
-        <h2>Description : {{.Data.Description}}</h2>
-        <h2>Location : {{.Data.Location}}</h2>
-        <h2>Nation : {{.Data.Nation}}</h2>
-        <h2>Requirements : </h2>
-        {{range .Data.Requirements}}
-            <h3>Level : {{.Level}}</h3>
-            <h3>Adventure rank required : {{.AdventureRank}}</h3>
-            <h3>Recommended Level : {{.RecommendedLevel}}</h3>
-            <h3>Ley Line Disorder</h3>
-            {{range .LeyLineDisorder}}
-                <h4>Value : {{.}}</h4>
-            {{end}}
-        {{end}}
-        <h2>Recommended Elements :</h2>
-        {{range .Data.RecommendedElements}}
-            <h4>{{.}}</h4>
-        {{end}}
-        <h2>Rewards :</h2>
-        {{range .Data.Rewards}}
-            <h4>Day : {{.Day}}</h4>
-            <h4>Rewards Details</h4>
-            {{range .Details}}
-                <h5>Level : {{.Level}}</h5>
-                <h5>Adventure Experience : {{.AdventureExperience}}</h5>
-                <h5>Companionship Experience : {{.CompanionshipExperience}}</h5>
-                <h5>Mora : {{.Mora}}</h5>
-                <h5>Drops :</h5>
-                {{range .Drops}}
-                    <h6>Name : {{.Name}}</h6>
-                    <h6>Minimum drops : {{.DropMin}}</h6>
-                    <h6>Maximum drops : {{.DropMax}}</h6>
+
+    <main class="domain-details">
+        <div class="domain-card">
+            <h1 class="domain-title">{{.Data.Name}}</h1>
+
+            <div class="info-section">
+                <h2 class="info-title">Domain Information</h2>
+                <p class="info-content"><strong>Type:</strong> {{.Data.Type}}</p>
+                <p class="info-content"><strong>Description:</strong> {{.Data.Description}}</p>
+                <p class="info-content"><strong>Location:</strong> {{.Data.Location}}</p>
+                <p class="info-content"><strong>Nation:</strong> {{.Data.Nation}}</p>
+            </div>
+
+            <div class="info-section">
+                <h2 class="info-title">Requirements</h2>
+                <div class="requirements-grid">
+                    {{range .Data.Requirements}}
+                        <div class="requirement-card">
+                            <p class="info-content"><strong>Level:</strong> {{.Level}}</p>
+                            <p class="info-content"><strong>Adventure Rank:</strong> {{.AdventureRank}}</p>
+                            <p class="info-content"><strong>Recommended Level:</strong> {{.RecommendedLevel}}</p>
+                            
+                            <h3 class="info-title" style="font-size: 1.2rem;">Ley Line Disorder</h3>
+                            <ul class="ley-line-list">
+                                {{range .LeyLineDisorder}}
+                                    <li class="ley-line-item">{{.}}</li>
+                                {{end}}
+                            </ul>
+                        </div>
+                    {{end}}
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h2 class="info-title">Recommended Elements</h2>
+                <div class="elements-list">
+                    {{range .Data.RecommendedElements}}
+                        <span class="element-tag {{.}}">{{.}}</span>
+                    {{end}}
+                </div>
+            </div>
+
+            <div class="info-section rewards-section">
+                <h2 class="info-title">Rewards</h2>
+                {{range .Data.Rewards}}
+                    <div class="reward-day">
+                        <h3 class="info-title" style="font-size: 1.4rem;">
+                            {{if eq .Day "mon"}}
+                                Monday
+                            {{else if eq .Day "tue"}}
+                                Tuesday
+                            {{else if eq .Day "wed"}}
+                                Wednesday
+                            {{else if eq .Day "thu"}}
+                                Thursday
+                            {{else if eq .Day "fri"}}
+                                Friday
+                            {{else if eq .Day "sat"}}
+                                Saturday
+                            {{else if eq .Day "sun"}}
+                                Sunday
+                            {{end}}
+                        </h3>
+                        {{range .Details}}
+                            <div class="reward-details">
+                                <p class="info-content"><strong>Level:</strong> {{.Level}}</p>
+                                <p class="info-content"><strong>Adventure Experience:</strong> {{.AdventureExperience}}</p>
+                                <p class="info-content"><strong>Companionship Experience:</strong> {{.CompanionshipExperience}}</p>
+                                <p class="info-content"><strong>Mora:</strong> {{.Mora}}</p>
+                                
+                                <h4 class="info-title" style="font-size: 1.1rem;">Possible Drops</h4>
+                                <div class="drops-list">
+                                    {{range .Drops}}
+                                        <div class="drop-item">
+                                            <p class="info-content"><strong>{{.Name}}</strong></p>
+                                            <p class="info-content">{{.DropMin}} - {{.DropMax}} drops</p>
+                                        </div>
+                                    {{end}}
+                                </div>
+                            </div>
+                        {{end}}
+                    </div>
                 {{end}}
-            {{end}}
-        {{end}}
-    </div>
+            </div>
+        </div>
+    </main>
 </body>
 </html>
 {{end}}

@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/static/css/style.css">
-    <title>Potions</title>
+    <link rel="stylesheet" href="/static/css/potions.css">
+    <title>Genshin Impact - Potions</title>
 </head>
 <body>
     <header class="header">
@@ -16,12 +17,26 @@
             {{template "navbar1"}}
         {{end}}
     </header>
-    {{range .Data}}
-        <h1>{{.Name}}</h1>
-        <img src="{{.ImageUrl}}" alt="{{.Name}}">
-        <a href="/potions/details?id={{.Id}}">Details</a>
-        <a href="/add-to-collection?type=potion&id={{.Id}}">Add to collections</a>
-    {{end}}
+
+    <h1 class="page-title">Potions</h1>
+
+    <div class="potions-container">
+        {{range .Data}}
+            <div class="potion-card">
+                <div class="potion-info">
+                    <h2 class="potion-name">{{.Name}}</h2>
+                </div>
+                <a href="/potions/details?id={{.Id}}" class="potion-link">
+                    <div class="potion-image-container">
+                        <img src="{{.ImageUrl}}" alt="{{.Name}}" class="potion-image">
+                    </div>
+                </a>
+                <div class="potion-buttons">
+                    <a href="/add-to-collection?type=potion&id={{.Id}}" class="potion-button">Add to Collection</a>
+                </div>
+            </div>
+        {{end}}
+    </div>
 </body>
 </html>
 {{end}}

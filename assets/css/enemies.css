@@ -3,35 +3,113 @@
     src: url('/static/ttf/zh-cn.ttf') format('truetype');
 }
 
+body {
+    font-family: 'GenshinFont', sans-serif;
+    background-image: url('/static/image/background.webp');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.page-title {
+    text-align: center;
+    color: #FFD700;
+    font-size: 2.5rem;
+    margin: 2rem 0;
+    margin-top: 8rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
 .enemies-container {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* Create 5 columns */
-    gap: 20px;
-    padding: 20px;
-    margin: auto;
-    max-width: 1200px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 1400px;
 }
 
 .enemies-card {
-    background: rgba(0, 0, 0, 0.6);
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    color: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: rgba(20, 20, 20, 0.9);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
 }
 
 .enemies-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 215, 0, 0.5);
 }
 
-.enemies-image {
-    width: 100%; /* L'image occupe toute la largeur de la carte */
-    height: auto; /* Garde le ratio d'aspect */
-    border-radius: 8px; /* Coins arrondis pour l'image */
-    margin-bottom: 15px; /* Espace avec le texte */
+.enemy-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.enemy-info {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.enemy-name {
+    color: #FFD700;
+    font-size: 1.5rem;
+    margin: 0 0 1rem 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.enemy-image-container {
+    width: 100%;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.enemy-image {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    transition: transform 0.5s ease;
+}
+
+.enemies-card:hover .enemy-image {
+    transform: scale(1.1);
+}
+
+.add-collection {
+    text-align: center;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.8);
+    margin-top: auto;
+}
+
+.add-collection a {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background: rgba(255, 215, 0, 0.2);
+    color: #FFD700;
+    border: 1px solid #FFD700;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.add-collection a:hover {
+    background: rgba(255, 215, 0, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.2);
 }
 
 .enemies-name {
