@@ -8,6 +8,7 @@
     <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/food.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header class="header">
@@ -18,31 +19,112 @@
         {{end}}
     </header>
 
+    <button id="openMenuButton">
+        <i class="fas fa-filter"></i> Filtres
+    </button>
+
+    <div id="overlay"></div>
+
+    <div id="filterMenu">
+        <form id="filterForm">
+            <h4>Recipe Status</h4>
+            <div class="filter-group">
+                <label>
+                    <input type="radio" name="recipe_filter" value="1"> Has Recipe
+                </label>
+                <label>
+                    <input type="radio" name="recipe_filter" value="0"> No Recipe
+                </label>
+            </div>
+
+            <h4>Food Type</h4>
+            <div class="filter-group">
+                <label>
+                    <input type="checkbox" name="types_filter" value="ATK-Boosting Dish"> ATK Boost
+                </label>
+                <label>
+                    <input type="checkbox" name="types_filter" value="DEF-Boosting Dish"> DEF Boost
+                </label>
+                <label>
+                    <input type="checkbox" name="types_filter" value="Recovery Dish"> Recovery
+                </label>
+                <label>
+                    <input type="checkbox" name="types_filter" value="Adventurer's Dish"> Adventure
+                </label>
+            </div>
+
+            <h4>Rarity</h4>
+            <div class="filter-group">
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="1"> ⭐
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="2"> ⭐⭐
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="3"> ⭐⭐⭐
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="4"> ⭐⭐⭐⭐
+                </label>
+                <label>
+                    <input type="checkbox" name="rarity_filter" value="5"> ⭐⭐⭐⭐⭐
+                </label>
+            </div>
+
+            <h4>Sort By</h4>
+            <div class="filter-group">
+                <label>
+                    <input type="radio" name="sort_filter" value="az"> A-Z
+                </label>
+                <label>
+                    <input type="radio" name="sort_filter" value="za"> Z-A
+                </label>
+            </div>
+
+            <div class="buttons">
+                <button type="button" id="resetFiltersButton">Reset</button>
+                <button type="button" id="applyFiltersButton">Apply</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="/static/js/food.js"></script>
+
     <h1 class="page-title">Food</h1>
 
     <div class="food-container">
         {{range .Data}}
             <div class="food-card">
-                <div class="food-info">
-                    <h2 class="food-name">{{.Name}}</h2>
-                    <div class="food-type">{{.Type}}</div>
-                    <div class="food-rarity">
-                        {{if eq .Rarity 5}}⭐⭐⭐⭐⭐{{end}}
-                        {{if eq .Rarity 4}}⭐⭐⭐⭐{{end}}
-                        {{if eq .Rarity 3}}⭐⭐⭐{{end}}
-                        {{if eq .Rarity 2}}⭐⭐{{end}}
-                        {{if eq .Rarity 1}}⭐{{end}}
-                    </div>
-                </div>
                 <a href="/foods/details?id={{.Id}}" class="food-link">
+                    <div class="food-info">
+                        <h2 class="food-name">{{.Name}}</h2>
+                        <div class="food-type">{{.Type}}</div>
+                        <div class="food-rarity">
+                            {{if eq .Rarity 5}}⭐⭐⭐⭐⭐{{end}}
+                            {{if eq .Rarity 4}}⭐⭐⭐⭐{{end}}
+                            {{if eq .Rarity 3}}⭐⭐⭐{{end}}
+                            {{if eq .Rarity 2}}⭐⭐{{end}}
+                            {{if eq .Rarity 1}}⭐{{end}}
+                        </div>
+                    </div>
                     <div class="food-image-container">
                         <img src="{{.ImageUrl}}" alt="{{.Name}}" class="food-image">
                     </div>
                 </a>
                 <div class="add-collection">
-                    <a href="add-to-collection?type=food&id={{.Id}}">Add to Collection</a>
+                    <a href="/add-to-collection?type=food&id={{.Id}}">Add to Collection</a>
                 </div>
             </div>
+        {{end}}
+    </div>
+    <div class="switch-Page">
+        {{if gt .CurrentPage 1}}
+        <a href="?page={{sub .CurrentPage 1}}">Previous</a>
+        {{end}}
+        <span>Page {{.CurrentPage}} of {{.TotalPages}}</span>
+        {{if lt .CurrentPage .TotalPages}}
+        <a href="?page={{add .CurrentPage 1}}">Next</a>
         {{end}}
     </div>
 </body>

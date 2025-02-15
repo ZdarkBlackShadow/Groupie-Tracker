@@ -70,13 +70,17 @@ func GetCollectionOfTheActualUser() service.Register {
 
 func handleAddToCollection(w http.ResponseWriter, r *http.Request) {
 	if IsLogin {
-		Type, id := r.URL.Query().Get("type"), r.URL.Query().Get("id")
+		Type, id, detail := r.URL.Query().Get("type"), r.URL.Query().Get("id"), r.URL.Query().Get("detail")
 		var temp service.CollectionsStruct
 		var LinkToRedirect string
+		var alreadyInCollection bool = false
+		if detail != "" {
+			detail = "/details?id=" + id
+		}
 		switch Type {
 		case "artifact":
 			artifact := service.GetAllDataAboutOneArtifact(id)
-			LinkToRedirect = "/artifacts"
+			LinkToRedirect = "/artifacts" + detail
 			temp = service.CollectionsStruct{
 				Name:               artifact.Name,
 				Image:              artifact.ImageURL,
@@ -86,7 +90,7 @@ func handleAddToCollection(w http.ResponseWriter, r *http.Request) {
 			}
 		case "character":
 			character := service.GetAllDetailsAboutOneCharacters(id)
-			LinkToRedirect = "/characters"
+			LinkToRedirect = "/characters" + detail
 			temp = service.CollectionsStruct{
 				Name:               character.Name,
 				Image:              character.ImageUrl,
@@ -96,7 +100,7 @@ func handleAddToCollection(w http.ResponseWriter, r *http.Request) {
 			}
 		case "domain":
 			domain := service.GetAllDetailsAboutOneDomains(id)
-			LinkToRedirect = "/domains"
+			LinkToRedirect = "/domains" + detail
 			temp = service.CollectionsStruct{
 				Name:               domain.Name,
 				Image:              "/static/image/Domain_Card.webp",
@@ -106,7 +110,7 @@ func handleAddToCollection(w http.ResponseWriter, r *http.Request) {
 			}
 		case "element":
 			element := service.GetAllDetailsAboutOneElements(id)
-			LinkToRedirect = "/elements"
+			LinkToRedirect = "/elements" + detail
 			temp = service.CollectionsStruct{
 				Name:               element.Name,
 				Image:              element.ImageUrl,
@@ -116,7 +120,7 @@ func handleAddToCollection(w http.ResponseWriter, r *http.Request) {
 			}
 		case "enemie":
 			enemie := service.GetAllDetailsAboutOneEnemie(id)
-			LinkToRedirect = "/enemies"
+			LinkToRedirect = "/enemies" + detail
 			temp = service.CollectionsStruct{
 				Name:               enemie.Name,
 				Image:              enemie.ImageUrl,
@@ -125,7 +129,7 @@ func handleAddToCollection(w http.ResponseWriter, r *http.Request) {
 				DateAdded:          time.Now().Local().GoString(),
 			}
 		case "weapon":
-			LinkToRedirect = "/weapons"
+			LinkToRedirect = "/weapons" + detail
 			weapon := service.GetAllDataAboutOneWeapon(id)
 			temp = service.CollectionsStruct{
 				Name:               weapon.Name,
@@ -145,7 +149,7 @@ func handleAddToCollection(w http.ResponseWriter, r *http.Request) {
 				DateAdded:          time.Now().Local().GoString(),
 			}
 		case "food":
-			LinkToRedirect = "/foods"
+			LinkToRedirect = "/foods" + detail
 			food := service.GetDetailsOfFood(id, API_Data.AllFood)
 			temp = service.CollectionsStruct{
 				Name:               food.Name,
@@ -155,7 +159,7 @@ func handleAddToCollection(w http.ResponseWriter, r *http.Request) {
 				DateAdded:          time.Now().Local().GoString(),
 			}
 		case "potion":
-			LinkToRedirect = "/potions"
+			LinkToRedirect = "/potions" + detail
 			potion := service.GetDetailsAboutOnePotion(id, service.GetAllPotions())
 			temp = service.CollectionsStruct{
 				Name:               potion.Name,
@@ -167,7 +171,6 @@ func handleAddToCollection(w http.ResponseWriter, r *http.Request) {
 		default:
 			fmt.Println("Error with the type")
 		}
-		InfoOfUserWhoAreConnected.Collecttions.Collections = append(InfoOfUserWhoAreConnected.Collecttions.Collections, temp)
 		var data []service.Register
 		filecontent, err := ioutil.ReadFile("./data/data.json")
 		if err != nil {
@@ -178,16 +181,28 @@ func handleAddToCollection(w http.ResponseWriter, r *http.Request) {
 		}
 		for i, element := range data {
 			if element.Email == InfoOfUserWhoAreConnected.Email && element.Password == InfoOfUserWhoAreConnected.Password {
-				data[i].Collecttions = InfoOfUserWhoAreConnected.Collecttions
+				for _, element := range data[i].Collecttions.Collections {
+					if element.Name == temp.Name && element.Type == temp.Type {
+						fmt.Println("Element already in the collection")
+						alreadyInCollection = true
+						break
+					}
+				}
+				if !alreadyInCollection {
+					InfoOfUserWhoAreConnected.Collecttions.Collections = append(InfoOfUserWhoAreConnected.Collecttions.Collections, temp)
+					data[i].Collecttions = InfoOfUserWhoAreConnected.Collecttions
+				}
 				break
 			}
 		}
-		updatedJsonData, err := json.MarshalIndent(data, "", "  ")
-		if err != nil {
-			log.Fatalf("Erreur lors de l'encodage JSON : %v", err)
-		}
-		if err := ioutil.WriteFile("./data/data.json", updatedJsonData, 0644); err != nil {
-			log.Fatalf("Erreur lors de l'écriture dans le fichier : %v", err)
+		if !alreadyInCollection {
+			updatedJsonData, err := json.MarshalIndent(data, "", "  ")
+			if err != nil {
+				log.Fatalf("Erreur lors de l'encodage JSON : %v", err)
+			}
+			if err := ioutil.WriteFile("./data/data.json", updatedJsonData, 0644); err != nil {
+				log.Fatalf("Erreur lors de l'écriture dans le fichier : %v", err)
+			}
 		}
 		http.Redirect(w, r, LinkToRedirect, http.StatusSeeOther)
 	} else {

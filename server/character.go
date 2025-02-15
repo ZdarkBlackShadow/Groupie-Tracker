@@ -54,7 +54,7 @@ func GetCharacterFilters(r *http.Request) CharacterFilters {
 		Nations:           r.URL.Query()["nations_filter"],
 		Rarity:            r.URL.Query()["rarity_filter"],
 		Element:           r.URL.Query()["elements_filter"],
-		ReleaseDateFilter: r.URL.Query().Get("release_date_filter"),
+		ReleaseDateFilter: r.URL.Query().Get("sort_filter"),
 	}
 	return filters
 }
@@ -128,7 +128,7 @@ func Characters(w http.ResponseWriter, r *http.Request) {
 		page = 1
 	}
 
-	itemsPerPage := 20
+	itemsPerPage := 16
 	pagedData, totalPages := PaginateCharacters(allCharacters, page, itemsPerPage)
 
 	dataArtifacts := DataCharacters{

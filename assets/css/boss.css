@@ -1,16 +1,8 @@
-@font-face {
-    font-family: 'GenshinFont';
-    src: url('/static/ttf/zh-cn.ttf') format('truetype');
-}
-
 body {
     font-family: 'GenshinFont', sans-serif;
     background-image: url("/static/image/elementbackground.jpeg");
     background-size: cover;
     background-position: center;
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
 }
 
 .boss-list {

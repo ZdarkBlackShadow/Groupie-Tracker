@@ -243,3 +243,48 @@ body {
     background: rgba(255, 172, 50, 0.3);
     border: 1px solid var(--geo-color);
 }
+
+.add-collection {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    border-radius: 25px;
+    padding: 1rem 2rem;
+}
+
+.add-collection a {
+    text-decoration: none;
+    color: #000000;
+}
+
+.add-collection:hover {
+    transform: scale(1.05);
+}
+
+.add-collection.element-Anemo {
+    background: var(--anemo-color);
+}
+
+.add-collection.element-Cryo {
+    background: var(--cryo-color);
+}
+
+.add-collection.element-Dendro {
+    background: var(--dendro-color);
+}
+
+.add-collection.element-Electro {
+    background: var(--electro-color);
+}
+
+.add-collection.element-Geo {
+    background: var(--geo-color);
+}
+
+.add-collection.element-Hydro {
+    background: var(--hydro-color);
+}
+
+.add-collection.element-Pyro {
+    background: var(--pyro-color);
+}

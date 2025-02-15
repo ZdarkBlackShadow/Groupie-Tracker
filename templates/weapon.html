@@ -80,11 +80,11 @@
 
     <div class="switch-Page">
         {{if gt .CurrentPage 1}}
-            <a href="?page={{sub .CurrentPage 1}}">Previous</a>
+        <a href="?page={{sub .CurrentPage 1}}">Previous</a>
         {{end}}
         <span>Page {{.CurrentPage}} of {{.TotalPages}}</span>
         {{if lt .CurrentPage .TotalPages}}
-            <a href="?page={{add .CurrentPage 1}}">Next</a>
+        <a href="?page={{add .CurrentPage 1}}">Next</a>
         {{end}}
     </div>
 

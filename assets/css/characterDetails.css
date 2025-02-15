@@ -353,3 +353,23 @@ body {
         justify-content: center;
     }
 }
+
+.add-collection {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+    background: var(--vision-color);
+    border-radius: 20px;
+    z-index: 100;
+}
+
+.add-collection:hover {
+    transform: scale(1.05);
+}
+
+.add-collection a {
+    text-decoration: none;
+    color: black;
+}

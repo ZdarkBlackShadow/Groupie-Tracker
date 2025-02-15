@@ -118,3 +118,24 @@ body {
 .source {
     color: #98ff98;
 }
+
+.add-collection {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    background: #FFD700;
+    padding: 1rem 1.5rem;
+    border-radius: 25px;
+}
+
+.add-collection a {
+    color: #000;
+    text-decoration: none;
+}
+
+.add-collection:hover {
+    background: #FFD700;
+    color: #000;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    transform: scale(1.05);
+}

@@ -28,7 +28,7 @@ function initializeFilters() {
             nations: formData.getAll('nations_filter'),
             rarity: formData.getAll('rarity_filter'),
             elements: formData.getAll('elements_filter'),
-            releaseDate: formData.get('release_date_filter')
+            sort: formData.get('sort_filter')
         };
 
         updateURLWithFilters(filters);
@@ -103,7 +103,7 @@ function updateURLWithFilters(filters) {
     url.searchParams.delete('nations_filter');
     url.searchParams.delete('rarity_filter');
     url.searchParams.delete('elements_filter');
-    url.searchParams.delete('release_date_filter');
+    url.searchParams.delete('sort_filter');
 
     // Add new parameters
     Object.entries(filters).forEach(([key, values]) => {
@@ -123,7 +123,7 @@ function clearURLFilters() {
     const url = new URL(window.location);
     
     ['gender_filter', 'nations_filter', 'rarity_filter', 
-     'elements_filter', 'release_date_filter'].forEach(param => {
+     'elements_filter', 'sort_filter'].forEach(param => {
         url.searchParams.delete(param);
     });
 
@@ -149,4 +149,4 @@ function setFiltersFromURL() {
             }
         });
     });
-} 
+}

@@ -1,14 +1,3 @@
-body {
-    font-family: 'GenshinFont', sans-serif;
-    background-image: url("/static/image/elementbackground.jpeg");
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
-}
-
 .page-title {
     text-align: center;
     color: #FFD700;

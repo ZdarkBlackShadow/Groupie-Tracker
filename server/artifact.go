@@ -47,7 +47,7 @@ func PaginateArtifacts(data []service.ArtifactDetails, page, itemsPerPage int) (
 func GetArtifactFilters(r *http.Request) ArtifactFilters {
 	filters := ArtifactFilters{
 		Rarity: r.URL.Query()["rarity_filter"],
-		SortBy: r.URL.Query().Get("sort_by"),
+		SortBy: r.URL.Query().Get("sort_filter"),
 	}
 	return filters
 }
@@ -74,7 +74,7 @@ func ApplyArtifactFilters(filters ArtifactFilters) []service.ArtifactDetails {
 	} else {
 		artifacts = API_Data.ALLArtifacts
 	}
-	if filters.SortBy == "" {
+	if filters.SortBy != "" {
 		switch filters.SortBy {
 		case "az":
 			artifacts = FilterArtifactsByAZ(artifacts)

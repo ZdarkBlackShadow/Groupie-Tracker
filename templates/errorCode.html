@@ -4,11 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/errorCode.css">
     <title>400 - Bad Request</title>
 </head>
 <body>
-    <h1>400 Bad Request</h1>
-    <p>Invalid request (e.g., malformed data).</p>
+    <header class="header">
+        {{template "navbar1"}}
+    </header>
+    <div class="error-container">
+        <h1>400</h1>
+        <div class="error-code">Bad Request</div>
+        <p class="error-message">Oops! Your request seems to have some incorrect data. Please check and try again.</p>
+        <a href="/home" class="home-button">Return to Home</a>
+    </div>
 </body>
 </html>
 {{end}}
@@ -19,11 +28,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/errorCode.css">
     <title>401 - Unauthorized</title>
 </head>
 <body>
-    <h1>401 Unauthorized</h1>
-    <p>Access denied, authentication required.</p>
+    <header class="header">
+        {{template "navbar1"}}
+    </header>
+    <div class="error-container">
+        <h1>401</h1>
+        <div class="error-code">Unauthorized</div>
+        <p class="error-message">Halt! You need proper authentication to access this area of Teyvat.</p>
+        <a href="/home" class="home-button">Return to Home</a>
+    </div>
 </body>
 </html>
 {{end}}
@@ -34,11 +52,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/errorCode.css">
     <title>403 - Forbidden</title>
 </head>
 <body>
-    <h1>403 Forbidden</h1>
-    <p>Access forbidden despite correct authentication.</p>
+    <header class="header">
+        {{template "navbar1"}}
+    </header>
+    <div class="error-container">
+        <h1>403</h1>
+        <div class="error-code">Forbidden</div>
+        <p class="error-message">Sorry, but you don't have permission to enter this domain.</p>
+        <a href="/home" class="home-button">Return to Home</a>
+    </div>
 </body>
 </html>
 {{end}}
@@ -49,11 +76,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/errorCode.css">
     <title>404 - Not Found</title>
 </head>
 <body>
-    <h1>404 Not Found</h1>
-    <p>Page or resource not found.</p>
+    <header class="header">
+        {{template "navbar1"}}
+    </header>
+    <div class="error-container">
+        <h1>404</h1>
+        <div class="error-code">Not Found</div>
+        <p class="error-message">Oops! The page you're looking for seems to have disappeared into Teyvat...</p>
+        <a href="/home" class="home-button">Return to Home</a>
+    </div>
 </body>
 </html>
 {{end}}
@@ -64,11 +100,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/errorCode.css">
     <title>405 - Method Not Allowed</title>
 </head>
 <body>
-    <h1>405 Method Not Allowed</h1>
-    <p>HTTP method not allowed (e.g., POST on a GET route).</p>
+    <header class="header">
+        {{template "navbar1"}}
+    </header>
+    <div class="error-container">
+        <h1>405</h1>
+        <div class="error-code">Method Not Allowed</div>
+        <p class="error-message">That's not the right way to interact with this part of Teyvat!</p>
+        <a href="/home" class="home-button">Return to Home</a>
+    </div>
 </body>
 </html>
 {{end}}
@@ -79,11 +124,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/errorCode.css">
     <title>408 - Request Timeout</title>
 </head>
 <body>
-    <h1>408 Request Timeout</h1>
-    <p>Timeout before server response.</p>
+    <header class="header">
+        {{template "navbar1"}}
+    </header>
+    <div class="error-container">
+        <h1>408</h1>
+        <div class="error-code">Request Timeout</div>
+        <p class="error-message">Time's up! The request took too long to complete.</p>
+        <a href="/home" class="home-button">Return to Home</a>
+    </div>
 </body>
 </html>
 {{end}}
@@ -94,11 +148,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/errorCode.css">
     <title>429 - Too Many Requests</title>
 </head>
 <body>
-    <h1>429 Too Many Requests</h1>
-    <p>Too many requests sent in a short time (rate limit).</p>
+    <header class="header">
+        {{template "navbar1"}}
+    </header>
+    <div class="error-container">
+        <h1>429</h1>
+        <div class="error-code">Too Many Requests</div>
+        <p class="error-message">Whoa there! You're sending too many requests. Take a break and try again later.</p>
+        <a href="/home" class="home-button">Return to Home</a>
+    </div>
 </body>
 </html>
 {{end}}
@@ -109,11 +172,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/errorCode.css">
     <title>500 - Internal Server Error</title>
 </head>
 <body>
-    <h1>500 Internal Server Error</h1>
-    <p>Internal server error.</p>
+    <header class="header">
+        {{template "navbar1"}}
+    </header>
+    <div class="error-container">
+        <h1>500</h1>
+        <div class="error-code">Internal Server Error</div>
+        <p class="error-message">Something went wrong in Teyvat. Our adventurers are working to fix it!</p>
+        <a href="/home" class="home-button">Return to Home</a>
+    </div>
 </body>
 </html>
 {{end}}
@@ -124,11 +196,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/errorCode.css">
     <title>502 - Bad Gateway</title>
 </head>
 <body>
-    <h1>502 Bad Gateway</h1>
-    <p>Bad response from an intermediary server.</p>
+    <header class="header">
+        {{template "navbar1"}}
+    </header>
+    <div class="error-container">
+        <h1>502</h1>
+        <div class="error-code">Bad Gateway</div>
+        <p class="error-message">The gateway to Teyvat seems to be malfunctioning. Please try again later.</p>
+        <a href="/home" class="home-button">Return to Home</a>
+    </div>
 </body>
 </html>
 {{end}}
@@ -139,11 +220,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/errorCode.css">
     <title>503 - Service Unavailable</title>
 </head>
 <body>
-    <h1>503 Service Unavailable</h1>
-    <p>Server temporarily unavailable (overload, maintenance).</p>
+    <header class="header">
+        {{template "navbar1"}}
+    </header>
+    <div class="error-container">
+        <h1>503</h1>
+        <div class="error-code">Service Unavailable</div>
+        <p class="error-message">Teyvat is currently under maintenance. Please come back later!</p>
+        <a href="/home" class="home-button">Return to Home</a>
+    </div>
 </body>
 </html>
 {{end}}
@@ -154,11 +244,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/errorCode.css">
     <title>504 - Gateway Timeout</title>
 </head>
 <body>
-    <h1>504 Gateway Timeout</h1>
-    <p>Timeout exceeded for server response.</p>
+    <header class="header">
+        {{template "navbar1"}}
+    </header>
+    <div class="error-container">
+        <h1>504</h1>
+        <div class="error-code">Gateway Timeout</div>
+        <p class="error-message">The gateway to Teyvat took too long to respond. Please try again.</p>
+        <a href="/home" class="home-button">Return to Home</a>
+    </div>
 </body>
 </html>
 {{end}}
