@@ -1,7 +1,6 @@
-package server
+package utils
 
 import (
-	"fmt"
 	"math"
 	"net/http"
 	"sort"
@@ -11,18 +10,6 @@ import (
 	"main.go/service"
 )
 
-type DataCharacters struct {
-	Data        []service.Characters
-	TotalPages  int
-	CurrentPage int
-	IsLogin     bool
-}
-
-type DataCharactersDetails struct {
-	Data    service.Characters
-	IsLogin bool
-}
-
 type CharacterFilters struct {
 	Gender            []string
 	Nations           []string
@@ -31,9 +18,12 @@ type CharacterFilters struct {
 	ReleaseDateFilter string
 }
 
-func PaginateCharacters(data []service.Characters, page, itemsPerPage int) ([]service.Characters, int) {
+func PaginateCharacters(data []service.Characters, page, itemsPerPage int) ([]service.Characters, int, int) {
 	totalItems := len(data)
 	totalPages := int(math.Ceil(float64(totalItems) / float64(itemsPerPage)))
+	if page > totalPages {
+		page = totalPages
+	}
 
 	start := (page - 1) * itemsPerPage
 	end := start + itemsPerPage
@@ -45,7 +35,7 @@ func PaginateCharacters(data []service.Characters, page, itemsPerPage int) ([]se
 		end = totalItems
 	}
 
-	return data[start:end], totalPages
+	return data[start:end], totalPages, page
 }
 
 func GetCharacterFilters(r *http.Request) CharacterFilters {
@@ -59,19 +49,19 @@ func GetCharacterFilters(r *http.Request) CharacterFilters {
 	return filters
 }
 
-func ApplyCharacterFilters(filters CharacterFilters) []service.Characters {
+func ApplyCharacterFilters(filters CharacterFilters, AllCharacters []service.Characters) []service.Characters {
 	Characters := []service.Characters{}
 	if len(filters.Gender) == 1 {
 		if filters.Gender[0] == "male" {
-			MaleCharacters := FilterCharactersByMale()
+			MaleCharacters := filterCharactersByMale(AllCharacters)
 			Characters = append(Characters, MaleCharacters...)
 		} else {
-			FemaleCharacters := FilterCharactersByFemale()
+			FemaleCharacters := filterCharactersByFemale(AllCharacters)
 			Characters = append(Characters, FemaleCharacters...)
 		}
 	}
 	if len(filters.Nations) > 0 {
-		NationCharacters := FilterCharactersByNation(filters.Nations)
+		NationCharacters := filterCharactersByNation(filters.Nations, AllCharacters)
 		Characters = append(Characters, NationCharacters...)
 	}
 	if len(filters.Rarity) == 1 {
@@ -80,34 +70,34 @@ func ApplyCharacterFilters(filters CharacterFilters) []service.Characters {
 			if err != nil {
 				continue
 			}
-			RarityCharacters := FilterCharactersByRarity(rarityInt)
+			RarityCharacters := filterCharactersByRarity(rarityInt, AllCharacters)
 			Characters = append(Characters, RarityCharacters...)
 		}
 	}
 	if len(filters.Element) > 0 {
-		VisionCharacters := FilterCharactersByVision(filters.Element)
+		VisionCharacters := filterCharactersByVision(filters.Element, AllCharacters)
 		Characters = append(Characters, VisionCharacters...)
 	}
 	if len(Characters) == 0 {
-		Characters = API_Data.AllCharacters
+		Characters = AllCharacters
 	} else {
-		Characters = RemoveDuplicates(Characters)
+		Characters = removeDuplicatesOfCharacters(Characters)
 	}
 	if filters.ReleaseDateFilter != "" {
 		if filters.ReleaseDateFilter == "recent" {
-			Characters = SortCharactersRecent(Characters)
+			Characters = sortCharactersRecent(Characters)
 		} else if filters.ReleaseDateFilter == "oldest" {
-			Characters = SortCharactersByOldest(Characters)
+			Characters = sortCharactersByOldest(Characters)
 		} else if filters.ReleaseDateFilter == "az" {
-			Characters = FilterCharactersByAZ(Characters)
+			Characters = filterCharactersByAZ(Characters)
 		} else if filters.ReleaseDateFilter == "za" {
-			Characters = FilterCharactersByZA(Characters)
+			Characters = filterCharactersByZA(Characters)
 		}
 	}
 	return Characters
 }
 
-func RemoveDuplicates(characters []service.Characters) []service.Characters {
+func removeDuplicatesOfCharacters(characters []service.Characters) []service.Characters {
 	encountered := map[string]bool{}
 	result := []service.Characters{}
 
@@ -120,48 +110,7 @@ func RemoveDuplicates(characters []service.Characters) []service.Characters {
 	return result
 }
 
-func Characters(w http.ResponseWriter, r *http.Request) {
-	allCharacters := ApplyCharacterFilters(GetCharacterFilters(r))
-	pageParam := r.URL.Query().Get("page")
-	page, err := strconv.Atoi(pageParam)
-	if err != nil || page < 1 {
-		page = 1
-	}
-
-	itemsPerPage := 16
-	pagedData, totalPages := PaginateCharacters(allCharacters, page, itemsPerPage)
-
-	dataArtifacts := DataCharacters{
-		Data:        pagedData,
-		TotalPages:  totalPages,
-		CurrentPage: page,
-		IsLogin:     IsLogin,
-	}
-	err = Templates.ExecuteTemplate(w, "characters", dataArtifacts)
-	if err != nil {
-		http.Error(w, "Error rendering template", http.StatusInternalServerError)
-		fmt.Println(err)
-	}
-}
-
-func CharactersDetails(w http.ResponseWriter, r *http.Request) {
-	Id := r.URL.Query().Get("id")
-	if Id == "" {
-		http.Error(w, "Missing 'id' parameter", http.StatusBadRequest)
-		return
-	}
-	Datat := DataCharactersDetails{
-		Data:    service.GetAllDetailsAboutOneCharacters(Id),
-		IsLogin: IsLogin,
-	}
-	err := Templates.ExecuteTemplate(w, "characterDetails", Datat)
-	if err != nil {
-		http.Error(w, "Error rendering template", http.StatusInternalServerError)
-		fmt.Println(err)
-	}
-}
-
-func FilterCharactersByAZ(characters []service.Characters) []service.Characters {
+func filterCharactersByAZ(characters []service.Characters) []service.Characters {
 	sortedCharacters := make([]service.Characters, len(characters))
 	copy(sortedCharacters, characters)
 
@@ -171,7 +120,7 @@ func FilterCharactersByAZ(characters []service.Characters) []service.Characters 
 	return sortedCharacters
 }
 
-func FilterCharactersByZA(characters []service.Characters) []service.Characters {
+func filterCharactersByZA(characters []service.Characters) []service.Characters {
 	sortedCharacters := make([]service.Characters, len(characters))
 	copy(sortedCharacters, characters)
 
@@ -181,9 +130,9 @@ func FilterCharactersByZA(characters []service.Characters) []service.Characters 
 	return sortedCharacters
 }
 
-func FilterCharactersByFemale() []service.Characters {
+func filterCharactersByFemale(AllCharacters []service.Characters) []service.Characters {
 	var females []service.Characters
-	for _, character := range API_Data.AllCharacters {
+	for _, character := range AllCharacters {
 		if character.Gender == "Female" {
 			females = append(females, character)
 		}
@@ -191,9 +140,9 @@ func FilterCharactersByFemale() []service.Characters {
 	return females
 }
 
-func FilterCharactersByMale() []service.Characters {
+func filterCharactersByMale(AllCharacters []service.Characters) []service.Characters {
 	var males []service.Characters
-	for _, character := range API_Data.AllCharacters {
+	for _, character := range AllCharacters {
 		if character.Gender == "Male" {
 			males = append(males, character)
 		}
@@ -201,10 +150,10 @@ func FilterCharactersByMale() []service.Characters {
 	return males
 }
 
-func FilterCharactersByNation(names []string) []service.Characters {
+func filterCharactersByNation(names []string, AllCharacters []service.Characters) []service.Characters {
 	var nations []service.Characters
 	for _, nation := range names {
-		for _, characters := range API_Data.AllCharacters {
+		for _, characters := range AllCharacters {
 			if characters.Nation == nation {
 				nations = append(nations, characters)
 			}
@@ -213,9 +162,9 @@ func FilterCharactersByNation(names []string) []service.Characters {
 	return nations
 }
 
-func FilterCharactersByRarity(rarity int) []service.Characters {
+func filterCharactersByRarity(rarity int, AllCharacters []service.Characters) []service.Characters {
 	var Characters []service.Characters
-	for _, characters := range API_Data.AllCharacters {
+	for _, characters := range AllCharacters {
 		if characters.Rarity == rarity {
 			Characters = append(Characters, characters)
 		}
@@ -223,10 +172,10 @@ func FilterCharactersByRarity(rarity int) []service.Characters {
 	return Characters
 }
 
-func FilterCharactersByVision(visions []string) []service.Characters {
+func filterCharactersByVision(visions []string, AllCharacters []service.Characters) []service.Characters {
 	var Characters []service.Characters
 	for _, vision := range visions {
-		for _, character := range API_Data.AllCharacters {
+		for _, character := range AllCharacters {
 			if character.Vision == vision {
 				Characters = append(Characters, character)
 			}
@@ -235,7 +184,7 @@ func FilterCharactersByVision(visions []string) []service.Characters {
 	return Characters
 }
 
-func SortCharactersRecent(characters []service.Characters) []service.Characters {
+func sortCharactersRecent(characters []service.Characters) []service.Characters {
 	sort.Slice(characters, func(i, j int) bool {
 		date1, err1 := time.Parse("2006-01-02", characters[i].Release)
 		date2, err2 := time.Parse("2006-01-02", characters[j].Release)
@@ -247,7 +196,7 @@ func SortCharactersRecent(characters []service.Characters) []service.Characters 
 	return characters
 }
 
-func SortCharactersByOldest(characters []service.Characters) []service.Characters {
+func sortCharactersByOldest(characters []service.Characters) []service.Characters {
 	sort.Slice(characters, func(i, j int) bool {
 		date1, err1 := time.Parse("2006-01-02", characters[i].Release)
 		date2, err2 := time.Parse("2006-01-02", characters[j].Release)
@@ -257,4 +206,40 @@ func SortCharactersByOldest(characters []service.Characters) []service.Character
 		return date1.Before(date2)
 	})
 	return characters
+}
+
+func CharacterFiltersChecker(filters CharacterFilters) bool {
+	if len(filters.Gender) > 2 {
+		return false
+	}
+	for _, gender := range filters.Gender {
+		if !(gender == "" || gender == "male" || gender == "female") {
+			return false
+		}
+	}
+	if len(filters.Nations) > 7 {
+		return false
+	}
+	for _, nation := range filters.Nations {
+		if !(nation == "" || nation == "Mondstadt" || nation == "Fontaine" || nation == "Inazuma" || nation == "Liyue" || nation == "Natlan" || nation == "Sumeru" || nation == "Snezhnaya") {
+			return false
+		}
+	}
+	if len(filters.Rarity) > 2 {
+		return false
+	}
+	for _, rarity := range filters.Rarity {
+		if !(rarity == "" || rarity == "5" || rarity == "4") {
+			return false
+		}
+	}
+	if len(filters.Element) > 7 {
+		return false
+	}
+	for _, element := range filters.Element {
+		if !(element == "" || element == "Geo" || element == "Electro" || element == "Hydro" || element == "Pyro" || element == "Dendro" || element == "Anemo" || element == "Cryo") {
+			return false
+		}
+	}
+	return (filters.ReleaseDateFilter == "" || filters.ReleaseDateFilter == "az" || filters.ReleaseDateFilter == "za" || filters.ReleaseDateFilter == "recent" || filters.ReleaseDateFilter == "oldest")
 }

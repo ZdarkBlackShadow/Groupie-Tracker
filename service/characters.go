@@ -2,24 +2,25 @@ package service
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"time"
 )
 
-func GetAllDetailsAboutOneCharacters(name string) Characters {
+func GetAllDetailsAboutOneCharacters(name string) (Characters, error) {
 	urlApi := "https://genshin.jmp.blue/characters/" + name
 	httpClient := http.Client{
 		Timeout: time.Second * 5,
 	}
 	req, errReq := http.NewRequest(http.MethodGet, urlApi, nil)
 	if errReq != nil {
-		fmt.Printf("Erreur lors de la requette http : %v\n", errReq)
+		return Characters{}, errReq
 	}
 	req.Header.Set("User-Agent", "Ynov Campus")
 	res, Errres := httpClient.Do(req)
 	if Errres != nil {
-		fmt.Printf("Erreur lors de la requete client : %v\n", Errres)
+		return Characters{}, Errres
 	}
 	if res.StatusCode == http.StatusOK {
 		var decodeData Characters
@@ -28,26 +29,26 @@ func GetAllDetailsAboutOneCharacters(name string) Characters {
 			fmt.Printf("erreur lors du decodage : %v\n", errDecode)
 		}
 		decodeData.ImageUrl = urlApi + "/card"
-		return decodeData
+		return decodeData, nil
 	} else {
 		fmt.Printf("Erreur code : %v, erreur message : %v", res.StatusCode, res.Status)
 	}
-	return Characters{}
+	return Characters{}, errors.New("Status code is not 200 but " + res.Status)
 }
 
-func GetNamesOfAllTheCharacters() []string {
+func GetNamesOfAllTheCharacters() ([]string, error) {
 	urlApi := "https://genshin.jmp.blue/characters"
 	httpClient := http.Client{
 		Timeout: time.Second * 5,
 	}
 	req, errReq := http.NewRequest(http.MethodGet, urlApi, nil)
 	if errReq != nil {
-		fmt.Printf("Error during http request : %v\n", errReq)
+		return []string{}, errReq
 	}
 	req.Header.Set("User-Agent", "Ynov Campus")
 	res, Errres := httpClient.Do(req)
 	if Errres != nil {
-		fmt.Printf("Error during client request : %v\n", Errres)
+		return []string{}, Errres
 	}
 	if res.StatusCode == http.StatusOK {
 		var decodeData []string
@@ -55,18 +56,26 @@ func GetNamesOfAllTheCharacters() []string {
 		if errDecode != nil {
 			fmt.Printf("error during decoding : %v\n", errDecode)
 		}
-		return decodeData
+		return decodeData, nil
 	} else {
 		fmt.Printf("Code error : %v, error message : %v", res.StatusCode, res.Status)
 	}
-	return []string{}
+	return []string{}, errors.New("Status code is not 200 but " + res.Status)
 }
 
-func GetAllCharactersDetails() []Characters {
-	AllNames := GetNamesOfAllTheCharacters()
+func GetAllCharactersDetails() ([]Characters, error) {
+	var err error
+	AllNames, err := GetNamesOfAllTheCharacters()
+	if err != nil {
+		return []Characters{}, err
+	}
 	AllBossDetails := []Characters{}
 	for _, name := range AllNames {
-		AllBossDetails = append(AllBossDetails, GetAllDetailsAboutOneCharacters(name))
+		boss, err := GetAllDetailsAboutOneCharacters(name)
+		if err != nil {
+			return []Characters{}, err
+		}
+		AllBossDetails = append(AllBossDetails, boss)
 	}
-	return AllBossDetails
+	return AllBossDetails, nil
 }

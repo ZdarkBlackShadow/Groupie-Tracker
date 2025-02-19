@@ -1,4 +1,4 @@
-package server
+package utils
 
 import (
 	"math"
@@ -7,18 +7,6 @@ import (
 
 	"main.go/service"
 )
-
-type FoodStructData struct {
-	Data        []service.FoodStruct
-	TotalPages  int
-	CurrentPage int
-	IsLogin     bool
-}
-
-type FoodDetailStructData struct {
-	Data    service.FoodStruct
-	IsLogin bool
-}
 
 type FoodFilters struct {
 	Recipe string
@@ -54,17 +42,17 @@ func GetFoodFilters(r *http.Request) FoodFilters {
 	return filters
 }
 
-func ApplyFoodFilters(filters FoodFilters) []service.FoodStruct {
+func ApplyFoodFilters(filters FoodFilters, AllFoods []service.FoodStruct) []service.FoodStruct {
 	Foods := []service.FoodStruct{}
 	if filters.Recipe != "" {
 		if filters.Recipe == "1" {
-			for _, food := range API_Data.AllFood {
+			for _, food := range AllFoods {
 				if food.HasRecipe {
 					Foods = append(Foods, food)
 				}
 			}
 		} else {
-			for _, food := range API_Data.AllFood {
+			for _, food := range AllFoods {
 				if !food.HasRecipe {
 					Foods = append(Foods, food)
 				}
@@ -72,69 +60,36 @@ func ApplyFoodFilters(filters FoodFilters) []service.FoodStruct {
 		}
 	}
 	if len(filters.Type) > 0 {
-		for _, food := range API_Data.AllFood {
-			if Contains(filters.Type, food.Type) {
+		for _, food := range AllFoods {
+			if contains(filters.Type, food.Type) {
 				Foods = append(Foods, food)
 			}
 		}
 	}
 	if len(filters.Rarity) > 0 {
-		for _, food := range API_Data.AllFood {
-			if Contains(filters.Rarity, strconv.Itoa(food.Rarity)) {
+		for _, food := range AllFoods {
+			if contains(filters.Rarity, strconv.Itoa(food.Rarity)) {
 				Foods = append(Foods, food)
 			}
 		}
 	}
 	if len(filters.Sort) > 0 {
 		if filters.Sort == "az" {
-			Foods = SortFoodsAZ(Foods)
+			Foods = sortFoodsAZ(Foods)
 		} else if filters.Sort == "za" {
-			Foods = SortFoodsZA(Foods)
+			Foods = sortFoodsZA(Foods)
 		}
 	}
 	if len(Foods) == 0 {
-		Foods = SortFoodsAZ(API_Data.AllFood)
+		Foods = sortFoodsAZ(AllFoods)
 	} else {
-		Foods = RemoveDuplicatesFood(Foods)
+		Foods = removeDuplicatesFood(Foods)
 	}
 	return Foods
 }
 
-func Food(w http.ResponseWriter, r *http.Request) {
-	filters := GetFoodFilters(r)
-	DataFood := ApplyFoodFilters(filters)
-	pageParam := r.URL.Query().Get("page")
-	page, err := strconv.Atoi(pageParam)
-	if err != nil || page < 1 {
-		page = 1
-	}
-	ItemsPerPage := 16
-	Data, totalPages := PaginateFood(DataFood, page, ItemsPerPage)
-	DataForTheTemplate := FoodStructData{
-		Data:        Data,
-		TotalPages:  totalPages,
-		CurrentPage: page,
-		IsLogin:     IsLogin,
-	}
-	err = Templates.ExecuteTemplate(w, "food", DataForTheTemplate)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
 
-func FoodDetail(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("id")
-	Data := FoodDetailStructData{
-		Data:    service.GetDetailsOfFood(id, API_Data.AllFood),
-		IsLogin: IsLogin,
-	}
-	err := Templates.ExecuteTemplate(w, "foodDetails", Data)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-func RemoveDuplicatesFood(foods []service.FoodStruct) []service.FoodStruct {
+func removeDuplicatesFood(foods []service.FoodStruct) []service.FoodStruct {
 	encountered := map[string]bool{}
 	result := []service.FoodStruct{}
 
@@ -147,7 +102,7 @@ func RemoveDuplicatesFood(foods []service.FoodStruct) []service.FoodStruct {
 	return result
 }
 
-func SortFoodsAZ(foods []service.FoodStruct) []service.FoodStruct {
+func sortFoodsAZ(foods []service.FoodStruct) []service.FoodStruct {
 	for i := 0; i < len(foods); i++ {
 		for j := i + 1; j < len(foods); j++ {
 			if foods[i].Name > foods[j].Name {
@@ -158,7 +113,7 @@ func SortFoodsAZ(foods []service.FoodStruct) []service.FoodStruct {
 	return foods
 }
 
-func SortFoodsZA(foods []service.FoodStruct) []service.FoodStruct {
+func sortFoodsZA(foods []service.FoodStruct) []service.FoodStruct {
 	for i := 0; i < len(foods); i++ {
 		for j := i + 1; j < len(foods); j++ {
 			if foods[i].Name < foods[j].Name {
@@ -169,7 +124,7 @@ func SortFoodsZA(foods []service.FoodStruct) []service.FoodStruct {
 	return foods
 }
 
-func Contains(slice []string, item string) bool {
+func contains(slice []string, item string) bool {
 	for _, s := range slice {
 		if s == item {
 			return true

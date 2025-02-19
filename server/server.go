@@ -2,159 +2,132 @@ package server
 
 import (
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
-	"sync"
-	"time"
 
-	"main.go/service"
+	"main.go/controllers"
 )
-
-var (
-	funcMap = template.FuncMap{
-		"add": add,
-		"sub": sub,
-	}
-	TimeWhenConnect           time.Time     = time.Now()
-	TimeToReload              time.Duration = 1 * time.Hour
-	IsLoad                    bool          = false
-	Mu                        sync.Mutex
-	API_Data                  service.AllData
-	Progress                  int
-	Templates                 *template.Template
-	IsLogin                   bool = false
-	InfoOfUserWhoAreConnected service.Register
-)
-
-func add(x, y int) int { return x + y }
-func sub(x, y int) int { return x - y }
 
 func InitServer() {
 	var err error
-	Templates, err = template.New("").Funcs(funcMap).ParseGlob("templates/*.html")
+	err = controllers.Init()
 	if err != nil {
-		log.Fatalf("Error parsing templates: %v", err)
+		log.Fatal(err)
 	}
 	//Initilalisation des routes
-	http.HandleFunc("/home", Home)
-	http.HandleFunc("/login", Login)
-	http.HandleFunc("/login/newregister", LoginNewRegister)
-	http.HandleFunc("/login/register", LoginRegister)
-	http.HandleFunc("/login/password-forgot", PasswordForgot)
-	http.HandleFunc("/login/password-forgot/form", PasswordForgotData)
-	http.HandleFunc("/logout", Logout)
-	http.HandleFunc("/collections", Collections)
-	http.HandleFunc("/add-to-collection", handleAddToCollection)
-	http.HandleFunc("/remove-from-the-collection", RemoveCollections)
-	http.HandleFunc("/artifacts", Artifacts)
-	http.HandleFunc("/artifacts/details", ArtifactsDetails)
-	http.HandleFunc("/boss", Boss)
-	http.HandleFunc("/boss/details", BossDetails)
-	http.HandleFunc("/characters", Characters)
-	http.HandleFunc("/characters/details", CharactersDetails)
-	http.HandleFunc("/domains", Domains)
-	http.HandleFunc("/domains/details", DomainDetail)
-	http.HandleFunc("/elements", Elements)
-	http.HandleFunc("/elements/details", ElementDetails)
-	http.HandleFunc("/enemies", Enemies)
-	http.HandleFunc("/enemies/details", EnemiesDetails)
-	http.HandleFunc("/weapons", Weapons)
-	http.HandleFunc("/weapons/details", WeaponDetails)
-	http.HandleFunc("/foods", Food)
-	http.HandleFunc("/foods/details", FoodDetail)
-	http.HandleFunc("/potions", Potions)
-	http.HandleFunc("/potions/details", PotionsDetails)
-	http.HandleFunc("/search", Search)
-	http.HandleFunc("/loading", Loading)
-	http.HandleFunc("/progress", ProgressF)
-	http.HandleFunc("/profil", Profil)
-	http.HandleFunc("/400", ErrorCode400)
-	http.HandleFunc("/401", ErrorCode401)
-	http.HandleFunc("/403", ErrorCode403)
-	http.HandleFunc("/404", ErrorCode404)
-	http.HandleFunc("/405", ErrorCode405)
-	http.HandleFunc("/408", ErrorCode408)
-	http.HandleFunc("/429", ErrorCode429)
-	http.HandleFunc("/500", ErrorCode500)
-	http.HandleFunc("/502", ErrorCode502)
-	http.HandleFunc("/503", ErrorCode503)
-	http.HandleFunc("/504", ErrorCode504)
+	http.HandleFunc("/home", controllers.Home)
+	http.HandleFunc("/login", controllers.Login)
+	http.HandleFunc("/login/newregister", controllers.LoginNewRegister)
+	http.HandleFunc("/login/register", controllers.LoginRegister)
+	http.HandleFunc("/login/password-forgot", controllers.PasswordForgot)
+	http.HandleFunc("/login/password-forgot/form", controllers.PasswordForgotData)
+	http.HandleFunc("/logout", controllers.Logout)
+	http.HandleFunc("/collections", controllers.Collections)
+	http.HandleFunc("/add-to-collection", controllers.HandleAddToCollection)
+	http.HandleFunc("/remove-from-the-collection", controllers.RemoveCollections)
+	http.HandleFunc("/artifacts", controllers.Artifacts)
+	http.HandleFunc("/artifacts/details", controllers.ArtifactsDetails)
+	http.HandleFunc("/boss", controllers.Boss)
+	http.HandleFunc("/boss/details", controllers.BossDetails)
+	http.HandleFunc("/characters", controllers.Characters)
+	http.HandleFunc("/characters/details", controllers.CharactersDetails)
+	http.HandleFunc("/domains", controllers.Domains)
+	http.HandleFunc("/domains/details", controllers.DomainDetail)
+	http.HandleFunc("/elements", controllers.Elements)
+	http.HandleFunc("/elements/details", controllers.ElementDetails)
+	http.HandleFunc("/enemies", controllers.Enemies)
+	http.HandleFunc("/enemies/details", controllers.EnemiesDetails)
+	http.HandleFunc("/weapons", controllers.Weapons)
+	http.HandleFunc("/weapons/details", controllers.WeaponDetails)
+	http.HandleFunc("/foods", controllers.Food)
+	http.HandleFunc("/foods/details", controllers.FoodDetail)
+	http.HandleFunc("/potions", controllers.Potions)
+	http.HandleFunc("/potions/details", controllers.PotionsDetails)
+	http.HandleFunc("/search", controllers.Search)
+	http.HandleFunc("/loading", controllers.Loading)
+	http.HandleFunc("/progress", controllers.ProgressF)
+	http.HandleFunc("/profil", controllers.Profil)
+	http.HandleFunc("/error", controllers.ErrorCode)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
+		case "/":
+			http.Redirect(w, r, "/home", http.StatusFound)
 		case "/home":
-			Home(w, r)
+			controllers.Home(w, r)
 		case "/login":
-			Login(w, r)
+			controllers.Login(w, r)
+		case "/login/newregister":
+			controllers.LoginNewRegister(w, r)
+		case "/login/register":
+			controllers.LoginRegister(w, r)
+		case "/login/password-forgot":
+			controllers.PasswordForgot(w, r)
+		case "/login/password-forgot/form":
+			controllers.PasswordForgotData(w, r)
+		case "/logout":
+			controllers.Logout(w, r)
+		case "/collections":
+			controllers.Collections(w, r)
+		case "/add-to-collection":
+			controllers.HandleAddToCollection(w, r)
+		case "/remove-from-the-collection":
+			controllers.RemoveCollections(w, r)
+		case "/artifacts":
+			controllers.Artifacts(w, r)
+		case "/artifacts/details":
+			controllers.ArtifactsDetails(w, r)
+		case "/boss":
+			controllers.Boss(w, r)
+		case "/boss/details":
+			controllers.BossDetails(w, r)
+		case "/characters":
+			controllers.Characters(w, r)
+		case "/characters/details":
+			controllers.CharactersDetails(w, r)
+		case "/domains":
+			controllers.Domains(w, r)
+		case "/domains/details":
+			controllers.DomainDetail(w, r)
+		case "/elements":
+			controllers.Elements(w, r)
+		case "/elements/details":
+			controllers.ElementDetails(w, r)
+		case "/enemies":
+			controllers.Enemies(w, r)
+		case "/enemies/details":
+			controllers.EnemiesDetails(w, r)
+		case "/weapons":
+			controllers.Weapons(w, r)
+		case "/weapons/details":
+			controllers.WeaponDetails(w, r)
+		case "/foods":
+			controllers.Food(w, r)
+		case "/foods/details":
+			controllers.FoodDetail(w, r)
+		case "/potions":
+			controllers.Potions(w, r)
+		case "/potions/details":
+			controllers.PotionsDetails(w, r)
+		case "/search":
+			controllers.Search(w, r)
+		case "/loading":
+			controllers.Loading(w, r)
+		case "/progress":
+			controllers.ProgressF(w, r)
+		case "/profil":
+			controllers.Profil(w, r)
+		case "/error":
+			controllers.ErrorCode(w, r)
 		default:
-			http.Redirect(w, r, "/404", http.StatusAccepted)
+			controllers.ErrorCodeToSend.Update(404, "Not found", "Oops! The page you're looking for seems to have disappeared into Teyvat...", &controllers.ErrorToSend)
+			http.Redirect(w, r, "/error", http.StatusSeeOther)
 		}
 	})
-	//Initialisation des assets
 	fileserver := http.FileServer(http.Dir("./assets"))
 	http.Handle("/static/", http.StripPrefix("/static/", fileserver))
-	//Initialisation du serveur
 	fmt.Println("http://localhost:8000/home")
-	http.ListenAndServe("localhost:8000", nil)
-}
-
-func LoadAllData() {
-	//food
-	food := service.TransformFoodToSlice(service.GetAllDetailsOfFood())
-	Mu.Lock()
-	API_Data.AllFood = food
-	Progress = 10
-	Mu.Unlock()
-	//artifacts
-	artifacts := service.GetAllArtifactsDetails()
-	Mu.Lock()
-	API_Data.ALLArtifacts = artifacts
-	Progress = 20
-	Mu.Unlock()
-	//potions
-	potions := service.GetAllPotions()
-	Mu.Lock()
-	API_Data.AllPotions = potions
-	Progress = 30
-	Mu.Unlock()
-	//boss
-	bosses := service.GetAllBossDetails()
-	Mu.Lock()
-	API_Data.AllBoss = bosses
-	Progress = 40
-	Mu.Unlock()
-	//characters
-	characters := service.GetAllCharactersDetails()
-	Mu.Lock()
-	API_Data.AllCharacters = characters
-	Progress = 50
-	Mu.Unlock()
-	//Domain
-	domains := service.GetAllDomainsDetails()
-	Mu.Lock()
-	API_Data.AllDomain = domains
-	Progress = 60
-	Mu.Unlock()
-	//Elements
-	elements := service.GetAllElementsDetails()
-	Mu.Lock()
-	API_Data.AllElement = elements
-	Progress = 70
-	Mu.Unlock()
-	//Enemies
-	enemies := service.GetAllEnemiesDetails()
-	Mu.Lock()
-	API_Data.AllEnnemies = enemies
-	Progress = 80
-	Mu.Unlock()
-	//Weapons
-	weapons := service.GetAllWeaponsDetails()
-	Mu.Lock()
-	API_Data.AllWeapons = weapons
-	Progress = 90
-	Mu.Unlock()
-
-	Mu.Lock()
-	Progress = 100
-	Mu.Unlock()
+	err = http.ListenAndServe("localhost:8000", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }

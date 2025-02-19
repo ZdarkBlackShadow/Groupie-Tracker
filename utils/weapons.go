@@ -1,25 +1,13 @@
-package server
+package utils
 
 import (
-	"log"
+	"math"
 	"net/http"
 	"sort"
 	"strconv"
 
 	"main.go/service"
 )
-
-type DataWeapons struct {
-	Data        []service.Weapon
-	TotalPages  int
-	CurrentPage int
-	IsLogin     bool
-}
-
-type DataWeaponDetails struct {
-	Data    service.Weapon
-	IsLogin bool
-}
 
 type WeaponFilters struct {
 	Rarity     []string
@@ -28,9 +16,13 @@ type WeaponFilters struct {
 	SortBy     string
 }
 
-func PaginateWeapons(data []service.Weapon, page, itemsPerPage int) ([]service.Weapon, int) {
+func PaginateWeapons(data []service.Weapon, page, itemsPerPage int) ([]service.Weapon, int, int) {
 	totalItems := len(data)
-	totalPages := totalItems / itemsPerPage
+	totalPages := int(math.Ceil(float64(totalItems) / float64(itemsPerPage)))
+
+	if page > totalPages {
+		page = totalPages
+	}
 
 	start := (page - 1) * itemsPerPage
 	end := start + itemsPerPage
@@ -42,7 +34,7 @@ func PaginateWeapons(data []service.Weapon, page, itemsPerPage int) ([]service.W
 		end = totalItems
 	}
 
-	return data[start:end], totalPages
+	return data[start:end], totalPages, page
 }
 
 func GetWeaponFilters(r *http.Request) WeaponFilters {
@@ -55,70 +47,34 @@ func GetWeaponFilters(r *http.Request) WeaponFilters {
 	return filters
 }
 
-func ApplyWeaponFilters(filters WeaponFilters) []service.Weapon {
+func ApplyWeaponFilters(filters WeaponFilters, AllWeapons []service.Weapon) []service.Weapon {
 	var weapons []service.Weapon
 	if len(filters.Rarity) > 0 {
-		weapons = SortWeaponsByRarity(filters.Rarity, API_Data.AllWeapons)
+		weapons = sortWeaponsByRarity(filters.Rarity, AllWeapons)
 	} else {
-		weapons = API_Data.AllWeapons
+		weapons = AllWeapons
 	}
 	if len(filters.Type) > 0 {
-		weapons = SortWeaponsByType(filters.Type, weapons)
+		weapons = sortWeaponsByType(filters.Type, weapons)
 	}
 	if filters.BaseAttack != "" {
 		if filters.BaseAttack == "highest" {
-			weapons = SortWeaponsByHighestAttack(weapons)
+			weapons = sortWeaponsByHighestAttack(weapons)
 		} else if filters.BaseAttack == "lowest" {
-			weapons = SortWeaponsByLowestAttack(weapons)
+			weapons = sortWeaponsByLowestAttack(weapons)
 		}
 	}
 	if filters.SortBy != "" {
 		if filters.SortBy == "az" {
-			weapons = SortWeaponsByAZ(weapons)
+			weapons = sortWeaponsByAZ(weapons)
 		} else if filters.SortBy == "za" {
-			weapons = SortWeaponsByZA(weapons)
+			weapons = sortWeaponsByZA(weapons)
 		}
 	}
 	return weapons
 }
 
-func Weapons(w http.ResponseWriter, r *http.Request) {
-	AllWeopns := ApplyWeaponFilters(GetWeaponFilters(r))
-
-	pageParam := r.URL.Query().Get("page")
-	page, err := strconv.Atoi(pageParam)
-	if err != nil {
-		page = 1
-	}
-	pagedData, totalPages := PaginateWeapons(AllWeopns, page, 20)
-	Data := DataWeapons{
-		Data:        pagedData,
-		TotalPages:  totalPages,
-		CurrentPage: page,
-		IsLogin:     IsLogin,
-	}
-	err1 := Templates.ExecuteTemplate(w, "weapon", Data)
-	if err1 != nil {
-		log.Fatal(err1)
-	}
-}
-func WeaponDetails(w http.ResponseWriter, r *http.Request) {
-	Id := r.URL.Query().Get("id")
-	if Id == "" {
-		http.Error(w, "Missing 'id' parameter", http.StatusBadRequest)
-		return
-	}
-	Data := DataWeaponDetails{
-		Data:    service.GetAllDataAboutOneWeapon(Id),
-		IsLogin: IsLogin,
-	}
-	err := Templates.ExecuteTemplate(w, "weaponsDetails", Data)
-	if err != nil {
-		http.Error(w, "Error rendering template", http.StatusInternalServerError)
-	}
-}
-
-func SortWeaponsByRarity(raritys []string, weapon []service.Weapon) []service.Weapon {
+func sortWeaponsByRarity(raritys []string, weapon []service.Weapon) []service.Weapon {
 	weapons := []service.Weapon{}
 	for _, rarity := range raritys {
 		for _, weapon := range weapon {
@@ -131,7 +87,7 @@ func SortWeaponsByRarity(raritys []string, weapon []service.Weapon) []service.We
 	return weapons
 }
 
-func SortWeaponsByType(types []string, weapon []service.Weapon) []service.Weapon {
+func sortWeaponsByType(types []string, weapon []service.Weapon) []service.Weapon {
 	weapons := []service.Weapon{}
 	for _, t := range types {
 		for _, weapon := range weapon {
@@ -143,7 +99,7 @@ func SortWeaponsByType(types []string, weapon []service.Weapon) []service.Weapon
 	return weapons
 }
 
-func SortWeaponsByHighestAttack(weapons []service.Weapon) []service.Weapon {
+func sortWeaponsByHighestAttack(weapons []service.Weapon) []service.Weapon {
 	sortedWeapons := make([]service.Weapon, len(weapons))
 	copy(sortedWeapons, weapons)
 
@@ -153,7 +109,7 @@ func SortWeaponsByHighestAttack(weapons []service.Weapon) []service.Weapon {
 	return sortedWeapons
 }
 
-func SortWeaponsByLowestAttack(weapons []service.Weapon) []service.Weapon {
+func sortWeaponsByLowestAttack(weapons []service.Weapon) []service.Weapon {
 	sortedWeapons := make([]service.Weapon, len(weapons))
 	copy(sortedWeapons, weapons)
 
@@ -163,7 +119,7 @@ func SortWeaponsByLowestAttack(weapons []service.Weapon) []service.Weapon {
 	return sortedWeapons
 }
 
-func SortWeaponsByAZ(weapons []service.Weapon) []service.Weapon {
+func sortWeaponsByAZ(weapons []service.Weapon) []service.Weapon {
 	sortedWeapons := make([]service.Weapon, len(weapons))
 	copy(sortedWeapons, weapons)
 
@@ -173,7 +129,7 @@ func SortWeaponsByAZ(weapons []service.Weapon) []service.Weapon {
 	return sortedWeapons
 }
 
-func SortWeaponsByZA(weapons []service.Weapon) []service.Weapon {
+func sortWeaponsByZA(weapons []service.Weapon) []service.Weapon {
 	sortedWeapons := make([]service.Weapon, len(weapons))
 	copy(sortedWeapons, weapons)
 
@@ -181,4 +137,27 @@ func SortWeaponsByZA(weapons []service.Weapon) []service.Weapon {
 		return sortedWeapons[i].Name > sortedWeapons[j].Name
 	})
 	return sortedWeapons
+}
+
+func WeaponsFiltersChecker(filters WeaponFilters) bool {
+	if len(filters.Rarity) > 3 {
+		return false
+	}
+	for _, rarity := range filters.Rarity {
+		if !(rarity == "" || rarity == "3" || rarity == "4" || rarity == "5") {
+			return false
+		}
+	}
+	if len(filters.Type) > 5 {
+		return false
+	}
+	for _, WeaponType := range filters.Type {
+		if !(WeaponType == "" || WeaponType == "Sword" || WeaponType == "Polearm" || WeaponType == "Bow" || WeaponType == "Claymore" || WeaponType == "Catalyst") {
+			return false
+		}
+	}
+	if !(filters.SortBy == "" || filters.SortBy == "az" || filters.SortBy == "za") {
+		return false
+	}
+	return (filters.BaseAttack == "" || filters.BaseAttack == "highest" || filters.BaseAttack == "weakest")
 }

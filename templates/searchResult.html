@@ -26,9 +26,21 @@
                 <div class="result-card">
                     <h2 class="result-name">{{.Name}}</h2>
                     <div class="result-link">
+                        <div class="image-container">
+                            <img src="{{.Image}}" alt="Image of {{.Name}}">
+                        </div>
                         <a href="{{.Link}}">View Details</a>
                     </div>
                 </div>
+            {{end}}
+        </div>
+        <div class="switch-Page">
+            {{if gt .CurrentPage 1}}
+            <a href="?query={{.Query}}&page={{sub .CurrentPage 1}}">Previous</a>
+            {{end}}
+            <span>Page {{.CurrentPage}} of {{.TotalPages}}</span>
+            {{if lt .CurrentPage .TotalPages}}
+            <a href="?query={{.Query}}&page={{add .CurrentPage 1}}">Next</a>
             {{end}}
         </div>
     {{else}}

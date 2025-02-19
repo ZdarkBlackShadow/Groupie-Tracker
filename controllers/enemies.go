@@ -1,4 +1,4 @@
-package server
+package controllers
 
 import (
 	"log"
@@ -19,7 +19,7 @@ type DataEnemieDetails struct {
 
 func Enemies(w http.ResponseWriter, r *http.Request) {
 	Data := DataEnemies{
-		Data:    API_Data.AllEnnemies,
+		Data:    AllDataOfAPI.AllEnnemies,
 		IsLogin: IsLogin,
 	}
 	err1 := Templates.ExecuteTemplate(w, "enemies", Data)

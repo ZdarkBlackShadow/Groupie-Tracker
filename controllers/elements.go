@@ -1,4 +1,4 @@
-package server
+package controllers
 
 import (
 	"log"
@@ -19,7 +19,7 @@ type DataElementDetails struct {
 
 func Elements(w http.ResponseWriter, r *http.Request) {
 	Data := DataElements{
-		Data:    API_Data.AllElement,
+		Data:    AllDataOfAPI.AllElement,
 		IsLogin: IsLogin,
 	}
 	err1 := Templates.ExecuteTemplate(w, "elements", Data)
@@ -34,11 +34,15 @@ func ElementDetails(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Missing 'id' parameter", http.StatusBadRequest)
 		return
 	}
+	element, err := service.GetAllDetailsAboutOneElements(Id)
+	if err != nil {
+		log.Fatal(err)
+	}
 	Data := DataElementDetails{
-		Data:    service.GetAllDetailsAboutOneElements(Id),
+		Data:    element,
 		IsLogin: IsLogin,
 	}
-	err := Templates.ExecuteTemplate(w, "ElementDetails", Data)
+	err = Templates.ExecuteTemplate(w, "ElementDetails", Data)
 	if err != nil {
 		http.Error(w, "Error rendering template", http.StatusInternalServerError)
 	}

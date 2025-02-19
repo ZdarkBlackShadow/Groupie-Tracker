@@ -3,6 +3,8 @@ package service
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"log"
 	"net/http"
 	"time"
 )
@@ -27,7 +29,15 @@ func GetAllDetailsAboutOneEnemie(name string) Enemies {
 		if errDecode != nil {
 			fmt.Printf("erreur lors du decodage : %v\n", errDecode)
 		}
-		decodeData.ImageUrl = urlApi + "/icon"
+		image, err := checkResponseImageForEnemies(urlApi + "/list")
+		if err != nil {
+			log.Fatal(err) 
+		}
+		if image {
+			decodeData.ImageUrl = urlApi + "/icon"
+		} else {
+			decodeData.ImageUrl = "/static/image/NoImageAvaliable.webp"
+		}
 		return decodeData
 	} else {
 		fmt.Printf("Erreur code : %v, erreur message : %v", res.StatusCode, res.Status)
@@ -69,4 +79,33 @@ func GetAllEnemiesDetails() []Enemies {
 		AllBossDetails = append(AllBossDetails, GetAllDetailsAboutOneEnemie(name))
 	}
 	return AllBossDetails
+}
+
+func checkResponseImageForEnemies(apiURL string) (bool, error) {
+	resp, err := http.Get(apiURL)
+	if err != nil {
+		return false, err
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return false, err
+	}
+
+	var responseArray []string
+	if json.Unmarshal(body, &responseArray) == nil {
+		if len(responseArray) == 2 && responseArray[0] == "icon" && responseArray[1] == "portrait" {
+			return true, nil
+		}
+	}
+
+	var responseMap map[string]string
+	if json.Unmarshal(body, &responseMap) == nil {
+		if val, exists := responseMap["error"]; exists && val == "No images for enemies/consecrated-beast exist" {
+			return false, nil
+		}
+	}
+
+	return false, nil
 }

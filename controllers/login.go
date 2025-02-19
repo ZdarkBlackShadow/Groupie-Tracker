@@ -1,8 +1,6 @@
-package server
+package controllers
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -10,6 +8,7 @@ import (
 	"net/http"
 
 	"main.go/service"
+	"main.go/utils"
 )
 
 type LoginData struct {
@@ -43,8 +42,8 @@ func LoginNewRegister(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, "/login", http.StatusSeeOther)
 		}
 		DataToEncode := service.Register{
-			Email:    hashPassword(Email),
-			Password: hashPassword(Password),
+			Email:    utils.HashPassword(Email),
+			Password: utils.HashPassword(Password),
 		}
 		filePath := "./data/data.json"
 		var data []service.Register
@@ -59,7 +58,7 @@ func LoginNewRegister(w http.ResponseWriter, r *http.Request) {
 		}
 		AlreadyRegistered := false
 		for _, element := range data {
-			if element.Email == hashPassword(Email) {
+			if element.Email == utils.HashPassword(Email) {
 				AlreadyRegistered = true
 				break
 			}
@@ -103,9 +102,9 @@ func LoginRegister(w http.ResponseWriter, r *http.Request) {
 		}
 		FindEmail := false
 		for _, element := range data {
-			if element.Email == hashPassword(Email) {
+			if element.Email == utils.HashPassword(Email) {
 				FindEmail = true
-				if element.Password == hashPassword(Password) {
+				if element.Password == utils.HashPassword(Password) {
 					InfoOfUserWhoAreConnected = element
 					IsLogin = true
 					IsWrongLogin = false
@@ -123,12 +122,6 @@ func LoginRegister(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, "/login", http.StatusSeeOther)
 		}
 	}
-}
-
-func hashPassword(password string) string {
-	hasher := sha256.New()
-	hasher.Write([]byte(password))
-	return hex.EncodeToString(hasher.Sum(nil))
 }
 
 func PasswordForgot(w http.ResponseWriter, r *http.Request) {
@@ -159,10 +152,10 @@ func PasswordForgotData(w http.ResponseWriter, r *http.Request) {
 		}
 		FindEmail := false
 		for i, element := range data {
-			if element.Email == Email {
+			if element.Email == utils.HashPassword(Email) {
 				FindEmail = true
 				fmt.Println(element.Password)
-				data[i].Password = Password
+				data[i].Password = utils.HashPassword(Password)
 				fmt.Println(element.Password)
 				InfoOfUserWhoAreConnected = element
 				break
@@ -183,4 +176,9 @@ func PasswordForgotData(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, "/home", http.StatusSeeOther)
 		}
 	}
+}
+
+func Logout(w http.ResponseWriter, r *http.Request) {
+	IsLogin = false
+	http.Redirect(w, r, "/home", http.StatusSeeOther)
 }

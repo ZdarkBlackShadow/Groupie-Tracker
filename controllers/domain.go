@@ -1,4 +1,4 @@
-package server
+package controllers
 
 import (
 	"log"
@@ -19,7 +19,7 @@ type DataDomainDetails struct {
 
 func Domains(w http.ResponseWriter, r *http.Request) {
 	Data := DataDomains{
-		Data:    API_Data.AllDomain,
+		Data:    AllDataOfAPI.AllDomain,
 		IsLogin: IsLogin,
 	}
 	err1 := Templates.ExecuteTemplate(w, "domains", Data)
@@ -34,11 +34,15 @@ func DomainDetail(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Missing 'id' parameter", http.StatusBadRequest)
 		return
 	}
+	domain, err := service.GetAllDetailsAboutOneDomains(Id)
+	if err != nil {
+		log.Fatal(err)
+	}
 	Data := DataDomainDetails{
-		Data:    service.GetAllDetailsAboutOneDomains(Id),
+		Data:    domain,
 		IsLogin: IsLogin,
 	}
-	err := Templates.ExecuteTemplate(w, "domainDetails", Data)
+	err = Templates.ExecuteTemplate(w, "domainDetails", Data)
 	if err != nil {
 		http.Error(w, "Error rendering template", http.StatusInternalServerError)
 	}

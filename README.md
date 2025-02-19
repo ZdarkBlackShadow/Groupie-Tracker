@@ -1,64 +1,80 @@
-# Groupie-Tracker
-{{define "elements"}}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="/static/css/elements.css">
-    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>>Genshin</title>
-</head>
-<body>
-    <header class="header">
-        {{if eq .IsLogin true}}
-            {{template "navbar2"}}
-        {{else}}
-            {{template "navbar1"}}
-        {{end}}
-    </header>
-    <section aria-label="Newest Photos">
-        <div class="carousel" data-carousel>
-            <button class="carousel-button prev" data-carousel-button="prev">&#8656;</button>
-            <button class="carousel-button next" data-carousel-button="next">&#8658;</button>
-            <ul data-slides>
-                {{range .Data}}
-                    <li class="slide" data-active>
-                        <a href="/elements/details?id={{.Id}}" class="center-link">
-                            <div class="element-card">
-                                <h1>Name: {{.Name}}</h1>
-                                <img src="{{.ImageUrl}}" alt="{{.Name}}">
-                            </div>
-                        </a>
-                    </li>
-                {{end}}
-            </ul>
-        </div>
-    </section>
-    
-    <script defer>
-    document.addEventListener("DOMContentLoaded", () => {
-  const buttons = document.querySelectorAll("[data-carousel-button]");
+# Groupie tracker
 
-  buttons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const offset = button.dataset.carouselButton === "next" ? 1 : -1;
-      const slides = button.closest("[data-carousel]").querySelector("[data-slides]");
+## Description
+Ce projet est un site web dédié à Genshin Impact, offrant une base de données complète et interactive sur le jeu. Il permet aux utilisateurs de consulter et de gérer des collections d'informations sur les personnages, les armes, les artefacts et plus encore.
 
-      const activeSlide = slides.querySelector("[data-active]");
-      let newIndex = [...slides.children].indexOf(activeSlide) + offset;
+## Fonctionnalités
 
-      if (newIndex < 0) newIndex = slides.children.length - 1;
-      if (newIndex >= slides.children.length) newIndex = 0;
+### 🎮 Système d'Authentification
+- Inscription et connexion des utilisateurs
+- Gestion de profil personnalisé
+- Système de récupération de mot de passe
 
-      slides.children[newIndex].dataset.active = true;
-      delete activeSlide.dataset.active;
-    });
-  });
-});
-    </script>
-</body>
-</html>
-{{end}}
+### 📚 Base de Données Complète
+- Personnages
+- Armes
+- Artefacts
+- Éléments
+- Boss
+- Nourriture
+- Potions
+- Domaines
+- Ennemis
+
+### 🔍 Fonctionnalités de Recherche et Filtrage
+- Recherche globale
+- Filtres avancés pour chaque catégorie
+- Tri personnalisable
+- Pagination des résultats
+
+### 📑 Collections Personnelles
+- Ajout d'éléments aux collections
+- Gestion des collections personnelles
+- Suivi des objets collectés
+
+### 💫 Interface Utilisateur
+- Animations fluides
+- Navigation intuitive
+- Thème inspiré de Genshin Impact
+
+## Technologies Utilisées
+
+### Frontend
+- HTML5 🧱
+- CSS3 🎨
+- JavaScript ⚙️
+
+### Backend
+- Go 📘
+
+### Database
+- Json 🟨
+
+## Installation
+
+### ⚙️ Prérequis
+- Avoir Git ([Télécharger Git](https://git-scm.com/downloads))
+- Avoir goland (1.23.3) ([Télécharger Goland](https://go.dev/dl))
+
+### 🛠️ Download the project
+1. Cloner le repository
+
+```bash
+git clone https://github.com/ZdarkBlackShadow/Groupie-Tracker.git
+```
+
+### 🚀 Lancer le projet
+
+```bash
+go run main.go
+```
+
+
+```bash     
+http://localhost:8080/home
+```
+
+
+## 👥 Auteur
+- Adrien Lecomte  :  [Github](https://github.com/ZdarkBlackShadow)
+

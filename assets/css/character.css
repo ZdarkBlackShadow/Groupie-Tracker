@@ -46,6 +46,10 @@ body {
     overflow: hidden;
     transition: var(--transition);
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .character-card:hover {
@@ -79,6 +83,7 @@ body {
 }
 
 .character-card .collection-btn {
+    
     margin: 1rem;
     padding: 0.8rem 1.5rem;
     border-radius: var(--border-radius);

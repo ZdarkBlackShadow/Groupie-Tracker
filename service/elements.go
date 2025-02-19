@@ -2,52 +2,54 @@ package service
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 )
 
-func GetAllDetailsAboutOneElements(name string) Element {
+func GetAllDetailsAboutOneElements(name string) (Element, error) { //rajouter un int pour le code d'erreur
 	urlApi := "https://genshin.jmp.blue/elements/" + name
 	httpClient := http.Client{
 		Timeout: time.Second * 5,
 	}
 	req, errReq := http.NewRequest(http.MethodGet, urlApi, nil)
 	if errReq != nil {
-		fmt.Printf("Erreur lors de la requette http : %v\n", errReq)
+		return Element{}, errReq
 	}
 	req.Header.Set("User-Agent", "Ynov Campus")
 	res, Errres := httpClient.Do(req)
 	if Errres != nil {
-		fmt.Printf("Erreur lors de la requete client : %v\n", Errres)
+		return Element{}, Errres
 	}
 	if res.StatusCode == http.StatusOK {
 		var decodeData Element
 		errDecode := json.NewDecoder(res.Body).Decode(&decodeData)
 		if errDecode != nil {
-			fmt.Printf("erreur lors du decodage : %v\n", errDecode)
+			return Element{}, errDecode
 		}
 		decodeData.ImageUrl = urlApi + "/icon"
-		return decodeData
+		return decodeData, nil
 	} else {
 		fmt.Printf("Erreur code : %v, erreur message : %v", res.StatusCode, res.Status)
 	}
-	return Element{}
+	return Element{}, errors.New("Status code is not 200 but " + res.Status)
 }
 
-func GetNamesOfAllTheElements() []string {
+func GetNamesOfAllTheElements() ([]string, error) {
 	urlApi := "https://genshin.jmp.blue/elements"
 	httpClient := http.Client{
 		Timeout: time.Second * 5,
 	}
 	req, errReq := http.NewRequest(http.MethodGet, urlApi, nil)
 	if errReq != nil {
-		fmt.Printf("Error during http request : %v\n", errReq)
+		return []string{}, errReq
 	}
 	req.Header.Set("User-Agent", "Ynov Campus")
 	res, Errres := httpClient.Do(req)
 	if Errres != nil {
-		fmt.Printf("Error during client request : %v\n", Errres)
+		return []string{}, Errres
 	}
 	if res.StatusCode == http.StatusOK {
 		var decodeData []string
@@ -55,18 +57,24 @@ func GetNamesOfAllTheElements() []string {
 		if errDecode != nil {
 			fmt.Printf("error during decoding : %v\n", errDecode)
 		}
-		return decodeData
-	} else {
-		fmt.Printf("Code error : %v, error message : %v", res.StatusCode, res.Status)
+		return decodeData, nil
 	}
-	return []string{}
+	return []string{}, errors.New("Status code is not 200 but " + res.Status)
 }
 
 func GetAllElementsDetails() []Element {
-	AllNames := GetNamesOfAllTheElements()
+	var err error
+	AllNames, err := GetNamesOfAllTheElements()
+	if err != nil {
+
+	}
 	AllBossDetails := []Element{}
 	for _, name := range AllNames {
-		AllBossDetails = append(AllBossDetails, GetAllDetailsAboutOneElements(name))
+		element, err := GetAllDetailsAboutOneElements(name)
+		if err != nil {
+			log.Fatal(err)
+		}
+		AllBossDetails = append(AllBossDetails, element)
 	}
 	return AllBossDetails
 }

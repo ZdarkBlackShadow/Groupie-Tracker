@@ -2,24 +2,25 @@ package service
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"time"
 )
 
-func GetAllDetailsAboutOneDomains(name string) Domain {
+func GetAllDetailsAboutOneDomains(name string) (Domain, error) {
 	urlApi := "https://genshin.jmp.blue/domains/" + name
 	httpClient := http.Client{
 		Timeout: time.Second * 5,
 	}
 	req, errReq := http.NewRequest(http.MethodGet, urlApi, nil)
 	if errReq != nil {
-		fmt.Printf("Erreur lors de la requette http : %v\n", errReq)
+		return Domain{}, errReq
 	}
 	req.Header.Set("User-Agent", "Ynov Campus")
 	res, Errres := httpClient.Do(req)
 	if Errres != nil {
-		fmt.Printf("Erreur lors de la requete client : %v\n", Errres)
+		return Domain{}, Errres
 	}
 	if res.StatusCode == http.StatusOK {
 		var decodeData Domain
@@ -27,26 +28,26 @@ func GetAllDetailsAboutOneDomains(name string) Domain {
 		if errDecode != nil {
 			fmt.Printf("erreur lors du decodage : %v\n", errDecode)
 		}
-		return decodeData
+		return decodeData, nil
 	} else {
 		fmt.Printf("Erreur code : %v, erreur message : %v", res.StatusCode, res.Status)
 	}
-	return Domain{}
+	return Domain{}, errors.New("Status code is not 200 but " + res.Status)
 }
 
-func GetNamesOfAllTheDomains() []string {
+func GetNamesOfAllTheDomains() ([]string, error) {
 	urlApi := "https://genshin.jmp.blue/domains"
 	httpClient := http.Client{
 		Timeout: time.Second * 5,
 	}
 	req, errReq := http.NewRequest(http.MethodGet, urlApi, nil)
 	if errReq != nil {
-		fmt.Printf("Error during http request : %v\n", errReq)
+		return []string{}, errReq
 	}
 	req.Header.Set("User-Agent", "Ynov Campus")
 	res, Errres := httpClient.Do(req)
 	if Errres != nil {
-		fmt.Printf("Error during client request : %v\n", Errres)
+		return []string{}, Errres
 	}
 	if res.StatusCode == http.StatusOK {
 		var decodeData []string
@@ -54,18 +55,24 @@ func GetNamesOfAllTheDomains() []string {
 		if errDecode != nil {
 			fmt.Printf("error during decoding : %v\n", errDecode)
 		}
-		return decodeData
-	} else {
-		fmt.Printf("Code error : %v, error message : %v", res.StatusCode, res.Status)
+		return decodeData, nil
 	}
-	return []string{}
+	return []string{}, errors.New("Status code is not 200 but " + res.Status)
 }
 
-func GetAllDomainsDetails() []Domain {
-	AllNames := GetNamesOfAllTheDomains()
+func GetAllDomainsDetails() ([]Domain, error) {
+	var err error
+	AllNames, err := GetNamesOfAllTheDomains()
+	if err != nil {
+		return []Domain{}, err
+	}
 	AllBossDetails := []Domain{}
 	for _, name := range AllNames {
-		AllBossDetails = append(AllBossDetails, GetAllDetailsAboutOneDomains(name))
+		domain, err := GetAllDetailsAboutOneDomains(name)
+		if err != nil {
+			return []Domain{}, err
+		}
+		AllBossDetails = append(AllBossDetails, domain)
 	}
-	return AllBossDetails
+	return AllBossDetails, nil
 }

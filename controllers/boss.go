@@ -1,4 +1,4 @@
-package server
+package controllers
 
 import (
 	"log"
@@ -19,7 +19,7 @@ type DataBossDetails struct {
 
 func Boss(w http.ResponseWriter, r *http.Request) {
 	Data := DataBoss{
-		Data:    API_Data.AllBoss,
+		Data:    AllDataOfAPI.AllBoss,
 		IsLogin: IsLogin,
 	}
 	err1 := Templates.ExecuteTemplate(w, "boss", Data)
@@ -29,16 +29,22 @@ func Boss(w http.ResponseWriter, r *http.Request) {
 }
 
 func BossDetails(w http.ResponseWriter, r *http.Request) {
+	var err error
+	var boss service.BossStruct
 	Id := r.URL.Query().Get("id")
 	if Id == "" {
 		http.Error(w, "Missing 'id' parameter", http.StatusBadRequest)
 		return
 	}
+	boss, err = service.GetAllDetailsAboutOneBoss(Id)
+	if err != nil {
+		log.Fatal(err)
+	}
 	Data := DataBossDetails{
-		Data:    service.GetAllDetailsAboutOneBoss(Id),
+		Data:    boss,
 		IsLogin: IsLogin,
 	}
-	err := Templates.ExecuteTemplate(w, "bossDetails", Data)
+	err = Templates.ExecuteTemplate(w, "bossDetails", Data)
 	if err != nil {
 		http.Error(w, "Error rendering template", http.StatusInternalServerError)
 	}

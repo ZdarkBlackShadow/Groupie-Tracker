@@ -1,10 +1,11 @@
-package server
+package controllers
 
 import (
 	"log"
 	"net/http"
 
 	"main.go/service"
+	"main.go/utils"
 )
 
 type PotionsStructData struct {
@@ -19,7 +20,7 @@ type PotionDetailStructData struct {
 
 func Potions(w http.ResponseWriter, r *http.Request) {
 	Data := PotionsStructData{
-		Data:    service.GetAllPotions(),
+		Data:    AllDataOfAPI.AllPotions,
 		IsLogin: IsLogin,
 	}
 	err := Templates.ExecuteTemplate(w, "potions", Data)
@@ -30,16 +31,16 @@ func Potions(w http.ResponseWriter, r *http.Request) {
 
 func PotionsDetails(w http.ResponseWriter, r *http.Request) {
 	Id := r.URL.Query().Get("id")
-	if Id == "" {
-		http.Error(w, "Missing 'id' parameter", http.StatusBadRequest)
-		return
-	}
-	Data := PotionDetailStructData{
-		Data:    service.GetDetailsAboutOnePotion(Id, API_Data.AllPotions),
-		IsLogin: IsLogin,
-	}
-	err := Templates.ExecuteTemplate(w, "potionsdetails", Data)
-	if err != nil {
-		log.Fatal(err)
+	if utils.HasIdInPotions(Id, AllDataOfAPI.AllPotions) {
+		Data := PotionDetailStructData{
+			Data:    service.GetDetailsAboutOnePotion(Id, AllDataOfAPI.AllPotions),
+			IsLogin: IsLogin,
+		}
+		err := Templates.ExecuteTemplate(w, "potionsdetails", Data)
+		if err != nil {
+			log.Fatal(err)
+		}
+	} else {
+		//gestion d'erreur
 	}
 }

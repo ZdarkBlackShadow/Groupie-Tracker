@@ -2,25 +2,27 @@ package service
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
+	"log"
 	"net/http"
 	"sort"
 	"time"
 )
 
-func GetAllNameOfArtifacts() []string {
+func GetAllNameOfArtifacts() ([]string, error) {
 	urlApi := "https://genshin.jmp.blue/artifacts"
 	httpClient := http.Client{
 		Timeout: time.Second * 5,
 	}
 	req, errReq := http.NewRequest(http.MethodGet, urlApi, nil)
 	if errReq != nil {
-		fmt.Printf("Error during http request : %v\n", errReq)
+		return []string{}, errReq
 	}
-	req.Header.Set("User-Agent", "Ynov Campus")
+	req.Header.Set("User-Agent", "Ynov Campus module groupie tracker")
 	res, Errres := httpClient.Do(req)
 	if Errres != nil {
-		fmt.Printf("Erreur lors de la requete client : %v\n", Errres)
+		return []string{}, Errres
 	}
 	if res.StatusCode == http.StatusOK {
 		var decodeData []string
@@ -28,26 +30,26 @@ func GetAllNameOfArtifacts() []string {
 		if errDecode != nil {
 			fmt.Printf("erreur lors du decodage : %v\n", errDecode)
 		}
-		return decodeData
+		return decodeData, nil
 	} else {
 		fmt.Printf("Erreur code : %v, erreur message : %v", res.StatusCode, res.Status)
 	}
-	return []string{}
+	return []string{}, errors.New("Status code is not 200 but " + res.Status)
 }
 
-func GetAllDataAboutOneArtifact(name string) ArtifactDetails {
+func GetAllDataAboutOneArtifact(name string) (ArtifactDetails, error) {
 	urlApi := "https://genshin.jmp.blue/artifacts/" + name
 	httpClient := http.Client{
 		Timeout: time.Second * 5,
 	}
 	req, errReq := http.NewRequest(http.MethodGet, urlApi, nil)
 	if errReq != nil {
-		fmt.Printf("Erreur lors de la requette http : %v\n", errReq)
+		return ArtifactDetails{}, errReq
 	}
 	req.Header.Set("User-Agent", "Ynov Campus")
 	res, Errres := httpClient.Do(req)
 	if Errres != nil {
-		fmt.Printf("Erreur lors de la requete client : %v\n", Errres)
+		return ArtifactDetails{}, Errres
 	}
 	if res.StatusCode == http.StatusOK {
 		var decodeData ArtifactDetails
@@ -64,22 +66,29 @@ func GetAllDataAboutOneArtifact(name string) ArtifactDetails {
 			decodeData.AllUrlImageAvailable = AvailableImage
 		}
 
-		return decodeData
+		return decodeData, nil
 	} else {
 		fmt.Printf("Erreur code : %v, erreur message : %v", res.StatusCode, res.Status)
 	}
 
-	return ArtifactDetails{}
+	return ArtifactDetails{}, errors.New("Status code is not 200 but " + res.Status)
 }
-func GetAllArtifactsDetails() []ArtifactDetails {
-	AllNames := GetAllNameOfArtifacts()
+func GetAllArtifactsDetails() ([]ArtifactDetails, error) {
+	AllNames, err := GetAllNameOfArtifacts()
+	if err != nil {
+		return []ArtifactDetails{}, err
+	}
 	AllArtifactsDetails := []ArtifactDetails{}
 	for _, name := range AllNames {
 		if name != "prayers-to-the-firmament" {
-			AllArtifactsDetails = append(AllArtifactsDetails, GetAllDataAboutOneArtifact(name))
+			artifact, err := GetAllDataAboutOneArtifact(name)
+			if err != nil {
+				log.Fatal(err)
+			}
+			AllArtifactsDetails = append(AllArtifactsDetails, artifact)
 		}
 	}
-	return AllArtifactsDetails
+	return AllArtifactsDetails, nil
 }
 
 func ArtifactsFilterByName(data []ArtifactDetails) []ArtifactDetails {

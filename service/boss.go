@@ -2,24 +2,25 @@ package service
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"time"
 )
 
-func GetAllDetailsAboutOneBoss(name string) BossStruct {
+func GetAllDetailsAboutOneBoss(name string) (BossStruct, error) {
 	urlApi := "https://genshin.jmp.blue/boss/weekly-boss/" + name
 	httpClient := http.Client{
 		Timeout: time.Second * 5,
 	}
 	req, errReq := http.NewRequest(http.MethodGet, urlApi, nil)
 	if errReq != nil {
-		fmt.Printf("Erreur lors de la requette http : %v\n", errReq)
+		return BossStruct{}, errReq
 	}
 	req.Header.Set("User-Agent", "Ynov Campus")
 	res, Errres := httpClient.Do(req)
 	if Errres != nil {
-		fmt.Printf("Erreur lors de la requete client : %v\n", Errres)
+		return BossStruct{}, Errres
 	}
 	defer res.Body.Close()
 	if res.StatusCode == http.StatusOK {
@@ -29,26 +30,26 @@ func GetAllDetailsAboutOneBoss(name string) BossStruct {
 			fmt.Printf("erreur lors du decodage : %v\n", errDecode)
 		}
 		decodeData.ImageURL = "https://genshin.jmp.blue/boss/weekly-boss/" + name + "/portrait"
-		return decodeData
+		return decodeData, nil
 	} else {
 		fmt.Printf("Erreur code : %v, erreur message : %v", res.StatusCode, res.Status)
 	}
-	return BossStruct{}
+	return BossStruct{}, errors.New("Status code is not 200 but " + res.Status)
 }
 
-func GetNamesOfAllTheBosses() []string {
+func GetNamesOfAllTheBosses() ([]string, error) {
 	urlApi := "https://genshin.jmp.blue/boss/weekly-boss"
 	httpClient := http.Client{
 		Timeout: time.Second * 5,
 	}
 	req, errReq := http.NewRequest(http.MethodGet, urlApi, nil)
 	if errReq != nil {
-		fmt.Printf("Error during http request : %v\n", errReq)
+		return []string{}, errReq
 	}
 	req.Header.Set("User-Agent", "Ynov Campus")
 	res, Errres := httpClient.Do(req)
 	if Errres != nil {
-		fmt.Printf("Error during client request : %v\n", Errres)
+		return []string{}, Errres
 	}
 	if res.StatusCode == http.StatusOK {
 		var decodeData []string
@@ -56,18 +57,27 @@ func GetNamesOfAllTheBosses() []string {
 		if errDecode != nil {
 			fmt.Printf("error during decoding : %v\n", errDecode)
 		}
-		return decodeData
+		return decodeData, nil
 	} else {
 		fmt.Printf("Code error : %v, error message : %v", res.StatusCode, res.Status)
 	}
-	return []string{}
+	return []string{}, errors.New("Status code is not 200 but " + res.Status)
 }
 
-func GetAllBossDetails() []BossStruct {
-	AllNames := GetNamesOfAllTheBosses()
+func GetAllBossDetails() ([]BossStruct, error) {
+	var err error
+	var boss BossStruct
+	AllNames, err := GetNamesOfAllTheBosses()
+	if err != nil {
+		return []BossStruct{}, err
+	}
 	AllBossDetails := []BossStruct{}
 	for _, name := range AllNames {
-		AllBossDetails = append(AllBossDetails, GetAllDetailsAboutOneBoss(name))
+		boss, err = GetAllDetailsAboutOneBoss(name)
+		if err != nil {
+			return []BossStruct{}, err
+		}
+		AllBossDetails = append(AllBossDetails, boss)
 	}
-	return AllBossDetails
+	return AllBossDetails, nil
 }

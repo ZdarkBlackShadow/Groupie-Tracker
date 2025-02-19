@@ -1,19 +1,21 @@
-package server
+package controllers
 
 import (
 	"fmt"
 	"net/http"
+
+	"main.go/utils"
 )
 
 func Loading(w http.ResponseWriter, r *http.Request) {
 
-	Mu.Lock()
-	defer Mu.Unlock()
+	utils.Mu.Lock()
+	defer utils.Mu.Unlock()
 
 	if !IsLoad {
 		IsLoad = true
-		Progress = 0
-		go LoadAllData()
+		utils.Progress = 0
+		go AllDataOfAPI.LoadAllData()
 		http.Redirect(w, r, "/loading", http.StatusSeeOther)
 		return
 	}
@@ -24,9 +26,9 @@ func Loading(w http.ResponseWriter, r *http.Request) {
 }
 
 func ProgressF(w http.ResponseWriter, r *http.Request) {
-	Mu.Lock()
-	defer Mu.Unlock()
+	utils.Mu.Lock()
+	defer utils.Mu.Unlock()
 
 	w.Header().Set("Content-Type", "application/json")
-	w.Write([]byte(fmt.Sprintf(`{"progress": %d}`, Progress)))
+	w.Write([]byte(fmt.Sprintf(`{"progress": %d}`, utils.Progress)))
 }

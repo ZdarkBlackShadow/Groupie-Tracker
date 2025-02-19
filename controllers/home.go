@@ -1,20 +1,21 @@
-package server
+package controllers
 
 import (
 	"log"
 	"net/http"
 	"time"
+
+	"main.go/utils"
 )
 
 func Home(w http.ResponseWriter, r *http.Request) {
-	Mu.Lock()
-	defer Mu.Unlock()
+	utils.Mu.Lock()
+	defer utils.Mu.Unlock()
 
 	if !IsLoad || time.Since(TimeWhenConnect) > TimeToReload {
 		TimeWhenConnect = time.Now()
 		IsLoad = true
-		Progress = 0
-		go LoadAllData()
+		go AllDataOfAPI.LoadAllData()
 		http.Redirect(w, r, "/loading", http.StatusSeeOther)
 		return
 	}
