@@ -17,6 +17,52 @@
             {{template "navbar1"}}
         {{end}}
     </header>
+    <button id="openMenuButton">
+        <i class="fas fa-filter"></i> Filtres
+    </button>
+
+    <div id="overlay"></div>
+
+    <div id="filterMenu">
+        <form id="filterForm">
+            <h4>Sort by</h4>
+            <div class="filter-group">
+                <label>
+                    <input type="checkbox" name="sort_filter" value="character"> Character
+                </label>
+                <label>
+                    <input type="checkbox" name="sort_filter" value="artifact"> Artifact
+                </label>
+                <label>
+                    <input type="checkbox" name="sort_filter" value="element"> Element
+                </label>
+                <label>
+                    <input type="checkbox" name="sort_filter" value="boss"> Boss
+                </label>
+                <label>
+                    <input type="checkbox" name="sort_filter" value="domain"> Domain
+                </label>
+                <label>
+                    <input type="checkbox" name="sort_filter" value="enemie"> Enemie
+                </label>
+                <label>
+                    <input type="checkbox" name="sort_filter" value="weapon"> Weapon
+                </label>
+                <label>
+                    <input type="checkbox" name="sort_filter" value="food"> Food
+                </label>
+                <label>
+                    <input type="checkbox" name="sort_filter" value="potion"> Potion
+                </label>
+            </div>
+            <div class="buttons">
+                <button type="button" id="resetFiltersButton">Réinitialiser</button>
+                <button type="button" id="applyFiltersButton">Appliquer</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="/static/js/searchResult.js"></script>
 
     <h1 class="page-title">Search Results</h1>
 
@@ -49,6 +95,7 @@
             <p class="no-results-description">Try searching with different keywords</p>
         </div>
     {{end}}
+    {{template "footer"}}
 </body>
 </html>
 {{end}}

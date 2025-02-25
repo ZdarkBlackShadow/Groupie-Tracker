@@ -1,0 +1,83 @@
+{{define "about"}}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me - Genshin Impact</title>
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/about.css">
+</head>
+
+<body>
+    <header class="header">
+        {{if eq .IsLogin true}}
+        {{template "navbar2"}}
+        {{else}}
+        {{template "navbar1"}}
+        {{end}}
+    </header>
+
+    <main class="about-container">
+        <h1 class="page-title">About Me</h1>
+
+        <div class="qa-container">
+            <div class="qa-item">
+                <div class="question">
+                    <h2>How did you structure the project?</h2>
+                </div>
+                <div class="answer">
+                    <p>I structured the project to keep everything well-organized and separated to avoid confusion.
+                    The key phases were:</p>
+                    <ul>
+                        <li>API research</li>
+                        <li>API testing phase</li>
+                        <li>Data retrieval in Golang</li>
+                        <li>Data integration into templates</li>
+                        <li>Implementation of features (search, filters, pagination)</li>
+                        <li>Loading of all API data</li>
+                        <li>Authentication system and collections</li>
+                        <li>Frontend development (HTML, JS, and CSS)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="qa-item">
+                <div class="question">
+                    <h2>How did you manage your time?</h2>
+                </div>
+                <div class="answer">
+                    <p>As I worked alone on this project, I set daily objectives:</p>
+                    <ul>
+                        <li>Data integration into different templates</li>
+                        <li>Development of features per page such as filters and pagination</li>
+                        <li>Priority on essential functionalities</li>
+                        <li>Testing and bug fixing</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="qa-item">
+                <div class="question">
+                    <h2>What was your documentation strategy?</h2>
+                </div>
+                <div class="answer">
+                    <p>I mainly documented myself through:</p>
+                    <ul>
+                        <li>YouTube for detailed explanations and concrete examples</li>
+                        <li>AI tools (DeepSeek, ChatGPT, Mistral) for code examples I could adapt</li>
+                        <li>Stack Overflow for error resolution</li>
+                        <li>Go's official documentation for functions and methods</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    {{template "footer"}}
+</body>
+
+</html>
+{{end}}

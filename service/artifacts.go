@@ -6,29 +6,35 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"sort"
 	"time"
 )
 
-func GetAllNameOfArtifacts() ([]string, error) {
-	urlApi := "https://genshin.jmp.blue/artifacts"
-	httpClient := http.Client{
+func getAllNameOfArtifacts() ([]string, error) {
+	var (
+		urlApi     string
+		httpClient http.Client
+		req        *http.Request
+		res        *http.Response
+		decodeData []string
+		err        error
+	)
+	urlApi = "https://genshin.jmp.blue/artifacts"
+	httpClient = http.Client{
 		Timeout: time.Second * 5,
 	}
-	req, errReq := http.NewRequest(http.MethodGet, urlApi, nil)
-	if errReq != nil {
-		return []string{}, errReq
+	req, err = http.NewRequest(http.MethodGet, urlApi, nil)
+	if err != nil {
+		return []string{}, err
 	}
 	req.Header.Set("User-Agent", "Ynov Campus module groupie tracker")
-	res, Errres := httpClient.Do(req)
-	if Errres != nil {
-		return []string{}, Errres
+	res, err = httpClient.Do(req)
+	if err != nil {
+		return []string{}, err
 	}
 	if res.StatusCode == http.StatusOK {
-		var decodeData []string
-		errDecode := json.NewDecoder(res.Body).Decode(&decodeData)
-		if errDecode != nil {
-			fmt.Printf("erreur lors du decodage : %v\n", errDecode)
+		err = json.NewDecoder(res.Body).Decode(&decodeData)
+		if err != nil {
+			fmt.Printf("erreur lors du decodage : %v\n", err)
 		}
 		return decodeData, nil
 	} else {
@@ -74,7 +80,7 @@ func GetAllDataAboutOneArtifact(name string) (ArtifactDetails, error) {
 	return ArtifactDetails{}, errors.New("Status code is not 200 but " + res.Status)
 }
 func GetAllArtifactsDetails() ([]ArtifactDetails, error) {
-	AllNames, err := GetAllNameOfArtifacts()
+	AllNames, err := getAllNameOfArtifacts()
 	if err != nil {
 		return []ArtifactDetails{}, err
 	}
@@ -89,18 +95,4 @@ func GetAllArtifactsDetails() ([]ArtifactDetails, error) {
 		}
 	}
 	return AllArtifactsDetails, nil
-}
-
-func ArtifactsFilterByName(data []ArtifactDetails) []ArtifactDetails {
-	sort.Slice(data, func(i, j int) bool {
-		return data[i].Name < data[j].Name
-	})
-	return data
-}
-
-func ArtifactsFilterByRarity(data []ArtifactDetails) []ArtifactDetails {
-	sort.Slice(data, func(i, j int) bool {
-		return data[i].MaxRarity < data[j].MaxRarity
-	})
-	return data
 }

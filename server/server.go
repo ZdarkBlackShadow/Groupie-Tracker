@@ -47,6 +47,7 @@ func InitServer() {
 	http.HandleFunc("/loading", controllers.Loading)
 	http.HandleFunc("/progress", controllers.ProgressF)
 	http.HandleFunc("/profil", controllers.Profil)
+	http.HandleFunc("/about", controllers.AboutControllers)
 	http.HandleFunc("/error", controllers.ErrorCode)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
@@ -116,6 +117,8 @@ func InitServer() {
 			controllers.ProgressF(w, r)
 		case "/profil":
 			controllers.Profil(w, r)
+		case "/about":
+			controllers.AboutControllers(w, r)
 		case "/error":
 			controllers.ErrorCode(w, r)
 		default:

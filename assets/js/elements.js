@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const totalElements = items.length;
     const angleStep = 360 / totalElements;
-    const radius = 225;
+    const radius = 205;
 
     function initializeCarousel() {
         items.forEach((item, index) => {

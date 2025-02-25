@@ -11,7 +11,7 @@
 
 body {
     margin: 0;
-    min-height: 100vh;
+    min-height: 110vh;
     background-image: url("/static/image/elementbackground.jpeg");
     background-size: cover;
     background-position: center;
@@ -19,9 +19,14 @@ body {
     overflow: hidden;
 }
 
+footer {
+    position: absolute;
+    top: 89%;
+}
+
 .carousel-container {
     position: fixed;
-    top: 55%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 800px;

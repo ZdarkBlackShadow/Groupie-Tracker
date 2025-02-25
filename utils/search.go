@@ -11,6 +11,7 @@ type SearchResultStruct struct {
 	Name       string
 	Image      string
 	Link       string
+	Type       string
 	Percentage float64
 }
 
@@ -43,6 +44,7 @@ func searchWithOneWord(UserSearch string, API_Data AllData) []SearchResultStruct
 		temp = SearchResultStruct{
 			Name:  artifact.Name,
 			Image: artifact.ImageURL,
+			Type:  "artifact",
 			Link:  "/artifacts/details?id=" + artifact.Id,
 		}
 		ListOfPercentage = append(ListOfPercentage, similarityPercentage(UserSearch, artifact.Name))
@@ -96,6 +98,7 @@ func searchWithOneWord(UserSearch string, API_Data AllData) []SearchResultStruct
 		temp = SearchResultStruct{
 			Name:  boss.Name,
 			Image: boss.ImageURL,
+			Type:  "boss",
 			Link:  "/boss/details?id=" + boss.Id,
 		}
 		ListOfPercentage = append(ListOfPercentage, similarityPercentage(UserSearch, boss.Name))
@@ -131,6 +134,7 @@ func searchWithOneWord(UserSearch string, API_Data AllData) []SearchResultStruct
 		temp = SearchResultStruct{
 			Name:  character.Name,
 			Image: character.ImageUrl,
+			Type:  "character",
 			Link:  "/characters/details?id=" + character.Id,
 		}
 		ListOfPercentage = append(ListOfPercentage, similarityPercentage(UserSearch, character.Name))
@@ -229,6 +233,7 @@ func searchWithOneWord(UserSearch string, API_Data AllData) []SearchResultStruct
 		temp = SearchResultStruct{
 			Name:  domain.Name,
 			Image: domain.ImageUrl,
+			Type:  "domain",
 			Link:  "/domains/details?id=" + domain.Id,
 		}
 		ListOfPercentage = append(ListOfPercentage, similarityPercentage(UserSearch, domain.Name))
@@ -283,6 +288,7 @@ func searchWithOneWord(UserSearch string, API_Data AllData) []SearchResultStruct
 		temp = SearchResultStruct{
 			Name:  element.Name,
 			Image: element.ImageUrl,
+			Type:  "element",
 			Link:  "/elements/details?id=" + element.Id,
 		}
 		ListOfPercentage = append(ListOfPercentage, similarityPercentage(UserSearch, element.Name))
@@ -320,6 +326,7 @@ func searchWithOneWord(UserSearch string, API_Data AllData) []SearchResultStruct
 		temp = SearchResultStruct{
 			Name:  enemie.Name,
 			Image: enemie.ImageUrl,
+			Type:  "enemie",
 			Link:  "/enemies/details?id=" + enemie.Id,
 		}
 		ListOfPercentage = append(ListOfPercentage, similarityPercentage(UserSearch, enemie.Name))
@@ -391,6 +398,7 @@ func searchWithOneWord(UserSearch string, API_Data AllData) []SearchResultStruct
 		temp = SearchResultStruct{
 			Name:  weapon.Name,
 			Image: weapon.ImageUrl,
+			Type:  "weapon",
 			Link:  "/weapons/details?id=" + weapon.Id,
 		}
 		ListOfPercentage = append(ListOfPercentage, similarityPercentage(UserSearch, weapon.Name))
@@ -424,6 +432,7 @@ func searchWithOneWord(UserSearch string, API_Data AllData) []SearchResultStruct
 		temp = SearchResultStruct{
 			Name:  food.Name,
 			Image: food.ImageUrl,
+			Type:  "food",
 			Link:  "/food/details?id=" + food.Id,
 		}
 		ListOfPercentage = append(ListOfPercentage, similarityPercentage(UserSearch, food.Name))
@@ -466,6 +475,7 @@ func searchWithOneWord(UserSearch string, API_Data AllData) []SearchResultStruct
 		temp = SearchResultStruct{
 			Name:  potion.Name,
 			Image: potion.ImageUrl,
+			Type:  "potion",
 			Link:  "/potions/details?id=" + potion.Id,
 		}
 		ListOfPercentage = append(ListOfPercentage, similarityPercentage(UserSearch, potion.Name))
@@ -516,7 +526,6 @@ func removeDuplicateSearchResults(results []SearchResultStruct) []SearchResultSt
 
 	return result
 }
-
 
 // Levenshtein
 // Fonction pour calculer la distance de Levenshtein entre deux mots
@@ -576,6 +585,31 @@ func similarityPercentage(a, b string) float64 {
 
 	// Calculer le pourcentage de ressemblance
 	return (1 - float64(distance)/maxLen) * 100
+}
+
+func FiltersSearchChecker(filters []string) bool {
+	for _, searchType := range filters {
+		if !(searchType == "" || searchType == "character" || searchType == "artifact" || searchType == "element" || searchType == "boss" || searchType == "domain" || searchType == "enemie" || searchType == "weapon" || searchType == "food" || searchType == "potion") {
+			return false
+		}
+	}
+	return true
+}
+
+func ApplySearchFilters(searchResult []SearchResultStruct, filters []string) []SearchResultStruct {
+	var res []SearchResultStruct = []SearchResultStruct{}
+	if len(filters) != 0 {
+		for _, filter := range filters {
+			for _, element := range searchResult {
+				if filter == element.Type {
+					res = append(res, element)
+				}
+			}
+		}
+	} else {
+		res = searchResult
+	}
+	return res
 }
 
 func PaginateSearchResult(data []SearchResultStruct, page, itemsPerPage int) ([]SearchResultStruct, int) {

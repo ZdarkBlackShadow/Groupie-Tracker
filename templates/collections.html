@@ -39,12 +39,29 @@
                         </div>
                     </div>
                 {{end}}
+                {{if or (eq (len .Data.Collections) 1) (eq (len .Data.Collections) 2)}}
+                <style>
+                    body {
+                        overflow-y: hidden;
+                    }
+                </style>
+            {{end}}
+            
             </div>
         {{else}}
             <div class="empty-collection">
                 <h2 class="empty-message">Your Collection is Empty</h2>
                 <p class="empty-description">Start exploring and add items to your collection!</p>
             </div>
+            <style>
+                body {
+                    overflow-y: hidden;
+                }
+                footer {
+                    position: absolute;
+                    bottom: 0;
+                }
+            </style>
         {{end}}
     {{else}}
         <div class="not-connected">
@@ -52,7 +69,17 @@
             <p class="empty-description">Please log in to view and manage your collections</p>
             <a href="/login" class="login-link">Login or Create Account</a>
         </div>
+        <style>
+            body {
+                overflow-y: hidden;
+            }
+            footer {
+                position: absolute;
+                bottom: 0;
+            }
+        </style>
     {{end}}
+    {{template "footer"}}
 </body>
 </html>
 {{end}}

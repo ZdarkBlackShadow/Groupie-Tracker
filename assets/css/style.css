@@ -74,6 +74,7 @@ body {
     width: 200px;
     padding: 8px 12px;
     border: none;
+    border-radius: 25px;
     background: transparent;
     color: white;
     font-size: 16px;
@@ -149,22 +150,58 @@ body {
     padding: 2rem;
 }
 
-/* Responsive design */
+footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    background: rgba(20, 20, 20, 0.95);
+    backdrop-filter: blur(8px);
+    border-top: 2px solid rgba(255, 215, 0, 0.2);
+    padding: 0 40px;
+    width: 100%;
+}
+
+footer p {
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+footer .copyright {
+    flex: 1;
+    text-align: center;
+}
+
+footer strong {
+    color: #FFD700;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: rgba(255, 215, 0, 0.1);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+footer a:hover {
+    background: rgba(255, 215, 0, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.2);
+}
+
 @media (max-width: 768px) {
-    .header {
+    footer {
         padding: 0 20px;
-    }
-
-    .navbar {
-        gap: 1rem;
-    }
-
-    .search-bar input {
-        width: 150px;
-    }
-
-    .nav-links {
-        gap: 1rem;
+        height: auto;
+        padding: 20px;
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
     }
 }
 
