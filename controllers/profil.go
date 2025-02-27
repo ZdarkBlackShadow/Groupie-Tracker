@@ -7,6 +7,9 @@ type ProfilStruct struct {
 }
 
 func Profil(w http.ResponseWriter, r *http.Request) {
+	if !IsLogin {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+	}
 	Data := ProfilStruct{
 		IsLogin: IsLogin,
 	}

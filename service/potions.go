@@ -3,6 +3,8 @@ package service
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"log"
 	"net/http"
 	"time"
 )
@@ -23,7 +25,12 @@ func GetAllPotionsMap() map[string]Potion {
 	}
 	if res.StatusCode == http.StatusOK {
 		var decodeData map[string]Potion
-		errDecode := json.NewDecoder(res.Body).Decode(&decodeData)
+		body, err := ioutil.ReadAll(res.Body)
+		if err != nil {
+			log.Fatal(err)
+		}
+		body = append(body[:len(body) - 16], body[len(body) - 1:]...)
+		errDecode := json.Unmarshal(body, &decodeData)
 		if errDecode != nil {
 			fmt.Printf("erreur lors du decodage : %v\n", errDecode)
 		}
@@ -34,7 +41,7 @@ func GetAllPotionsMap() map[string]Potion {
 	return map[string]Potion{}
 }
 
-func GetAllPotions() []Potion {
+func GetAllPotions() ([]Potion, error) {
 	m := GetAllPotionsMap()
 	UrlAPI := "https://genshin.jmp.blue/consumables/potions/list"
 	httpClient := http.Client{
@@ -50,8 +57,12 @@ func GetAllPotions() []Potion {
 		fmt.Printf("Erreur lors de la requete client : %v\n", Errres)
 	}
 	if res.StatusCode == http.StatusOK {
+		body, err := ioutil.ReadAll(res.Body)
+		if err != nil {
+			return nil, err
+		}
 		var decodeData []string
-		errDecode := json.NewDecoder(res.Body).Decode(&decodeData)
+		errDecode := json.Unmarshal(body, &decodeData)
 		if errDecode != nil {
 			fmt.Printf("erreur lors du decodage : %v\n", errDecode)
 		}
@@ -61,11 +72,11 @@ func GetAllPotions() []Potion {
 			L[i].ImageUrl = "https://genshin.jmp.blue/consumables/potions/" + name
 			L[i].Id = name
 		}
-		return L
+		return L, nil
 	} else {
 		fmt.Printf("Erreur code : %v, erreur message : %v", res.StatusCode, res.Status)
 	}
-	return []Potion{}
+	return []Potion{}, nil
 }
 
 func GetDetailsAboutOnePotion(id string, AllPotions []Potion) Potion {

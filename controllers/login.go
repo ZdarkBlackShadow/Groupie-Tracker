@@ -21,20 +21,25 @@ var IsWrongLogin bool = false
 var IsWrongRegister bool = false
 
 func Login(w http.ResponseWriter, r *http.Request) {
-	Data := LoginData{
-		IsLogin:         IsLogin,
-		IsWrongLogin:    IsWrongLogin,
-		IsWrongRegister: IsWrongRegister,
-	}
-	err1 := Templates.ExecuteTemplate(w, "login", Data)
-	if err1 != nil {
-		log.Fatal(err1)
+	if IsLogin {
+		http.Redirect(w, r, "/profil", http.StatusSeeOther)
+	} else {
+		Data := LoginData{
+			IsLogin:         IsLogin,
+			IsWrongLogin:    IsWrongLogin,
+			IsWrongRegister: IsWrongRegister,
+		}
+		err1 := Templates.ExecuteTemplate(w, "login", Data)
+		if err1 != nil {
+			log.Fatal(err1)
+		}
 	}
 }
 
 func LoginNewRegister(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-		fmt.Println("Acess refused")
+		ErrorCodeToSend.Update(401, "Unauthorized acces", "Acces forbiden", &ErrorToSend)
+		http.Redirect(w, r, "/error", http.StatusSeeOther)
 	} else {
 		Email, Password, RetypedPassword := r.FormValue("NewRegisterEmail"), r.FormValue("NewRegisterPassword"), r.FormValue("NewRegisterRetypePassword")
 		if Password != RetypedPassword {
@@ -86,7 +91,8 @@ func LoginNewRegister(w http.ResponseWriter, r *http.Request) {
 
 func LoginRegister(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-		fmt.Println("Acess refused")
+		ErrorCodeToSend.Update(401, "Unauthorized acces", "Acces forbiden", &ErrorToSend)
+		http.Redirect(w, r, "/error", http.StatusSeeOther)
 	} else {
 		Email, Password := r.FormValue("RegisterEmail"), r.FormValue("RegisterPassword")
 		filePath := "./data/data.json"
@@ -124,8 +130,21 @@ func LoginRegister(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+type PasswordForgotDataStruct struct {
+	IsError bool
+}
+
+var IsErrorPasswordForgot bool = false
+
 func PasswordForgot(w http.ResponseWriter, r *http.Request) {
-	err := Templates.ExecuteTemplate(w, "passwordforgot", nil)
+	if IsLogin {
+		http.Redirect(w, r, "/profil", http.StatusSeeOther)
+	}
+	Data := PasswordForgotDataStruct {
+		IsError: IsErrorPasswordForgot,
+	}
+	IsErrorPasswordForgot = false
+	err := Templates.ExecuteTemplate(w, "passwordforgot", Data)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -133,10 +152,12 @@ func PasswordForgot(w http.ResponseWriter, r *http.Request) {
 
 func PasswordForgotData(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-		fmt.Println("Acess refused")
+		ErrorCodeToSend.Update(401, "Unauthorized acces", "Acces forbiden", &ErrorToSend)
+		http.Redirect(w, r, "/error", http.StatusSeeOther)
 	} else {
 		Email, Password, RetypedPassword := r.FormValue("email"), r.FormValue("newpassword"), r.FormValue("newpassword2")
 		if Password != RetypedPassword {
+			IsErrorPasswordForgot = true
 			http.Redirect(w, r, "/login/password-forgot", http.StatusSeeOther)
 		}
 		filePath := "./data/data.json"
@@ -162,7 +183,8 @@ func PasswordForgotData(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 		if !FindEmail {
-			fmt.Println("Email not found")
+			IsErrorPasswordForgot = true
+			http.Redirect(w, r, "/login/password-forgot", http.StatusSeeOther)
 		} else {
 			fmt.Println(data)
 			updatedJsonData, err := json.MarshalIndent(data, "", "  ")

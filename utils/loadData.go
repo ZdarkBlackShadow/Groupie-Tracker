@@ -28,7 +28,11 @@ func (API_Data *AllData) LoadAllData() {
 	var err error
 	Progress = 0
 	//food
-	food := service.TransformFoodToSlice(service.GetAllDetailsOfFood())
+	foods, err := service.GetAllDetailsOfFood()
+	if err != nil {
+		log.Fatal(err)
+	}
+	food := service.TransformFoodToSlice(foods)
 	Mu.Lock()
 	API_Data.AllFood = food
 	Progress = 10
@@ -43,7 +47,10 @@ func (API_Data *AllData) LoadAllData() {
 	Progress = 20
 	Mu.Unlock()
 	//potions
-	potions := service.GetAllPotions()
+	potions, err := service.GetAllPotions()
+	if err != nil {
+		log.Fatal(err)
+	}
 	Mu.Lock()
 	API_Data.AllPotions = potions
 	Progress = 30

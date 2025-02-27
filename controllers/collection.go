@@ -100,7 +100,10 @@ func HandleAddToCollection(w http.ResponseWriter, r *http.Request) {
 				DateAdded:          time.Now().Local().GoString(),
 			}
 		case "enemie":
-			enemie := service.GetAllDetailsAboutOneEnemie(id)
+			enemie, err := service.GetAllDetailsAboutOneEnemie(id)
+			if err != nil {
+				log.Fatal(err)
+			}
 			LinkToRedirect = "/enemies" + detail
 			temp = service.CollectionsStruct{
 				Name:               enemie.Name,
@@ -144,7 +147,7 @@ func HandleAddToCollection(w http.ResponseWriter, r *http.Request) {
 			}
 		case "potion":
 			LinkToRedirect = "/potions" + detail
-			potion := service.GetDetailsAboutOnePotion(id, service.GetAllPotions())
+			potion := service.GetDetailsAboutOnePotion(id, AllDataOfAPI.AllPotions)
 			temp = service.CollectionsStruct{
 				Name:               potion.Name,
 				Image:              potion.ImageUrl,
@@ -190,8 +193,7 @@ func HandleAddToCollection(w http.ResponseWriter, r *http.Request) {
 		}
 		http.Redirect(w, r, LinkToRedirect, http.StatusSeeOther)
 	} else {
-		fmt.Println("You're not connected")
-		http.Redirect(w, r, "/artifacts", http.StatusSeeOther)
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
 	}
 }
 

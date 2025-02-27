@@ -33,11 +33,15 @@ func EnemiesDetails(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Missing 'id' parameter", http.StatusBadRequest)
 		return
 	}
+	enemie, err := service.GetAllDetailsAboutOneEnemie(Id)
+	if err != nil {
+		log.Fatal(err)
+	}
 	Data := DataEnemieDetails{
-		Data:    service.GetAllDetailsAboutOneEnemie(Id),
+		Data:    enemie,
 		IsLogin: IsLogin,
 	}
-	err := Templates.ExecuteTemplate(w, "enemiesDetails", Data)
+	err = Templates.ExecuteTemplate(w, "enemiesDetails", Data)
 	if err != nil {
 		http.Error(w, "Error rendering template", http.StatusInternalServerError)
 	}
