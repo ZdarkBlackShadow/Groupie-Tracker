@@ -1,49 +1,49 @@
-# Groupie tracker
+# Groupie Tracker
 
 ## Description
 
-Ce projet est un site web dédié à Genshin Impact, offrant une base de données complète et interactive sur le jeu. Il permet aux utilisateurs de consulter et de gérer des collections d'informations sur les personnages, les armes, les artefacts et plus encore.
+This project is a website dedicated to Genshin Impact, offering a comprehensive and interactive database about the game. It allows users to browse and manage collections of information about characters, weapons, artifacts, and much more.
 
-## Fonctionnalités
+## Features
 
-### 🎮 Système d'Authentification
+### 🎮 Authentication System
 
-- Inscription et connexion des utilisateurs
-- Gestion de profil personnalisé
-- Système de récupération de mot de passe
+- User registration and login
+- Personalized profile management
+- Password recovery system
 
-### 📚 Base de Données Complète
+### 📚 API Interaction
 
-- Personnages
-- Armes
-- Artefacts
-- Éléments
-- Boss
-- Nourriture
+- Characters
+- Weapons
+- Artifacts
+- Elements
+- Bosses
+- Food
 - Potions
-- Domaines
-- Ennemis
+- Domains
+- Enemies
 
-### 🔍 Fonctionnalités de Recherche et Filtrage
+### 🔍 Search and Filtering Features
 
-- Recherche globale
-- Filtres avancés pour chaque catégorie
-- Tri personnalisable
-- Pagination des résultats
+- Global search
+- Advanced filters for each category
+- Customizable sorting
+- Paginated results
 
-### 📑 Collections Personnelles
+### 📑 Personal Collections
 
-- Ajout d'éléments aux collections
-- Gestion des collections personnelles
-- Suivi des objets collectés
+- Add items to collections
+- Manage personal collections
+- Track collected items
 
-### 💫 Interface Utilisateur
+### 💫 User Interface
 
-- Animations fluides
-- Navigation intuitive
-- Thème inspiré de Genshin Impact
+- Smooth animations
+- Intuitive navigation
+- Genshin Impact-inspired theme
 
-## Technologies Utilisées
+## Technologies Used
 
 ### Frontend
 
@@ -57,24 +57,24 @@ Ce projet est un site web dédié à Genshin Impact, offrant une base de donnée
 
 ### Database
 
-- Json 🟨
+- JSON 🟨
 
 ## Installation
 
-### ⚙️ Prérequis
+### ⚙️ Prerequisites
 
-- Avoir Git ([Télécharger Git](https://git-scm.com/downloads))
-- Avoir goland (1.23.3) ([Télécharger Goland](https://go.dev/dl))
+- Git ([Download Git](https://git-scm.com/downloads))
+- Goland (1.23.3) ([Download Goland](https://go.dev/dl))
 
 ### 🛠️ Download the project
 
-1. Cloner le repository
+1. Clone the repository
 
 ```bash
 git clone https://github.com/ZdarkBlackShadow/Groupie-Tracker.git
 ```
 
-### 🚀 Lancer le projet
+### 🚀 Run the project
 
 ```bash
 go run main.go
@@ -84,55 +84,54 @@ go run main.go
 http://localhost:8080/home
 ```
 
-## 🌐 Routes de l'application
+## 🌐 Application Routes
 
-### Routes principales :
+### Main Routes :
 
-| Méthode |             Route             |       Description       |
-| :-----: | :---------------------------: | :---------------------: |
-|   GET   |            `/home`            |      The home page      |
-|   GET   |           `/login`            |       Login page        |
-|   GET   |   `/login/password-forgot`    |     Forgot password     |
-|   GET   |        `/collections`         |       Collections       |
-|   GET   |         `/artifacts`          |     Artifacts page      |
-|   GET   |     `/artifacts/details`      |    Artifacts details    |
-|   GET   |            `/boss`            |        Boss page        |
-|   GET   |        `/boss/details`        |      Boss details       |
-|   GET   |         `/characters`         |     Characters page     |
-|   GET   |     `/characters/details`     |    Character details    |
-|   GET   |          `/domains`           |      Domains page       |
-|   GET   |      `/domains/details`       |     Domain details      |
-|   GET   |          `/elements`          |      Elements page      |
-|   GET   |      `/elements/details`      |     Element details     |
-|   GET   |          `/enemies`           |      Enemies page       |
-|   GET   |      `/enemies/details`       |      Enemy details      |
-|   GET   |          `/weapons`           |      Weapons page       |
-|   GET   |      `/weapons/details`       |     Weapon details      |
-|   GET   |           `/foods`            |        Food page        |
-|   GET   |       `/foods/details`        |      Food details       |
-|   GET   |          `/potions`           |      Potions page       |
-|   GET   |      `/potions/details`       |     Potion details      |
-|   GET   |           `/search`           |       Search page       |
-|   GET   |          `/loading`           |      Loading page       |
-|   GET   |           `/profil`           |       Profil page       |
-|   GET   |           `/about`            |       About page        |
-|   GET   |           `/logout`           |         Logout          |
-|   GET   |     `/add-to-collection`      |   Add to collections    |
-|   GET   | `/remove-from-the-collection` | Remove from collections |
-|   GET   |          `/loading`           |      Loading page       |
-|   GET   |          `/progress`          |      Progress page      |
+| Method |             Route             |                                        Description                                        |
+| :-----: | :---------------------------: | :---------------------------------------------------------------------------------------: |
+|   GET   |            `/home`            |              The home page where you can choose which entity you want to see              |
+|   GET   |           `/login`            |               Login page where you can chosse betwen login or new register                |
+|   GET   |   `/login/password-forgot`    |            Forgot password where you can change your passwor if you forget it             |
+|   GET   |        `/collections`         |            Collections page, if you're connected, you can see your collections            |
+|   GET   |         `/artifacts`          |      Page displaying all Genshin artifacts. Supports `filter` and `page` parameters.      |
+|   GET   |     `/artifacts/details`      |   Artifact details page. Requires an id parameter to display specific artifact details.   |
+|   GET   |            `/boss`            |             Page listing all bosses. Supports `filter` and `page` parameters.             |
+|   GET   |        `/boss/details`        |      Boss details page. Requires an `id` parameter to display specific boss details.      |
+|   GET   |         `/characters`         |         Page displaying all characters. Supports `filter` and `page` parameters.          |
+|   GET   |     `/characters/details`     | Character details page. Requires an `id` parameter to display specific character details. |
+|   GET   |          `/domains`           |            Page listing all domains. Supports `filter` and `page` parameters.             |
+|   GET   |      `/domains/details`       |    Domain details page. Requires an `id` parameter to display specific domain details.    |
+|   GET   |          `/elements`          |          Page displaying all elements. Supports `filter` and `page` parameters.           |
+|   GET   |      `/elements/details`      |   Element details page. Requires an `id` parameter to display specific element details.   |
+|   GET   |          `/enemies`           |            Page listing all enemies. Supports `filter` and `page` parameters.             |
+|   GET   |      `/enemies/details`       |     Enemy details page. Requires an `id` parameter to display specific enemy details.     |
+|   GET   |          `/weapons`           |           Page displaying all weapons. Supports `filter` and `page` parameters.           |
+|   GET   |      `/weapons/details`       |    Weapon details page. Requires an `id` parameter to display specific weapon details.    |
+|   GET   |           `/foods`            |           Page listing all food items. Supports `filter` and `page` parameters.           |
+|   GET   |       `/foods/details`        |      Food details page. Requires an `id` parameter to display specific food details.      |
+|   GET   |          `/potions`           |           Page displaying all potions. Supports `filter` and `page` parameters.           |
+|   GET   |      `/potions/details`       |    Potion details page. Requires an `id` parameter to display specific potion details.    |
+|   GET   |           `/search`           |             Search page who can take `filter` parameter and `page` parameter              |
+|   GET   |           `/profil`           |                                        Profil page                                        |
+|   GET   |           `/about`            |                            About page who show the about page                             |
+|   GET   |           `/logout`           |                             Logout who logout the actual user                             |
+|   GET   |     `/add-to-collection`      |        Add to collections who take in parameter `type` and the `id` of the entiti         |
+|   GET   | `/remove-from-the-collection` |      Remove from collections who take in parameter `type` and the `id` of the entiti      |
+|   GET   |          `/loading`           |       Loading page who show a progress bar who represent the chargement of all data       |
+|   GET   |          `/progress`          |                 Progress page who send the number for actual progression                  |
 
-### Routes pour actions liées aux données (`POST`) :
+### Routes for data-related actions (`POST`):
 
-| Méthode |             Route             |   Description   |
-| :-----: | :---------------------------: | :-------------: |
-|  POST   |     `/login/newregister`      |    New user     |
-|  POST   |       `/login/register`       | User connexion  |
-|  POST   | `/login/password-forgot/form` | Forgot password |
+| Méthode |             Route             |                  Description                  |
+| :-----: | :---------------------------: | :-------------------------------------------: |
+|  POST   |     `/login/newregister`      |             Registers a new user.             |
+|  POST   |       `/login/register`       |       Authenticates and logs in a user.       |
+|  POST   | `/login/password-forgot/form` | Submits a form to reset a forgotten password. |
 
-## Endpoint utilisé de l'API
+## API Endpoint Used
 
-### Lien de l'API
+### API link
 
 - Link of the API hosted on https://genshin.jmp.blue
 - Github : https://github.com/genshindev/api

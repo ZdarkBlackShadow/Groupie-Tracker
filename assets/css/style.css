@@ -23,7 +23,7 @@ body {
 
 /* Header styles améliorés */
 .header {
-    position: fixed; /* Changed from absolute to fixed */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
