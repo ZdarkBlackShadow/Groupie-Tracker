@@ -8,7 +8,6 @@ import (
 )
 
 func Loading(w http.ResponseWriter, r *http.Request) {
-
 	utils.Mu.Lock()
 	defer utils.Mu.Unlock()
 

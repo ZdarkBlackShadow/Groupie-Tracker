@@ -3,6 +3,7 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"time"
 
 	"main.go/service"
 	"main.go/utils"
@@ -19,13 +20,17 @@ type DataBossDetails struct {
 }
 
 func Boss(w http.ResponseWriter, r *http.Request) {
-	Data := DataBoss{
-		Data:    AllDataOfAPI.AllBoss,
-		IsLogin: IsLogin,
-	}
-	err1 := Templates.ExecuteTemplate(w, "boss", Data)
-	if err1 != nil {
-		log.Fatal(err1)
+	if !IsLoad || time.Since(TimeWhenConnect) > TimeToReload {
+		http.Redirect(w, r, "/home", http.StatusSeeOther)
+	} else {
+		Data := DataBoss{
+			Data:    AllDataOfAPI.AllBoss,
+			IsLogin: IsLogin,
+		}
+		err1 := Templates.ExecuteTemplate(w, "boss", Data)
+		if err1 != nil {
+			log.Fatal(err1)
+		}
 	}
 }
 

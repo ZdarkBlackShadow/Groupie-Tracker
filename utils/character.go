@@ -243,3 +243,12 @@ func CharacterFiltersChecker(filters CharacterFilters) bool {
 	}
 	return (filters.ReleaseDateFilter == "" || filters.ReleaseDateFilter == "az" || filters.ReleaseDateFilter == "za" || filters.ReleaseDateFilter == "recent" || filters.ReleaseDateFilter == "oldest")
 }
+
+func HasIdInCharacter(id string, AllCharacter []service.Characters) bool {
+	for _, character := range AllCharacter {
+		if character.Id == id {
+			return true
+		}
+	}
+	return false
+}

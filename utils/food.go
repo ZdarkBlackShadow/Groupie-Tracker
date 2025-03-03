@@ -42,6 +42,23 @@ func GetFoodFilters(r *http.Request) FoodFilters {
 	return filters
 }
 
+func CheckFoodFilter(filters FoodFilters) bool {
+	if !(filters.Recipe == "1" || filters.Recipe == "2" || filters.Recipe == "") {
+		return false
+	}
+	for _, filtre := range filters.Type {
+		if !(filtre == "" || filtre == "ATK-Boosting Dish" || filtre == "DEF-Boosting Dish" || filtre == "Recovery Dish" || filtre == "Adventurer's Dish") {
+			return false
+		}
+	}
+	for _, filtre := range filters.Rarity {
+		if !(filtre == "" || filtre == "1" || filtre == "2" || filtre == "3" || filtre == "4" || filtre == "5") {
+			return false
+		}
+	}
+	return (filters.Sort == "az" ||filters.Sort == "za" || filters.Sort == "")
+}
+
 func ApplyFoodFilters(filters FoodFilters, AllFoods []service.FoodStruct) []service.FoodStruct {
 	Foods := []service.FoodStruct{}
 	if filters.Recipe != "" {
@@ -88,7 +105,6 @@ func ApplyFoodFilters(filters FoodFilters, AllFoods []service.FoodStruct) []serv
 	return Foods
 }
 
-
 func removeDuplicatesFood(foods []service.FoodStruct) []service.FoodStruct {
 	encountered := map[string]bool{}
 	result := []service.FoodStruct{}
@@ -127,6 +143,15 @@ func sortFoodsZA(foods []service.FoodStruct) []service.FoodStruct {
 func contains(slice []string, item string) bool {
 	for _, s := range slice {
 		if s == item {
+			return true
+		}
+	}
+	return false
+}
+
+func HasIdInFood(id string, AllFoods []service.FoodStruct) bool {
+	for _, food := range AllFoods {
+		if id == food.Id {
 			return true
 		}
 	}

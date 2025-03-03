@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 
 	"main.go/service"
 	"main.go/utils"
@@ -21,17 +22,21 @@ var IsWrongLogin bool = false
 var IsWrongRegister bool = false
 
 func Login(w http.ResponseWriter, r *http.Request) {
-	if IsLogin {
-		http.Redirect(w, r, "/profil", http.StatusSeeOther)
+	if !IsLoad || time.Since(TimeWhenConnect) > TimeToReload {
+		http.Redirect(w, r, "/home", http.StatusSeeOther)
 	} else {
-		Data := LoginData{
-			IsLogin:         IsLogin,
-			IsWrongLogin:    IsWrongLogin,
-			IsWrongRegister: IsWrongRegister,
-		}
-		err1 := Templates.ExecuteTemplate(w, "login", Data)
-		if err1 != nil {
-			log.Fatal(err1)
+		if IsLogin {
+			http.Redirect(w, r, "/profil", http.StatusSeeOther)
+		} else {
+			Data := LoginData{
+				IsLogin:         IsLogin,
+				IsWrongLogin:    IsWrongLogin,
+				IsWrongRegister: IsWrongRegister,
+			}
+			err1 := Templates.ExecuteTemplate(w, "login", Data)
+			if err1 != nil {
+				log.Fatal(err1)
+			}
 		}
 	}
 }
@@ -137,16 +142,20 @@ type PasswordForgotDataStruct struct {
 var IsErrorPasswordForgot bool = false
 
 func PasswordForgot(w http.ResponseWriter, r *http.Request) {
-	if IsLogin {
-		http.Redirect(w, r, "/profil", http.StatusSeeOther)
-	}
-	Data := PasswordForgotDataStruct {
-		IsError: IsErrorPasswordForgot,
-	}
-	IsErrorPasswordForgot = false
-	err := Templates.ExecuteTemplate(w, "passwordforgot", Data)
-	if err != nil {
-		log.Fatal(err)
+	if !IsLoad || time.Since(TimeWhenConnect) > TimeToReload {
+		http.Redirect(w, r, "/home", http.StatusSeeOther)
+	} else {
+		if IsLogin {
+			http.Redirect(w, r, "/profil", http.StatusSeeOther)
+		}
+		Data := PasswordForgotDataStruct{
+			IsError: IsErrorPasswordForgot,
+		}
+		IsErrorPasswordForgot = false
+		err := Templates.ExecuteTemplate(w, "passwordforgot", Data)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 }
 

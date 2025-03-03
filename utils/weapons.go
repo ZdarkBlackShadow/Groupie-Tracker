@@ -161,3 +161,12 @@ func WeaponsFiltersChecker(filters WeaponFilters) bool {
 	}
 	return (filters.BaseAttack == "" || filters.BaseAttack == "highest" || filters.BaseAttack == "weakest")
 }
+
+func HasIdInWeapons(id string, AllWeapons []service.Weapon) bool {
+	for _, weapon := range AllWeapons {
+		if weapon.Id == id {
+			return true
+		}
+	}
+	return false
+}

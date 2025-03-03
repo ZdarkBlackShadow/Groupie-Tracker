@@ -152,6 +152,10 @@ body {
     gap: 2rem;
 }
 
+.talents-grid p {
+    color: gray;
+}
+
 .talent-item {
     background: rgba(0, 0, 0, 0.3);
     padding: 1.5rem;

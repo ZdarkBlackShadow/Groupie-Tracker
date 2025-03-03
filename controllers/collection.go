@@ -18,21 +18,25 @@ type DataCollectionsStruct struct {
 }
 
 func Collections(w http.ResponseWriter, r *http.Request) {
-	var data DataCollectionsStruct
-	if IsLogin {
-		data = DataCollectionsStruct{
-			Data:    utils.GetCollectionOfTheActualUser(InfoOfUserWhoAreConnected).Collecttions,
-			IsLogin: true,
-		}
+	if !IsLoad || time.Since(TimeWhenConnect) > TimeToReload {
+		http.Redirect(w, r, "/home", http.StatusSeeOther)
 	} else {
-		data = DataCollectionsStruct{
-			Data:    service.Collecttions{},
-			IsLogin: false,
+		var data DataCollectionsStruct
+		if IsLogin {
+			data = DataCollectionsStruct{
+				Data:    utils.GetCollectionOfTheActualUser(InfoOfUserWhoAreConnected).Collecttions,
+				IsLogin: true,
+			}
+		} else {
+			data = DataCollectionsStruct{
+				Data:    service.Collecttions{},
+				IsLogin: false,
+			}
 		}
-	}
-	err := Templates.ExecuteTemplate(w, "collections", data)
-	if err != nil {
-		log.Fatal(err)
+		err := Templates.ExecuteTemplate(w, "collections", data)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 }
 
