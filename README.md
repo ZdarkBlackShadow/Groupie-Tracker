@@ -222,6 +222,8 @@ http://localhost:8080/home
         ├── character.go
         ├── collection.go
         ├── domains.go
+        ├── element.go
+        ├── enemie.go
         ├── error.go
         ├── food.go
         ├── loadData.go
@@ -229,7 +231,6 @@ http://localhost:8080/home
         ├── potions.go
         ├── search.go
         └── weapons.go
-
 ```
 
 ## 🌐 Application Routes
