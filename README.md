@@ -84,6 +84,154 @@ go run main.go
 http://localhost:8080/home
 ```
 
+## 💾 Details
+
+###  🗂️ Struture of the project
+
+```
+└── groupie-tracker/
+    ├── README.md
+    ├── go.mod
+    ├── main.go
+    ├── assets/
+    │   ├── css/
+    │   │   ├── about.css
+    │   │   ├── artifactDetail.css
+    │   │   ├── artifacts.css
+    │   │   ├── boss.css
+    │   │   ├── bossDetails.css
+    │   │   ├── character.css
+    │   │   ├── characterDetails.css
+    │   │   ├── collections.css
+    │   │   ├── domainDetails.css
+    │   │   ├── domains.css
+    │   │   ├── elementDetails.css
+    │   │   ├── elements.css
+    │   │   ├── enemies.css
+    │   │   ├── enemiesDetails.css
+    │   │   ├── errorCode.css
+    │   │   ├── food.css
+    │   │   ├── foodDetails.css
+    │   │   ├── forgotPassword.css
+    │   │   ├── home.css
+    │   │   ├── loading.css
+    │   │   ├── login.css
+    │   │   ├── potionDetails.css
+    │   │   ├── potions.css
+    │   │   ├── profil.css
+    │   │   ├── searchResult.css
+    │   │   ├── style.css
+    │   │   ├── weaponDetails.css
+    │   │   └── weapons.css
+    │   ├── image/
+    │   │   ├── Domain_Card.webp
+    │   │   ├── GenshinImpactPotions.avif
+    │   │   ├── NoImageAvaliable.webp
+    │   │   ├── artifact.avif
+    │   │   ├── background.webp
+    │   │   ├── backgroundWeapon.webp
+    │   │   ├── domain.webp
+    │   │   ├── element.webp
+    │   │   ├── elements.avif
+    │   │   ├── food.avif
+    │   │   ├── logo.webp
+    │   │   ├── weapon.avif
+    │   │   └── Exception/
+    │   │       └── Glacier and Snowfield/
+    │   │           └── flower.webp
+    │   ├── js/
+    │   │   ├── artifacts.js
+    │   │   ├── characterDetails.js
+    │   │   ├── characters.js
+    │   │   ├── elements.js
+    │   │   ├── food.js
+    │   │   ├── loading.js
+    │   │   ├── login.js
+    │   │   ├── searchResult.js
+    │   │   └── weapons.js
+    │   └── ttf/
+    │       └── zh-cn.ttf
+    ├── controllers/
+    │   ├── about.go
+    │   ├── artifacts.go
+    │   ├── boss.go
+    │   ├── character.go
+    │   ├── collection.go
+    │   ├── domains.go
+    │   ├── elements.go
+    │   ├── enemies.go
+    │   ├── error.go
+    │   ├── food.go
+    │   ├── home.go
+    │   ├── init.go
+    │   ├── loadData.go
+    │   ├── login.go
+    │   ├── potions.go
+    │   ├── profil.go
+    │   ├── search.go
+    │   └── weapons.go
+    ├── data/
+    │   └── data.json
+    ├── server/
+    │   └── server.go
+    ├── service/
+    │   ├── artifacts.go
+    │   ├── boss.go
+    │   ├── characters.go
+    │   ├── collections.go
+    │   ├── domains.go
+    │   ├── elements.go
+    │   ├── enemies.go
+    │   ├── food.go
+    │   ├── potions.go
+    │   ├── service.go
+    │   ├── structure.go
+    │   └── weapon.go
+    ├── templates/
+    │   ├── about.html
+    │   ├── artifactDetail.html
+    │   ├── artifacts.html
+    │   ├── boss.html
+    │   ├── bossDetails.html
+    │   ├── characterDetails.html
+    │   ├── characters.html
+    │   ├── collections.html
+    │   ├── domainDetails.html
+    │   ├── domains.html
+    │   ├── elementDetails.html
+    │   ├── elements.html
+    │   ├── enemies.html
+    │   ├── enemiesDetails.html
+    │   ├── errorCode.html
+    │   ├── food.html
+    │   ├── foodDetails.html
+    │   ├── home.html
+    │   ├── loadData.html
+    │   ├── login.html
+    │   ├── passwordforgot.html
+    │   ├── potiondetail.html
+    │   ├── potions.html
+    │   ├── profil.html
+    │   ├── searchResult.html
+    │   ├── templates.html
+    │   ├── weapon.html
+    │   └── weaponsDetails.html
+    └── utils/
+        ├── artifacts.go
+        ├── boss.go
+        ├── character.go
+        ├── collection.go
+        ├── domains.go
+        ├── error.go
+        ├── food.go
+        ├── loadData.go
+        ├── login.go
+        ├── potions.go
+        ├── search.go
+        └── weapons.go
+
+```
+
 ## 🌐 Application Routes
 
 ### Main Routes :

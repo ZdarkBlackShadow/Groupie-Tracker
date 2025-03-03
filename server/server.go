@@ -15,40 +15,40 @@ func InitServer() {
 		log.Fatal(err)
 	}
 	//Initilalisation des routes
-	http.HandleFunc("/home", controllers.Home) //get
-	http.HandleFunc("/login", controllers.Login)//get
+	http.HandleFunc("/home", controllers.Home) 
+	http.HandleFunc("/login", controllers.Login)
 	http.HandleFunc("/login/newregister", controllers.LoginNewRegister)
 	http.HandleFunc("/login/register", controllers.LoginRegister)
-	http.HandleFunc("/login/password-forgot", controllers.PasswordForgot)//get
+	http.HandleFunc("/login/password-forgot", controllers.PasswordForgot)
 	http.HandleFunc("/login/password-forgot/form", controllers.PasswordForgotData)
 	http.HandleFunc("/logout", controllers.Logout)
-	http.HandleFunc("/collections", controllers.Collections)//get
+	http.HandleFunc("/collections", controllers.Collections)
 	http.HandleFunc("/add-to-collection", controllers.HandleAddToCollection)
 	http.HandleFunc("/remove-from-the-collection", controllers.RemoveCollections)
-	http.HandleFunc("/artifacts", controllers.Artifacts)//get
-	http.HandleFunc("/artifacts/details", controllers.ArtifactsDetails)//get
-	http.HandleFunc("/boss", controllers.Boss)//get
-	http.HandleFunc("/boss/details", controllers.BossDetails)//get
-	http.HandleFunc("/characters", controllers.Characters)//get
-	http.HandleFunc("/characters/details", controllers.CharactersDetails)//get
-	http.HandleFunc("/domains", controllers.Domains)//get
-	http.HandleFunc("/domains/details", controllers.DomainDetail)//get
-	http.HandleFunc("/elements", controllers.Elements)//get
-	http.HandleFunc("/elements/details", controllers.ElementDetails)//get
-	http.HandleFunc("/enemies", controllers.Enemies)//get
-	http.HandleFunc("/enemies/details", controllers.EnemiesDetails)//get
-	http.HandleFunc("/weapons", controllers.Weapons)//get
-	http.HandleFunc("/weapons/details", controllers.WeaponDetails)//get
-	http.HandleFunc("/foods", controllers.Food)//get
-	http.HandleFunc("/foods/details", controllers.FoodDetail)//get
-	http.HandleFunc("/potions", controllers.Potions)//get
-	http.HandleFunc("/potions/details", controllers.PotionsDetails)//get
-	http.HandleFunc("/search", controllers.Search)//get
+	http.HandleFunc("/artifacts", controllers.Artifacts)
+	http.HandleFunc("/artifacts/details", controllers.ArtifactsDetails)
+	http.HandleFunc("/boss", controllers.Boss)
+	http.HandleFunc("/boss/details", controllers.BossDetails)
+	http.HandleFunc("/characters", controllers.Characters)
+	http.HandleFunc("/characters/details", controllers.CharactersDetails)
+	http.HandleFunc("/domains", controllers.Domains)
+	http.HandleFunc("/domains/details", controllers.DomainDetail)
+	http.HandleFunc("/elements", controllers.Elements)
+	http.HandleFunc("/elements/details", controllers.ElementDetails)
+	http.HandleFunc("/enemies", controllers.Enemies)
+	http.HandleFunc("/enemies/details", controllers.EnemiesDetails)
+	http.HandleFunc("/weapons", controllers.Weapons)
+	http.HandleFunc("/weapons/details", controllers.WeaponDetails)
+	http.HandleFunc("/foods", controllers.Food)
+	http.HandleFunc("/foods/details", controllers.FoodDetail)
+	http.HandleFunc("/potions", controllers.Potions)
+	http.HandleFunc("/potions/details", controllers.PotionsDetails)
+	http.HandleFunc("/search", controllers.Search)
 	http.HandleFunc("/loading", controllers.Loading)
 	http.HandleFunc("/progress", controllers.ProgressF)
-	http.HandleFunc("/profil", controllers.Profil)//get
-	http.HandleFunc("/about", controllers.AboutControllers)//get
-	http.HandleFunc("/error", controllers.ErrorCode)//get
+	http.HandleFunc("/profil", controllers.Profil)
+	http.HandleFunc("/about", controllers.AboutControllers)
+	http.HandleFunc("/error", controllers.ErrorCode)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case "/":
