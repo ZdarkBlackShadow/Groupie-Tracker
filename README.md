@@ -64,7 +64,7 @@ This project is a website dedicated to Genshin Impact, offering a comprehensive 
 ### ⚙️ Prerequisites
 
 - Git ([Download Git](https://git-scm.com/downloads))
-- Goland (1.23.3) ([Download Goland](https://go.dev/dl))
+- Goland (1.23.3) ([Download Golang](https://go.dev/dl))
 
 ### 🛠️ Download the project
 
